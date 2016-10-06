@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TerraX", "TerraX.vcxproj", "{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SrvLib", "SrvLib\SrvLib.vcxproj", "{134630AE-95B8-4029-B9E0-FC0D1577FD10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Debug|x64.ActiveCfg = Debug|x64
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Debug|x64.Build.0 = Debug|x64
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Debug|x86.ActiveCfg = Debug|Win32
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Debug|x86.Build.0 = Debug|Win32
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Release|x64.ActiveCfg = Release|x64
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Release|x64.Build.0 = Release|x64
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Release|x86.ActiveCfg = Release|Win32
-		{8B7EE5BB-7A76-4C0A-B6B2-DC2919E42B4C}.Release|x86.Build.0 = Release|Win32
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Debug|x64.ActiveCfg = Debug|x64
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Debug|x64.Build.0 = Debug|x64
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Debug|x86.ActiveCfg = Debug|Win32
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Debug|x86.Build.0 = Debug|Win32
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Release|x64.ActiveCfg = Release|x64
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Release|x64.Build.0 = Release|x64
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Release|x86.ActiveCfg = Release|Win32
+		{134630AE-95B8-4029-B9E0-FC0D1577FD10}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
