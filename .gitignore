@@ -1,8 +1,8 @@
 *.sdf
-*.suo
-*.sln
 Debug/
 Release/
 obj/
 ipch/
 Temp/
+x64/
+x86/
