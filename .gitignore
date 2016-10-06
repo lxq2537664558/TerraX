@@ -1,0 +1,8 @@
+*.sdf
+*.suo
+*.sln
+Debug/
+Release/
+obj/
+ipch/
+Temp/
