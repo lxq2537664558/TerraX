@@ -1,0 +1,336 @@
+The system is: Windows - 10.0.14393 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+0
+Microsoft (R) 生成引擎版本 14.0.25420.1
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2016/10/1 21:56:48。
+节点 1 上的项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\3.5.2\CompilerIdC\CompilerIdC.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“Debug\”。
+  正在创建目录“Debug\CompilerIdC.tlog\”。
+InitializeBuildStatus:
+  正在创建“Debug\CompilerIdC.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /nologo /W0 /WX- /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TC /analyze- /errorReport:queue CMakeCCompilerId.c
+  CMakeCCompilerId.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdC.lib" /MACHINE:X86 /SAFESEH Debug\CMakeCCompilerId.obj
+  CompilerIdC.vcxproj -> E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\3.5.2\CompilerIdC\.\CompilerIdC.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_C_COMPILER=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cl.exe
+FinalizeBuildStatus:
+  正在删除文件“Debug\CompilerIdC.tlog\unsuccessfulbuild”。
+  正在对“Debug\CompilerIdC.tlog\CompilerIdC.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\3.5.2\CompilerIdC\CompilerIdC.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:08.34
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+
+The C compiler identification is MSVC, found in "E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/3.5.2/CompilerIdC/CompilerIdC.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+0
+Microsoft (R) 生成引擎版本 14.0.25420.1
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2016/10/1 21:56:57。
+节点 1 上的项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\3.5.2\CompilerIdCXX\CompilerIdCXX.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“Debug\”。
+  正在创建目录“Debug\CompilerIdCXX.tlog\”。
+InitializeBuildStatus:
+  正在创建“Debug\CompilerIdCXX.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /nologo /W0 /WX- /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:queue CMakeCXXCompilerId.cpp
+  CMakeCXXCompilerId.cpp
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdCXX.lib" /MACHINE:X86 /SAFESEH Debug\CMakeCXXCompilerId.obj
+  CompilerIdCXX.vcxproj -> E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\3.5.2\CompilerIdCXX\.\CompilerIdCXX.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_CXX_COMPILER=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\cl.exe
+FinalizeBuildStatus:
+  正在删除文件“Debug\CompilerIdCXX.tlog\unsuccessfulbuild”。
+  正在对“Debug\CompilerIdCXX.tlog\CompilerIdCXX.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\3.5.2\CompilerIdCXX\CompilerIdCXX.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:02.27
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+
+The CXX compiler identification is MSVC, found in "E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/3.5.2/CompilerIdCXX/CompilerIdCXX.exe"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_7534d.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) 生成引擎版本 14.0.25420.1
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2016/10/1 21:57:00。
+节点 1 上的项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_7534d.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_7534d.dir\Debug\”。
+  正在创建目录“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_7534d.dir\Debug\cmTC_7534d.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_7534d.dir\Debug\cmTC_7534d.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7534d.dir\Debug\\" /Fd"cmTC_7534d.dir\Debug\vc140.pdb" /Gd /TC /analyze- /errorReport:queue "E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\testCCompiler.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_7534d.dir\Debug\\" /Fd"cmTC_7534d.dir\Debug\vc140.pdb" /Gd /TC /analyze- /errorReport:queue "E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\testCCompiler.c"
+  
+  testCCompiler.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_7534d.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_7534d.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_7534d.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_7534d.dir\Debug\testCCompiler.obj
+  cmTC_7534d.vcxproj -> E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_7534d.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_7534d.dir\Debug\cmTC_7534d.tlog\unsuccessfulbuild”。
+  正在对“cmTC_7534d.dir\Debug\cmTC_7534d.tlog\cmTC_7534d.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_7534d.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:01.91
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_0cf9f.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) 生成引擎版本 14.0.25420.1
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2016/10/1 21:57:03。
+节点 1 上的项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_0cf9f.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_0cf9f.dir\Debug\”。
+  正在创建目录“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_0cf9f.dir\Debug\cmTC_0cf9f.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_0cf9f.dir\Debug\cmTC_0cf9f.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0cf9f.dir\Debug\\" /Fd"cmTC_0cf9f.dir\Debug\vc140.pdb" /Gd /TC /analyze- /errorReport:queue "D:\Application\cmake-3.5.2-win32-x86\share\cmake-3.5\Modules\CMakeCCompilerABI.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0cf9f.dir\Debug\\" /Fd"cmTC_0cf9f.dir\Debug\vc140.pdb" /Gd /TC /analyze- /errorReport:queue "D:\Application\cmake-3.5.2-win32-x86\share\cmake-3.5\Modules\CMakeCCompilerABI.c"
+  
+  CMakeCCompilerABI.c
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_0cf9f.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_0cf9f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_0cf9f.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_0cf9f.dir\Debug\CMakeCCompilerABI.obj
+  cmTC_0cf9f.vcxproj -> E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_0cf9f.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_0cf9f.dir\Debug\cmTC_0cf9f.tlog\unsuccessfulbuild”。
+  正在对“cmTC_0cf9f.dir\Debug\cmTC_0cf9f.tlog\cmTC_0cf9f.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_0cf9f.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:01.53
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_12d7a.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) 生成引擎版本 14.0.25420.1
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2016/10/1 21:57:05。
+节点 1 上的项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_12d7a.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_12d7a.dir\Debug\”。
+  正在创建目录“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_12d7a.dir\Debug\cmTC_12d7a.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_12d7a.dir\Debug\cmTC_12d7a.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_12d7a.dir\Debug\\" /Fd"cmTC_12d7a.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_12d7a.dir\Debug\\" /Fd"cmTC_12d7a.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  
+  testCXXCompiler.cxx
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_12d7a.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_12d7a.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_12d7a.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_12d7a.dir\Debug\testCXXCompiler.obj
+  cmTC_12d7a.vcxproj -> E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_12d7a.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_12d7a.dir\Debug\cmTC_12d7a.tlog\unsuccessfulbuild”。
+  正在对“cmTC_12d7a.dir\Debug\cmTC_12d7a.tlog\cmTC_12d7a.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_12d7a.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:01.17
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_afee2.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) 生成引擎版本 14.0.25420.1
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2016/10/1 21:57:06。
+节点 1 上的项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_afee2.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_afee2.dir\Debug\”。
+  正在创建目录“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_afee2.dir\Debug\cmTC_afee2.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_afee2.dir\Debug\cmTC_afee2.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_afee2.dir\Debug\\" /Fd"cmTC_afee2.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "D:\Application\cmake-3.5.2-win32-x86\share\cmake-3.5\Modules\CMakeCXXCompilerABI.cpp"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_afee2.dir\Debug\\" /Fd"cmTC_afee2.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "D:\Application\cmake-3.5.2-win32-x86\share\cmake-3.5\Modules\CMakeCXXCompilerABI.cpp"
+  
+  CMakeCXXCompilerABI.cpp
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_afee2.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_afee2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_afee2.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_afee2.dir\Debug\CMakeCXXCompilerABI.obj
+  cmTC_afee2.vcxproj -> E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_afee2.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_afee2.dir\Debug\cmTC_afee2.tlog\unsuccessfulbuild”。
+  正在对“cmTC_afee2.dir\Debug\cmTC_afee2.tlog\cmTC_afee2.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_afee2.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:01.51
+
+
+
+
+Detecting CXX [] compiler features compiled with the following output:
+Change Dir: E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp
+
+Run Build Command:"C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" "cmTC_b5c39.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=14.0"
+Microsoft (R) 生成引擎版本 14.0.25420.1
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+生成启动时间为 2016/10/1 21:57:09。
+节点 1 上的项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_b5c39.vcxproj”(默认目标)。
+PrepareForBuild:
+  正在创建目录“cmTC_b5c39.dir\Debug\”。
+  正在创建目录“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\”。
+  正在创建目录“cmTC_b5c39.dir\Debug\cmTC_b5c39.tlog\”。
+InitializeBuildStatus:
+  正在创建“cmTC_b5c39.dir\Debug\cmTC_b5c39.tlog\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_b5c39.dir\Debug\\" /Fd"cmTC_b5c39.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\feature_tests.cxx"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_b5c39.dir\Debug\\" /Fd"cmTC_b5c39.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\feature_tests.cxx"
+  
+  feature_tests.cxx
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_b5c39.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_b5c39.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:/CppGameDev/csharpproto/protobuf-3.0.2/buildvs/CMakeFiles/CMakeTmp/Debug/cmTC_b5c39.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_b5c39.dir\Debug\feature_tests.obj
+  cmTC_b5c39.vcxproj -> E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\Debug\cmTC_b5c39.exe
+FinalizeBuildStatus:
+  正在删除文件“cmTC_b5c39.dir\Debug\cmTC_b5c39.tlog\unsuccessfulbuild”。
+  正在对“cmTC_b5c39.dir\Debug\cmTC_b5c39.tlog\cmTC_b5c39.lastbuildstate”执行 Touch 任务。
+已完成生成项目“E:\CppGameDev\csharpproto\protobuf-3.0.2\buildvs\CMakeFiles\CMakeTmp\cmTC_b5c39.vcxproj”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:00.98
+
+
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates

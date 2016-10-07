@@ -7,4 +7,5 @@ ipch/
 Temp/
 x64/
 x86/
-.vs/
+/.vs/
+*.db
