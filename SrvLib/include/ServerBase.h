@@ -5,9 +5,9 @@ namespace TerraX
 	class ServerBase
 	{
 	public:
-		virtual bool Init();
-		virtual void Run();
-		virtual void Exit();
+		virtual bool Init() { return true; };
+		virtual void Run() {};
+		virtual void Exit() {};
 
 		void StopMainLoop() { m_bExitLoop = true;  }
 

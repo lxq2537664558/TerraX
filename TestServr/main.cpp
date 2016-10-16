@@ -1,26 +1,13 @@
 #include <iostream>
 #include "ComDef.h"
-#include "ServerBase.h"
-using namespace TerraX;
-
-class TestServer : public ServerBase
-{
-	CreateInstance(TestServer);
-public:
-	TestServer() = default;
-	~TestServer() = default;
-
-	//bool Init() override { return true; };
-	//void Run() override {}
-};
-
+//#include "ServerBase.h"
+#include "EventLoop.h"
+#include "RpcServer.h"
 int main(int argc, char* argv[])
 {
-	if (TestServer::GetInstance().Init())
-	{
-		TestServer::GetInstance().Run();
-	}
-	std::cout << "Test Server!" << std::endl;
+	TerraX::EventLoop loop;
+	TerraX::RpcServer server(&loop, 12345);
+	loop.loop();
 	getchar();
 	return 0;
 }

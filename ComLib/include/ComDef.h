@@ -2,7 +2,7 @@
 
 namespace TerraX
 {
-#define CreateInstance(classname) \
+#define MAKEINSTANCE(classname) \
 public: \
 	static classname& GetInstance() \
 	{ \
