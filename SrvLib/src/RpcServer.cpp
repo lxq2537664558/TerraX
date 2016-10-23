@@ -40,6 +40,7 @@ RpcServer::~RpcServer()
 
 void RpcServer::setThreadNum(int numThreads)
 {
+#ifndef _WIN32
 	if (numThreads > 1)
 	{
 		loops_.clear();
@@ -51,6 +52,7 @@ void RpcServer::setThreadNum(int numThreads)
 			loops_.push_back(base);
 		}
 	}
+#endif
 }
 
 static void cb_func(evutil_socket_t fd, short what, void *arg)
@@ -110,6 +112,7 @@ void RpcServer::onDisconnect(RpcChannel* channel)
 void RpcServer::newConnectionCallback(struct evconnlistener* listener,
 	evutil_socket_t fd, struct sockaddr* address, int socklen, void* ctx)
 {
+	//应该在此处设置tcp_nodelay， so_linger?
 	printf("newConnectionCallback\n");
 	RpcServer* self = static_cast<RpcServer*>(ctx);
 	assert(self->evListener_ == listener);
