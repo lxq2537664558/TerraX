@@ -1,5 +1,6 @@
 *.suo
 *.sdf
+*.pdb
 Debug/
 Release/
 obj/
@@ -9,3 +10,4 @@ x64/
 x86/
 /.vs/
 *.db
+TerraX.VC.db

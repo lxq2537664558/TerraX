@@ -3,6 +3,7 @@
 #include "RpcChannel.h"
 #include <thread>
 #include <cassert>
+#include <iostream>
 
 using namespace TerraX;
 
@@ -54,24 +55,29 @@ void RpcServer::setThreadNum(int numThreads)
 
 static void cb_func(evutil_socket_t fd, short what, void *arg)
 {
+	std::cout << __FUNCTION__ << __LINE__ << std::endl;
 }
 
 void* RpcServer::runLoop(void* ptr)
 {
-	//struct event_base* base = static_cast<struct event_base*>(ptr);
-	//int pipefd[2];
-	//int ret = pipe(pipefd);
-	//assert(ret == 0);
-	//struct event* ev = event_new(base, pipefd[0], EV_READ, cb_func, NULL);
-	//event_add(ev, NULL);
+#ifdef _WIN32
 
-	//printf("runLoop\n");
-	//event_base_loop(base, 0);
-	//printf("runLoop done\n");
+#else
+	struct event_base* base = static_cast<struct event_base*>(ptr);
+	int pipefd[2];
+	int ret = pipe(pipefd);
+	assert(ret == 0);
+	struct event* ev = event_new(base, pipefd[0], EV_READ, cb_func, NULL);
+	event_add(ev, NULL);
 
-	//event_free(ev);
-	//close(pipefd[0]);
-	//close(pipefd[1]);
+	printf("runLoop\n");
+	event_base_loop(base, 0);
+	printf("runLoop done\n");
+
+	event_free(ev);
+	close(pipefd[0]);
+	close(pipefd[1]);
+#endif
 	return NULL;
 }
 

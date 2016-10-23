@@ -21,6 +21,8 @@ namespace TerraX
 		void setDisconnectCb(disconnect_cb cb, void* ptr);
 
 	private:
+		void onRead();
+
 		void connectFailed();
 		void connected();
 		void disconnected();
