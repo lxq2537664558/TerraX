@@ -1,6 +1,7 @@
 *.suo
 *.sdf
 *.pdb
+*.lib
 Debug/
 Release/
 obj/
