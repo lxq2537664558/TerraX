@@ -12,20 +12,17 @@
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="src\ServerBase.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="src\RpcChannel.cpp">
       <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="src\RpcServer.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="src\ServerBase.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ServerBase.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="include\RpcChannel.h">
       <Filter>Network</Filter>
     </ClInclude>
@@ -33,6 +30,9 @@
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="include\EventLoop.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServerBase.h">
       <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>

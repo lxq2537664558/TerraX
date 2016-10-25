@@ -20,6 +20,10 @@ namespace TerraX
 		~RpcChannel();
 		void setDisconnectCb(disconnect_cb cb, void* ptr);
 
+
+		// test
+		void SendMsg(std::string& msg);
+
 	private:
 		void onRead();
 

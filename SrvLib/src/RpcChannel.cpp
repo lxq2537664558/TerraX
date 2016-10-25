@@ -66,6 +66,12 @@ void RpcChannel::disconnected()
 void RpcChannel::onRead()
 {
 	struct evbuffer* input = bufferevent_get_input(evConn_);
+
+	int readable = evbuffer_get_length(input);
+	std::unique_ptr<char> pszMsg(new char[readable+1]);
+	evbuffer_copyout(input, pszMsg.get(), readable);
+	std::cout << __FUNCTION__ << '\t' << pszMsg.get() << std::endl;
+
 	//int readable = evbuffer_get_length(input);
 	//std::unique_ptr<char> pszMsg(new char[readable]);
 	//evbuffer_remove(input, pszMsg.get(), readable);
@@ -80,12 +86,11 @@ void RpcChannel::onRead()
 	//int len_be = htonl(readable);
 	//memcpy(start, &len_be, sizeof(len_be));
 	//start += 4;
-
 	//memcpy(start, pszMsg.get(), sizeof(char) * readable);
 	//vec.iov_len = readable;
 	//evbuffer_commit_space(buf, &vec, 1);
 	bufferevent_write_buffer(evConn_, input);
-	//evbuffer_free(input);
+	//evbuffer_free(buf);
 
 	//ParseErrorCode errorCode = read(input, this);
 	//if (errorCode != kNoError)
@@ -119,4 +124,9 @@ void RpcChannel::eventCallback(struct bufferevent* bev, short events, void* ptr)
 		printf("connect error\n");
 		self->connectFailed();
 	}
+}
+
+void RpcChannel::SendMsg(std::string& msg)
+{
+	bufferevent_write(evConn_, msg.c_str(), msg.size() );
 }
