@@ -24,7 +24,7 @@ namespace TerraX
 
 
 		// test
-		void SendMessage(std::string& msg);
+		void SendMessage(std::string& pktName, std::string& msg);
 	private:
 		void onRead();
 
@@ -39,9 +39,6 @@ namespace TerraX
 		bool connectFailed_;
 		disconnect_cb disconnect_cb_;
 		void* ptr_;
-
-		std::atomic<int64_t> id_;
-		std::mutex mutex_;
 	public:
 		PacketDispatcher& m_PacketDisPatcher;
 	};

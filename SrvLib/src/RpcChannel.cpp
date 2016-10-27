@@ -127,7 +127,7 @@ void RpcChannel::eventCallback(struct bufferevent* bev, short events, void* ptr)
 	}
 }
 
-void RpcChannel::SendMessage(std::string& msg)
+void RpcChannel::SendMessage(std::string& pktName, std::string& msg)
 {
 	std::cout << msg.c_str() << std::endl;
 	bufferevent_write(evConn_, msg.c_str(), msg.size() );
