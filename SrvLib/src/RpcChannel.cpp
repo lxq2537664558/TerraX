@@ -8,12 +8,12 @@ using namespace TerraX;
 
 using std::string;
 
-RpcChannel::RpcChannel(EventLoop* loop, const string& host, int port)
+RpcChannel::RpcChannel(EventLoop* loop, const string& host, int port, PacketDispatcher& pd)
 	: evConn_(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE)),
 	connectFailed_(false),
 	disconnect_cb_(NULL),
 	ptr_(NULL),
-	m_PacketDisPatcher(*(new PacketDispatcher()))
+	m_PacketDisPatcher(pd)
 {
 	bufferevent_setcb(evConn_, readCallback, NULL, eventCallback, this);
 	bufferevent_socket_connect_hostname(evConn_, NULL, AF_INET, host.c_str(), port);
@@ -127,7 +127,7 @@ void RpcChannel::eventCallback(struct bufferevent* bev, short events, void* ptr)
 	}
 }
 
-void RpcChannel::SendMsg(std::string& msg)
+void RpcChannel::SendMessage(std::string& msg)
 {
 	std::cout << msg.c_str() << std::endl;
 	bufferevent_write(evConn_, msg.c_str(), msg.size() );

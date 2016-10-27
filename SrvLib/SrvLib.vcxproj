@@ -141,7 +141,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="include\addressbook.pb.cc" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\PacketDispatcher.cpp" />
     <ClCompile Include="src\RpcChannel.cpp" />
@@ -149,7 +148,6 @@
     <ClCompile Include="src\ServerBase.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\addressbook.pb.h" />
     <ClInclude Include="include\EventLoop.h" />
     <ClInclude Include="include\PacketDispatcher.h" />
     <ClInclude Include="include\RpcChannel.h" />

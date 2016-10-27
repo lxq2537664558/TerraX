@@ -8,8 +8,6 @@
 #include <event2/bufferevent.h>
 #include "PacketDispatcher.h"
 
-#include "addressbook.pb.h"
-
 namespace TerraX
 {
 	class EventLoop;
@@ -20,21 +18,13 @@ namespace TerraX
 		using disconnect_cb = std::function<void(RpcChannel*, void* ptr)> ;
 
 		explicit RpcChannel(struct event_base *base, int fd, PacketDispatcher& pd);
-		explicit RpcChannel(EventLoop* loop, const std::string& host, int port);
+		explicit RpcChannel(EventLoop* loop, const std::string& host, int port, PacketDispatcher& pd);
 		~RpcChannel();
 		void setDisconnectCb(disconnect_cb cb, void* ptr);
 
 
 		// test
-		void SendMsg(std::string& msg);
-		template<class T> void SendPacket(T& packet) {
-			std::string msg;
-			packet.SerializeToString(&msg);
-			SendMsg(msg);
-		}
-		void OnMessage(tutorial::Person& p) {
-			std::cout << p.name().c_str() << std::endl;
-		}
+		void SendMessage(std::string& msg);
 	private:
 		void onRead();
 

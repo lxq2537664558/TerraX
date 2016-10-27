@@ -27,9 +27,6 @@
     <ClCompile Include="src\PacketDispatcher.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="include\addressbook.pb.cc">
-      <Filter>ProtoBuf</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\RpcChannel.h">
@@ -46,9 +43,6 @@
     </ClInclude>
     <ClInclude Include="include\PacketDispatcher.h">
       <Filter>Network</Filter>
-    </ClInclude>
-    <ClInclude Include="include\addressbook.pb.h">
-      <Filter>ProtoBuf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
