@@ -9,4 +9,9 @@ public: \
 		static classname T; \
 		return T; \
 	}
+
+#define NOCOPY(classname) \
+	classname(const classname&) = delete; \
+	classname& operator=(const classname &) = delete;
+
 }

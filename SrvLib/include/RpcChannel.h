@@ -1,10 +1,14 @@
 #pragma once
+#include <iostream>
 #include <functional>
 #include <map>
 #include <atomic>
 #include <cstdint>
 #include <mutex>
 #include <event2/bufferevent.h>
+#include "PacketDispatcher.h"
+
+#include "addressbook.pb.h"
 
 namespace TerraX
 {
@@ -15,7 +19,7 @@ namespace TerraX
 	public:
 		using disconnect_cb = std::function<void(RpcChannel*, void* ptr)> ;
 
-		explicit RpcChannel(struct event_base *base, int fd, const std::map<std::string, PacketFnCB>&);
+		explicit RpcChannel(struct event_base *base, int fd, PacketDispatcher& pd);
 		explicit RpcChannel(EventLoop* loop, const std::string& host, int port);
 		~RpcChannel();
 		void setDisconnectCb(disconnect_cb cb, void* ptr);
@@ -23,7 +27,14 @@ namespace TerraX
 
 		// test
 		void SendMsg(std::string& msg);
-
+		template<class T> void SendPacket(T& packet) {
+			std::string msg;
+			packet.SerializeToString(&msg);
+			SendMsg(msg);
+		}
+		void OnMessage(tutorial::Person& p) {
+			std::cout << p.name().c_str() << std::endl;
+		}
 	private:
 		void onRead();
 
@@ -41,8 +52,8 @@ namespace TerraX
 
 		std::atomic<int64_t> id_;
 		std::mutex mutex_;
-
-		std::map<std::string, PacketFnCB> services_;
+	public:
+		PacketDispatcher& m_PacketDisPatcher;
 	};
 
 

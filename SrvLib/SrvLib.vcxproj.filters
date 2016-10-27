@@ -7,6 +7,9 @@
     <Filter Include="Network">
       <UniqueIdentifier>{b170e0f0-7768-4de8-a0d2-dba644b57f02}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProtoBuf">
+      <UniqueIdentifier>{48cbba33-49ee-4f5b-90c0-ed860ad695ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,6 +24,12 @@
     <ClCompile Include="src\ServerBase.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="src\PacketDispatcher.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="include\addressbook.pb.cc">
+      <Filter>ProtoBuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\RpcChannel.h">
@@ -34,6 +43,12 @@
     </ClInclude>
     <ClInclude Include="include\ServerBase.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PacketDispatcher.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="include\addressbook.pb.h">
+      <Filter>ProtoBuf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

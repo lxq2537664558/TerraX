@@ -93,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\ComLib\include;.\include;..\ThirdParty\libevent-2.0.23-stable-rc\include;..\ThirdParty\libevent-2.0.23-stable-rc\WIN32-Code\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ComLib\include;.\include;..\ThirdParty\libevent-2.0.23-stable-rc\include;..\ThirdParty\libevent-2.0.23-stable-rc\WIN32-Code\;..\ThirdParty\protobuf\include\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -141,13 +141,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\addressbook.pb.cc" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\PacketDispatcher.cpp" />
     <ClCompile Include="src\RpcChannel.cpp" />
     <ClCompile Include="src\RpcServer.cpp" />
     <ClCompile Include="src\ServerBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\addressbook.pb.h" />
     <ClInclude Include="include\EventLoop.h" />
+    <ClInclude Include="include\PacketDispatcher.h" />
     <ClInclude Include="include\RpcChannel.h" />
     <ClInclude Include="include\RpcServer.h" />
     <ClInclude Include="include\ServerBase.h" />

@@ -92,7 +92,7 @@ void RpcServer::onConnect(evutil_socket_t fd)
 		currLoop_ = 0;
 	}
 
-	RpcChannel* channel = new RpcChannel(base, static_cast<int>(fd), services_);
+	RpcChannel* channel = new RpcChannel(base, static_cast<int>(fd), m_PacketDispatcher);
 	channel->setDisconnectCb(&RpcServer::disconnectCallback, this);
 
 	std::lock_guard<std::mutex> lock(mutex_);

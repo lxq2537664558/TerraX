@@ -12,18 +12,19 @@ RpcChannel::RpcChannel(EventLoop* loop, const string& host, int port)
 	: evConn_(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE)),
 	connectFailed_(false),
 	disconnect_cb_(NULL),
-	ptr_(NULL)
+	ptr_(NULL),
+	m_PacketDisPatcher(*(new PacketDispatcher()))
 {
 	bufferevent_setcb(evConn_, readCallback, NULL, eventCallback, this);
 	bufferevent_socket_connect_hostname(evConn_, NULL, AF_INET, host.c_str(), port);
 }
 
-RpcChannel::RpcChannel(struct event_base* base, int fd, const std::map<std::string, PacketFnCB>& services)
+RpcChannel::RpcChannel(struct event_base* base, int fd, PacketDispatcher& pd)
 	: evConn_(bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE)),
 	connectFailed_(false),
 	disconnect_cb_(NULL),
 	ptr_(NULL),
-	services_(services)
+	m_PacketDisPatcher(pd)
 {
 	bufferevent_setcb(evConn_, readCallback, NULL, eventCallback, this);
 	bufferevent_enable(evConn_, EV_READ | EV_WRITE);
@@ -68,10 +69,10 @@ void RpcChannel::onRead()
 	struct evbuffer* input = bufferevent_get_input(evConn_);
 
 	int readable = evbuffer_get_length(input);
-	std::unique_ptr<char> pszMsg(new char[readable+1]);
+	std::unique_ptr<char> pszMsg(new char[readable + 1]);
 	evbuffer_copyout(input, pszMsg.get(), readable);
 	std::cout << __FUNCTION__ << '\t' << pszMsg.get() << std::endl;
-
+	m_PacketDisPatcher.DeliverPacket("Person", pszMsg.get(), readable);
 	//int readable = evbuffer_get_length(input);
 	//std::unique_ptr<char> pszMsg(new char[readable]);
 	//evbuffer_remove(input, pszMsg.get(), readable);
@@ -128,5 +129,6 @@ void RpcChannel::eventCallback(struct bufferevent* bev, short events, void* ptr)
 
 void RpcChannel::SendMsg(std::string& msg)
 {
+	std::cout << msg.c_str() << std::endl;
 	bufferevent_write(evConn_, msg.c_str(), msg.size() );
 }
