@@ -7,6 +7,7 @@
 #include <mutex>
 #include <event2/bufferevent.h>
 #include "PacketDispatcher.h"
+#include "ComDef.h"
 
 namespace TerraX
 {
@@ -14,6 +15,7 @@ namespace TerraX
 	using PacketFnCB = std::function<void(class packet*)>;
 	class RpcChannel
 	{
+		NOCOPY(RpcChannel);
 	public:
 		using disconnect_cb = std::function<void(RpcChannel*, void* ptr)> ;
 
@@ -21,10 +23,9 @@ namespace TerraX
 		explicit RpcChannel(EventLoop* loop, const std::string& host, int port, PacketDispatcher& pd);
 		~RpcChannel();
 		void setDisconnectCb(disconnect_cb cb, void* ptr);
-
-
-		// test
-		void SendMessage(std::string& pktName, std::string& msg);
+		
+		void sendMessage(int flag, google::protobuf::Message& msg);
+		bool onMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 	private:
 		void onRead();
 
@@ -39,7 +40,6 @@ namespace TerraX
 		bool connectFailed_;
 		disconnect_cb disconnect_cb_;
 		void* ptr_;
-	public:
 		PacketDispatcher& m_PacketDisPatcher;
 	};
 

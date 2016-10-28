@@ -21,9 +21,15 @@
     <ClCompile Include="TestServer.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="addressbook.pb.cc">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TestServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="addressbook.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,7 @@
 #include <string>
 #include "RpcChannel.h"
 #include "PacketDispatcher.h"
+#include "ComDef.h"
 
 namespace TerraX
 {
@@ -14,10 +15,12 @@ namespace TerraX
 	class RpcChannel;
 	class RpcServer
 	{
+		NOCOPY(RpcServer);
 	public:
 		RpcServer(EventLoop* loop, int port);
+	protected:
 		~RpcServer();
-
+	public:
 		void setThreadNum(int numThreads);
 
 	private:
@@ -35,7 +38,7 @@ namespace TerraX
 		std::mutex mutex_;
 		std::set<RpcChannel*> channels_;
 
-	public:
+	protected:
 		PacketDispatcher m_PacketDispatcher;
 	};
 

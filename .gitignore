@@ -2,6 +2,7 @@
 *.sdf
 *.pdb
 *.lib
+*.dll
 Debug/
 Release/
 obj/

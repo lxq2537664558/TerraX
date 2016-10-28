@@ -1,7 +1,7 @@
 #include <iostream>
 #include "ComDef.h"
 #include "EventLoop.h"
-#include "RpcServer.h"
+#include "TestServer.h"
 
 int main(int argc, char* argv[])
 {
@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
 	WSAStartup(0x0201, &wsa_data);
 #endif
 	TerraX::EventLoop loop;
-	TerraX::RpcServer server(&loop, 9995);
+	TerraX::TestServer server(&loop, 9995);
 	loop.loop();
 	getchar();
 	return 0;

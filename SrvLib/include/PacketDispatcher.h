@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <functional>
-#include "google/protobuf/message.h"
+#include <google/protobuf/message.h>
 #include "ComDef.h"
 
 namespace TerraX
@@ -42,18 +42,21 @@ namespace TerraX
 		}
 
 
-		void DeliverPacket(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+		bool DeliverPacket(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 		{
 			for (auto& it : m_mapCallBacks) {
 				if (it.first->name() == strMsgType || it.first->full_name() == strMsgType) {
 					const auto* pDesc = gpb::DescriptorPool::generated_pool()->FindMessageTypeByName(it.first->full_name());
 					const auto* pProtoType = gpb::MessageFactory::generated_factory()->GetPrototype(pDesc);
 					std::unique_ptr<gpb::Message> pMsg(pProtoType->New()); //return a new object;
-					pMsg->ParseFromArray(pBuffer, nBufferSize);
+					if (!pMsg->ParseFromArray(pBuffer, nBufferSize)) {
+						return false; //parse error!
+					}
 					(*(it.second))(*(pMsg.get()));
-					return;
+					return true;
 				}
 			}
+			return true;
 			// packet handler not find! 
 			// if you want to process the unknown packet, you can add a default handler.
 		}

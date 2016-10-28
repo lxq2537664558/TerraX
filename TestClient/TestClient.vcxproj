@@ -94,7 +94,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\Lib;..\ThirdParty\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ComLib.lib;SrvLib.lib;libevent.lib;libevent_core.lib;libevent_extras.lib;ws2_32.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ComLib.lib;SrvLib.lib;libevent.lib;libevent_core.lib;libevent_extras.lib;ws2_32.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -12,13 +12,11 @@ namespace TerraX
 	public:
 		explicit TestClient(EventLoop* loop, const std::string& host, int port);
 		template<class T>
-		void SendPacket(T& packet) 
+		void sendPacket(T& packet) 
 		{
-			std::string msg;
-			packet.SerializeToString(&msg);
-			m_Channel.SendMessage(msg);
+			m_Channel.sendMessage(0, packet);
 		}
-		void OnMessage(tutorial::Person& p) 
+		void onMessage_Person(tutorial::Person& p) 
 		{
 			std::cout << p.name().c_str() << std::endl;
 		}

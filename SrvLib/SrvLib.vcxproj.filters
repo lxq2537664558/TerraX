@@ -44,5 +44,8 @@
     <ClInclude Include="include\PacketDispatcher.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="include\CodecLite-inl.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

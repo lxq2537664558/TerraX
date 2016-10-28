@@ -2,6 +2,7 @@
 #include "EventLoop.h"
 #include <event2/buffer.h>
 #include <event2/thread.h>
+#include "CodecLite-inl.h"
 #include <cassert>
 #include <iostream>
 using namespace TerraX;
@@ -66,38 +67,21 @@ void RpcChannel::disconnected()
 
 void RpcChannel::onRead()
 {
-	struct evbuffer* input = bufferevent_get_input(evConn_);
+	//struct evbuffer* input = bufferevent_get_input(evConn_);
 
-	int readable = evbuffer_get_length(input);
-	std::unique_ptr<char> pszMsg(new char[readable + 1]);
-	evbuffer_copyout(input, pszMsg.get(), readable);
-	std::cout << __FUNCTION__ << '\t' << pszMsg.get() << std::endl;
-	m_PacketDisPatcher.DeliverPacket("Person", pszMsg.get(), readable);
 	//int readable = evbuffer_get_length(input);
-	//std::unique_ptr<char> pszMsg(new char[readable]);
-	//evbuffer_remove(input, pszMsg.get(), readable);
-	//std::cout << pszMsg.get() << std::endl;
-	//echo
-	//struct evbuffer* buf = evbuffer_new();
-	//evbuffer_expand(buf, readable);
-	//struct evbuffer_iovec vec;
-	//evbuffer_reserve_space(buf, readable, &vec, 1);
-	//uint8_t* start = static_cast<uint8_t*>(vec.iov_base);
+	//std::unique_ptr<char> pszMsg(new char[readable + 1]);
+	//evbuffer_copyout(input, pszMsg.get(), readable);
+	//std::cout << __FUNCTION__ << '\t' << pszMsg.get() << std::endl;
+	//m_PacketDisPatcher.DeliverPacket("Person", pszMsg.get(), readable);
+	//bufferevent_write_buffer(evConn_, input);
 
-	//int len_be = htonl(readable);
-	//memcpy(start, &len_be, sizeof(len_be));
-	//start += 4;
-	//memcpy(start, pszMsg.get(), sizeof(char) * readable);
-	//vec.iov_len = readable;
-	//evbuffer_commit_space(buf, &vec, 1);
-	bufferevent_write_buffer(evConn_, input);
-	//evbuffer_free(buf);
-
-	//ParseErrorCode errorCode = read(input, this);
-	//if (errorCode != kNoError)
-	//{
-		// FIXME:
-	//}
+	struct evbuffer* input = bufferevent_get_input(evConn_);
+	ParseErrorCode errorCode = read(input, this);
+	if (errorCode != kNoError)
+	{
+	//FIXME:
+	}
 }
 
 void RpcChannel::readCallback(struct bufferevent* bev, void* ptr)
@@ -127,8 +111,13 @@ void RpcChannel::eventCallback(struct bufferevent* bev, short events, void* ptr)
 	}
 }
 
-void RpcChannel::SendMessage(std::string& pktName, std::string& msg)
+void RpcChannel::sendMessage(int flag, google::protobuf::Message& msg)
 {
-	std::cout << msg.c_str() << std::endl;
-	bufferevent_write(evConn_, msg.c_str(), msg.size() );
+	//bufferevent_write(evConn_, msg.c_str(), msg.size());
+	send(evConn_, flag, msg);
+}
+
+bool RpcChannel::onMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+{
+	return m_PacketDisPatcher.DeliverPacket(strMsgType, pBuffer, nBufferSize);
 }
