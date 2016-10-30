@@ -145,7 +145,6 @@
     <ClCompile Include="src\PacketDispatcher.cpp" />
     <ClCompile Include="src\RpcChannel.cpp" />
     <ClCompile Include="src\RpcServer.cpp" />
-    <ClCompile Include="src\ServerBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CodecLite-inl.h" />
@@ -153,7 +152,6 @@
     <ClInclude Include="include\PacketDispatcher.h" />
     <ClInclude Include="include\RpcChannel.h" />
     <ClInclude Include="include\RpcServer.h" />
-    <ClInclude Include="include\ServerBase.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

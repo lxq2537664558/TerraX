@@ -9,23 +9,27 @@ using namespace TerraX;
 
 using std::string;
 
-RpcChannel::RpcChannel(EventLoop* loop, const string& host, int port, PacketDispatcher& pd)
+RpcChannel::RpcChannel(EventLoop* loop, const string& host, int port)
 	: evConn_(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE)),
 	connectFailed_(false),
 	disconnect_cb_(NULL),
-	ptr_(NULL),
-	m_PacketDisPatcher(pd)
+	ptr_(NULL)
 {
+
 	bufferevent_setcb(evConn_, readCallback, NULL, eventCallback, this);
 	bufferevent_socket_connect_hostname(evConn_, NULL, AF_INET, host.c_str(), port);
+	//setsockopt tpc_nodelay?
+	//evutil_socket_t fd = bufferevent_getfd(evConn_);
+	//assert(fd >= 0);
+	//int flag = 1;
+	//int ret = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (const char*)&flag, sizeof(flag));
 }
 
-RpcChannel::RpcChannel(struct event_base* base, int fd, PacketDispatcher& pd)
+RpcChannel::RpcChannel(struct event_base* base, int fd)
 	: evConn_(bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE)),
 	connectFailed_(false),
 	disconnect_cb_(NULL),
-	ptr_(NULL),
-	m_PacketDisPatcher(pd)
+	ptr_(NULL)
 {
 	bufferevent_setcb(evConn_, readCallback, NULL, eventCallback, this);
 	bufferevent_enable(evConn_, EV_READ | EV_WRITE);
@@ -119,5 +123,5 @@ void RpcChannel::sendMessage(int flag, google::protobuf::Message& msg)
 
 bool RpcChannel::onMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
-	return m_PacketDisPatcher.DeliverPacket(strMsgType, pBuffer, nBufferSize);
+	return PacketDispatcher::GetInstance().DeliverPacket(*this, strMsgType, pBuffer, nBufferSize);
 }

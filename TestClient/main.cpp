@@ -22,7 +22,6 @@ int main(int argc, char* argv[])
 	p.set_id(12345);
 	p.set_email("hello@world.com");
 	client.sendPacket(p);
-	//Person::descriptor()->name()
 	loop.loop();
 	google::protobuf::ShutdownProtobufLibrary();
 

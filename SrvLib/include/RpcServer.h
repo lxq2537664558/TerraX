@@ -6,7 +6,6 @@
 #include <mutex>
 #include <string>
 #include "RpcChannel.h"
-#include "PacketDispatcher.h"
 #include "ComDef.h"
 
 namespace TerraX
@@ -37,9 +36,6 @@ namespace TerraX
 		int currLoop_;
 		std::mutex mutex_;
 		std::set<RpcChannel*> channels_;
-
-	protected:
-		PacketDispatcher m_PacketDispatcher;
 	};
 
 }

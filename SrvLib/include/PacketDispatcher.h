@@ -6,26 +6,25 @@
 
 namespace TerraX
 {
+	class RpcChannel;
 	namespace gpb = google::protobuf;
 	class IPacketFunctor
 	{
 	public:
 		IPacketFunctor() = default;
-		virtual void operator()(gpb::Message& arg) = 0;
+		virtual void operator()(RpcChannel& channel, gpb::Message& arg) = 0;
 	};
 
 	template<typename Packet>
 	class PacketFunctor : public IPacketFunctor
 	{
-		using PacketCB = std::function<void(Packet&)>;
+		using PacketCB = std::function<void(RpcChannel&, Packet&)>;
 	public:
-		PacketFunctor(PacketCB cb)
-		{
+		PacketFunctor(PacketCB cb) {
 			this->cb = cb;
 		}
-		void operator()(gpb::Message& msg) override
-		{
-			cb(static_cast<Packet&>(msg));
+		void operator()(RpcChannel& channel, gpb::Message& msg) override {
+			cb(channel, static_cast<Packet&>(msg));
 		}
 	private:
 		PacketCB cb;
@@ -33,33 +32,16 @@ namespace TerraX
 
 	class PacketDispatcher
 	{
+		MAKEINSTANCE(PacketDispatcher);
 	public:
 		PacketDispatcher() = default;
+
 		template <class Packet>
-		void RegPacketHandler(IPacketFunctor* pMsg)
-		{
+		void RegPacketHandler(IPacketFunctor* pMsg) {
 			m_mapCallBacks[Packet::descriptor()] = pMsg;
 		}
 
-
-		bool DeliverPacket(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
-		{
-			for (auto& it : m_mapCallBacks) {
-				if (it.first->name() == strMsgType || it.first->full_name() == strMsgType) {
-					const auto* pDesc = gpb::DescriptorPool::generated_pool()->FindMessageTypeByName(it.first->full_name());
-					const auto* pProtoType = gpb::MessageFactory::generated_factory()->GetPrototype(pDesc);
-					std::unique_ptr<gpb::Message> pMsg(pProtoType->New()); //return a new object;
-					if (!pMsg->ParseFromArray(pBuffer, nBufferSize)) {
-						return false; //parse error!
-					}
-					(*(it.second))(*(pMsg.get()));
-					return true;
-				}
-			}
-			return true;
-			// packet handler not find! 
-			// if you want to process the unknown packet, you can add a default handler.
-		}
+		bool DeliverPacket(RpcChannel& rChannel, const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 	private:
 		std::map<const google::protobuf::Descriptor*, IPacketFunctor* > m_mapCallBacks;
 	};

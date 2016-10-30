@@ -19,8 +19,8 @@ namespace TerraX
 	public:
 		using disconnect_cb = std::function<void(RpcChannel*, void* ptr)> ;
 
-		explicit RpcChannel(struct event_base *base, int fd, PacketDispatcher& pd);
-		explicit RpcChannel(EventLoop* loop, const std::string& host, int port, PacketDispatcher& pd);
+		explicit RpcChannel(struct event_base *base, int fd);
+		explicit RpcChannel(EventLoop* loop, const std::string& host, int port);
 		~RpcChannel();
 		void setDisconnectCb(disconnect_cb cb, void* ptr);
 		
@@ -40,7 +40,6 @@ namespace TerraX
 		bool connectFailed_;
 		disconnect_cb disconnect_cb_;
 		void* ptr_;
-		PacketDispatcher& m_PacketDisPatcher;
 	};
 
 

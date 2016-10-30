@@ -92,7 +92,7 @@ void RpcServer::onConnect(evutil_socket_t fd)
 		currLoop_ = 0;
 	}
 
-	RpcChannel* channel = new RpcChannel(base, static_cast<int>(fd), m_PacketDispatcher);
+	RpcChannel* channel = new RpcChannel(base, static_cast<int>(fd));
 	channel->setDisconnectCb(&RpcServer::disconnectCallback, this);
 
 	std::lock_guard<std::mutex> lock(mutex_);
@@ -112,6 +112,8 @@ void RpcServer::onDisconnect(RpcChannel* channel)
 void RpcServer::newConnectionCallback(struct evconnlistener* listener,
 	evutil_socket_t fd, struct sockaddr* address, int socklen, void* ctx)
 {
+	//int flag = 1;
+	//int ret = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (const char*)&flag, sizeof(flag));
 	//应该在此处设置tcp_nodelay， so_linger?
 	printf("newConnectionCallback\n");
 	RpcServer* self = static_cast<RpcServer*>(ctx);

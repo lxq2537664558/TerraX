@@ -11,6 +11,7 @@ public: \
 	}
 
 #define NOCOPY(classname) \
+public: \
 	classname(const classname&) = delete; \
 	classname& operator=(const classname &) = delete;
 
