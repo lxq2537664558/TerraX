@@ -3,6 +3,7 @@
 #include <functional>
 #include <google/protobuf/message.h>
 #include "ComDef.h"
+#include "proto/addressbook.pb.h"
 
 namespace TerraX
 {

@@ -1,0 +1,1 @@
+protoc -I=./protocol/ --cpp_out=./cpp_out/ ./protocol/addressbook.proto

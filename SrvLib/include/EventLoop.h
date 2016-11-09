@@ -10,7 +10,7 @@ namespace TerraX
 		EventLoop()
 			: base_(::event_base_new())
 		{
-			assert(base_ != NULL);
+			assert(base_ != nullptr);
 		}
 
 		~EventLoop()

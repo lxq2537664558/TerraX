@@ -7,7 +7,7 @@
     <Filter Include="Network">
       <UniqueIdentifier>{b170e0f0-7768-4de8-a0d2-dba644b57f02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ProtoBuf">
+    <Filter Include="Proto">
       <UniqueIdentifier>{48cbba33-49ee-4f5b-90c0-ed860ad695ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -23,6 +23,9 @@
     </ClCompile>
     <ClCompile Include="src\PacketDispatcher.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\addressbook.pb.cc">
+      <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="include\CodecLite-inl.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\addressbook.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RpcChannel.h"
-#include "addressbook.pb.h"
+#include "proto/addressbook.pb.h"
 #include "PacketDispatcher.h"
 
 namespace TerraX

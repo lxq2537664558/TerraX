@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\ComLib\include;..\SrvLib\include;..\ThirdParty\libevent-2.0.23-stable-rc\include;..\ThirdParty\libevent-2.0.23-stable-rc\WIN32-Code\;..\ThirdParty\protobuf\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ComLib\include;..\SrvLib;..\SrvLib\include;..\ThirdParty\libevent-2.0.23-stable-rc\include;..\ThirdParty\libevent-2.0.23-stable-rc\WIN32-Code\;..\ThirdParty\protobuf\include\;..\SrvLib\proto</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -117,12 +117,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="addressbook.pb.cc" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestServer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="addressbook.pb.h" />
     <ClInclude Include="TestServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

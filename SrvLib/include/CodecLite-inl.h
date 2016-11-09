@@ -22,7 +22,7 @@ namespace TerraX
 	{
 		struct evbuffer* buf = evbuffer_new();
 		const std::string& msgName = message.GetDescriptor()->name(); //if you want, you can use full_name() to replace it;
-		const int name_len = static_cast<int>(msgName.size()) + 1;
+		const uint16_t name_len = static_cast<uint16_t>(msgName.size() + 1);
 
 		const int header_size = 4 + 4 + 2 + name_len; // total_len + flag + packet_name_len + name_len; 
 		const int content_size = message.ByteSize();
@@ -39,7 +39,7 @@ namespace TerraX
 		int flag_be = htonl(flag);
 		memcpy( start, &flag_be, sizeof(flag_be) );
 		start += 4;
-		short nameLen_be = htons(name_len);
+		uint16_t nameLen_be = htons(name_len);
 		memcpy(start, &nameLen_be, sizeof(nameLen_be));
 		start += 2;
 		memcpy(start, msgName.c_str(), name_len);
@@ -93,7 +93,7 @@ namespace TerraX
 			//do check flag?
 
 			//get packetname_len:
-			int16_t packetname_len = 0;
+			uint16_t packetname_len = 0;
 			memcpy(&packetname_len, buf + start, sizeof(packetname_len));
 			packetname_len = ntohs(packetname_len);
 			start += 2;
@@ -121,7 +121,7 @@ namespace TerraX
 	inline ParseErrorCode read(struct evbuffer* input, RpcChannel* channel)
 	{
 		ParseErrorCode error = kNoError;
-		int readable = evbuffer_get_length(input);
+		std::size_t readable = evbuffer_get_length(input);
 		while (readable >= 12)
 		{
 			int be32 = 0;
@@ -132,7 +132,7 @@ namespace TerraX
 				error = kInvalidLength;
 				break;
 			}
-			else if (readable >= total_len)
+			else if (readable >= static_cast<std::size_t>(total_len))
 			{
 				const char* data = reinterpret_cast<char*>(evbuffer_pullup(input, total_len));
 				error = parse(channel, data, total_len);

@@ -1,7 +1,8 @@
 #pragma once
 #include "RpcServer.h"
-#include "addressbook.pb.h"
+#include "proto/addressbook.pb.h"
 #include "ComDef.h"
+#include <thread>
 
 namespace TerraX
 {
@@ -19,7 +20,7 @@ namespace TerraX
 		{
 			//auto now = std::chrono::high_resolution_clock::now();
 			//std::cout << GetTickCount64() << std::endl;
-			std::cout << p.name().c_str() << std::endl;
+			std::cout << "Thread-" << std::this_thread::get_id() << ": " << p.name().c_str() << std::endl;
 			sendPacket(channel, p);
 		}
 	};

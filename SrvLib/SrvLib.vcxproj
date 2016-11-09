@@ -93,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\ComLib\include;.\include;..\ThirdParty\libevent-2.0.23-stable-rc\include;..\ThirdParty\libevent-2.0.23-stable-rc\WIN32-Code\;..\ThirdParty\protobuf\include\;..\ThirdParty\zlib-1.2.8\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ComLib\include;.\;.\include;..\ThirdParty\libevent-2.0.23-stable-rc\WIN32-Code\;..\ThirdParty\protobuf\include\;..\ThirdParty\zlib-1.2.8\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="proto\addressbook.pb.cc" />
     <ClCompile Include="src\PacketDispatcher.cpp" />
     <ClCompile Include="src\RpcChannel.cpp" />
     <ClCompile Include="src\RpcServer.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="include\PacketDispatcher.h" />
     <ClInclude Include="include\RpcChannel.h" />
     <ClInclude Include="include\RpcServer.h" />
+    <ClInclude Include="proto\addressbook.pb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

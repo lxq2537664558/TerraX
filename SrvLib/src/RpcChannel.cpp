@@ -12,12 +12,12 @@ using std::string;
 RpcChannel::RpcChannel(EventLoop* loop, const string& host, int port)
 	: evConn_(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE)),
 	connectFailed_(false),
-	disconnect_cb_(NULL),
-	ptr_(NULL)
+	disconnect_cb_(nullptr),
+	ptr_(nullptr)
 {
 
-	bufferevent_setcb(evConn_, readCallback, NULL, eventCallback, this);
-	bufferevent_socket_connect_hostname(evConn_, NULL, AF_INET, host.c_str(), port);
+	bufferevent_setcb(evConn_, readCallback, nullptr, eventCallback, this);
+	bufferevent_socket_connect_hostname(evConn_, nullptr, AF_INET, host.c_str(), port);
 	//setsockopt tpc_nodelay?
 	//evutil_socket_t fd = bufferevent_getfd(evConn_);
 	//assert(fd >= 0);
@@ -28,10 +28,10 @@ RpcChannel::RpcChannel(EventLoop* loop, const string& host, int port)
 RpcChannel::RpcChannel(struct event_base* base, int fd)
 	: evConn_(bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE)),
 	connectFailed_(false),
-	disconnect_cb_(NULL),
-	ptr_(NULL)
+	disconnect_cb_(nullptr),
+	ptr_(nullptr)
 {
-	bufferevent_setcb(evConn_, readCallback, NULL, eventCallback, this);
+	bufferevent_setcb(evConn_, readCallback, nullptr, eventCallback, this);
 	bufferevent_enable(evConn_, EV_READ | EV_WRITE);
 }
 

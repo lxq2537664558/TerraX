@@ -4,6 +4,9 @@
 #include <thread>
 #include <cassert>
 #include <iostream>
+#ifndef _WIN32
+#include <unistd.h>
+#endif
 
 using namespace TerraX;
 
@@ -12,7 +15,7 @@ struct sockaddr* getListenSock(int port)
 	static struct sockaddr_in sin;
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = INADDR_ANY;
-	sin.sin_port = htons(port);
+	sin.sin_port = htons(static_cast<uint16_t>(port));
 	return (struct sockaddr*)&sin;
 }
 
@@ -40,7 +43,7 @@ RpcServer::~RpcServer()
 
 void RpcServer::setThreadNum(int numThreads)
 {
-#ifndef _WIN32
+#ifdef __GNUC__
 	if (numThreads > 1)
 	{
 		loops_.clear();
@@ -62,17 +65,15 @@ static void cb_func(evutil_socket_t fd, short what, void *arg)
 
 void* RpcServer::runLoop(void* ptr)
 {
-#ifdef _WIN32
-
-#else
+#ifdef __GNUC__
 	struct event_base* base = static_cast<struct event_base*>(ptr);
 	int pipefd[2];
 	int ret = pipe(pipefd);
 	assert(ret == 0);
-	struct event* ev = event_new(base, pipefd[0], EV_READ, cb_func, NULL);
-	event_add(ev, NULL);
+	struct event* ev = event_new(base, pipefd[0], EV_READ, cb_func, nullptr);
+	event_add(ev, nullptr);
 
-	printf("runLoop\n");
+	std::cout << "Run Thread Loop: " << std::this_thread::get_id() << std::endl;
 	event_base_loop(base, 0);
 	printf("runLoop done\n");
 
@@ -80,7 +81,7 @@ void* RpcServer::runLoop(void* ptr)
 	close(pipefd[0]);
 	close(pipefd[1]);
 #endif
-	return NULL;
+	return nullptr;
 }
 
 void RpcServer::onConnect(evutil_socket_t fd)
