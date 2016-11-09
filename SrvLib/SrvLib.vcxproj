@@ -93,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\ComLib\include;.\;.\include;..\ThirdParty\libevent-2.0.23-stable-rc\WIN32-Code\;..\ThirdParty\protobuf\include\;..\ThirdParty\zlib-1.2.8\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ComLib\include;.\;.\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include;..\ThirdParty\zlib\win32_include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>

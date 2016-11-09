@@ -3,6 +3,7 @@
 *.pdb
 *.lib
 *.dll
+*.a
 Debug/*
 Release/*
 obj/*
@@ -12,3 +13,7 @@ x64/*
 x86/*
 /.vs/*
 /*.db
+ComLib/Debug/*
+SrvLib/Debug/*
+TestClient/Debug/*
+TestServer/Debug/*
