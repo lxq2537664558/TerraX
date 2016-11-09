@@ -39,9 +39,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -finline-limit=1000 -DNDEBUG")
 
 set (ComLib_Inc ${PROJECT_SOURCE_DIR}/ComLib/include)
 set (SrvLib_Inc ${PROJECT_SOURCE_DIR}/SrvLib/include ${PROJECT_SOURCE_DIR}/SrvLib)
-set (libevent_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/libevent-2.0.23-stable-rc/include)
+set (libevent_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/libevent/include)
 set (protobuf_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/protobuf/include)
-set (zlib_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/zlib-1.2.8)
+set (zlib_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/zlibf/include)
 
 
 #find_library(MyLib_Lib 
