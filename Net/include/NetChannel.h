@@ -22,24 +22,27 @@ namespace TerraX
 		explicit NetChannel(struct event_base *base, int fd);
 		explicit NetChannel(EventLoop* loop, const std::string& host, int port);
 		~NetChannel();
-		void setDisconnectCb(disconnect_cb cb, void* ptr);
+		void SetDisconnectCb(disconnect_cb cb, void* ptr);
 		
-		void sendMessage(int flag, google::protobuf::Message& msg);
-		bool onMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
-	private:
-		void onRead();
+		void SendMessage(int flag, google::protobuf::Message& msg);
+		bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 
-		void connectFailed();
-		void connected();
-		void disconnected();
-
-		static void readCallback(struct bufferevent *bev, void *ptr);
-		static void eventCallback(struct bufferevent *bev, short events, void *ptr);
 	private:
-		struct bufferevent* evConn_;
-		bool connectFailed_;
-		disconnect_cb disconnect_cb_;
-		void* ptr_;
+		void OnRead();
+
+		void ConnectFailed();
+		void Connected();
+		void Disconnected();
+
+		static void ReadCallback(struct bufferevent *bev, void *ptr);
+		static void EventCallback(struct bufferevent *bev, short events, void *ptr);
+	private:
+		struct bufferevent* m_evConn{ nullptr };
+		bool m_connectFailed{ false };
+		disconnect_cb m_disconnect_cb{ nullptr };
+		void* m_ptr{ nullptr };
+	private:
+		uint16_t m_nChannelIndex{ 0 }; // channel index
 	};
 
 

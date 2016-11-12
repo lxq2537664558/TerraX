@@ -8,28 +8,28 @@ namespace TerraX
 	{
 	public:
 		EventLoop()
-			: base_(::event_base_new())
+			: m_base(::event_base_new())
 		{
-			assert(base_ != nullptr);
+			assert(m_base != nullptr);
 		}
 
 		~EventLoop()
 		{
-			::event_base_free(base_);
+			::event_base_free(m_base);
 		}
 
 		int loop()
 		{
-			return ::event_base_loop(base_, 0);
+			return ::event_base_loop(m_base, 0);
 		}
 
 		struct event_base* eventBase()
 		{
-			return base_;
+			return m_base;
 		}
 
 	private:
-		struct event_base* const base_;
+		struct event_base* const m_base{ nullptr };
 		// pthread_t 
 
 		EventLoop& operator=(const EventLoop&) = delete;

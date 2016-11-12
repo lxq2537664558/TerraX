@@ -20,42 +20,46 @@ struct sockaddr* getListenSock(int port)
 }
 
 NetServer::NetServer(EventLoop* loop, int port)
-	: evListener_(evconnlistener_new_bind(loop->eventBase(),
-		newConnectionCallback, this, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, -1,
-		getListenSock(port), sizeof(struct sockaddr_in))),
-	currLoop_(0)
+	: m_evListener(evconnlistener_new_bind(loop->eventBase(),
+		NewConnectionCallback, this, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, -1,
+		getListenSock(port), sizeof(struct sockaddr_in)))
 {
-	loops_.push_back(loop->eventBase());
+	m_loops.push_back(loop->eventBase());
 }
 
 NetServer::~NetServer()
 {
 	// struct event_base* base = evconnlistener_get_base(evListener_);
-	evconnlistener_free(evListener_);
-	if (loops_.size() > 1)
+	evconnlistener_free(m_evListener);
+	if (m_loops.size() > 1)
 	{
-		for (size_t i = 0; i < loops_.size(); ++i)
+		for (size_t i = 0; i < m_loops.size(); ++i)
 		{
-			event_base_free(loops_[i]);
+			event_base_free(m_loops[i]);
 		}
 	}
 }
 
-void NetServer::setThreadNum(int numThreads)
+void NetServer::SetThreadNum(int numThreads)
 {
 #ifdef __GNUC__
 	if (numThreads > 1)
 	{
-		loops_.clear();
+		m_loops.clear();
 		for (int i = 0; i < numThreads; ++i)
 		{
 			struct event_base* base = event_base_new();
-			std::thread t(runLoop, base);
+			std::thread t(RunLoop, base);
 			t.detach();
-			loops_.push_back(base);
+			m_loops.push_back(base);
 		}
 	}
 #endif
+}
+
+void NetServer::ForceClose(NetChannel& pChannel)
+{
+	//m_evConn->
 }
 
 static void cb_func(evutil_socket_t fd, short what, void *arg)
@@ -63,7 +67,7 @@ static void cb_func(evutil_socket_t fd, short what, void *arg)
 	std::cout << __FUNCTION__ << __LINE__ << std::endl;
 }
 
-void* NetServer::runLoop(void* ptr)
+void* NetServer::RunLoop(void* ptr)
 {
 #ifdef __GNUC__
 	struct event_base* base = static_cast<struct event_base*>(ptr);
@@ -84,33 +88,33 @@ void* NetServer::runLoop(void* ptr)
 	return nullptr;
 }
 
-void NetServer::onConnect(evutil_socket_t fd)
+void NetServer::OnConnect(evutil_socket_t fd)
 {
-	struct event_base* base = loops_[currLoop_];
-	++currLoop_;
-	if (static_cast<size_t>(currLoop_) >= loops_.size())
+	struct event_base* base = m_loops[m_currLoop];
+	++m_currLoop;
+	if (static_cast<size_t>(m_currLoop) >= m_loops.size())
 	{
-		currLoop_ = 0;
+		m_currLoop = 0;
 	}
 
 	NetChannel* channel = new NetChannel(base, static_cast<int>(fd));
-	channel->setDisconnectCb(&NetServer::disconnectCallback, this);
+	channel->SetDisconnectCb(&NetServer::DisconnectCallback, this);
 
-	std::lock_guard<std::mutex> lock(mutex_);
-	channels_.insert(channel);
+	std::lock_guard<std::mutex> lock(m_mutex);
+	m_channels.insert(channel);
 }
 
-void NetServer::onDisconnect(NetChannel* channel)
+void NetServer::OnDisconnect(NetChannel* pChannel)
 {
 	{
-		std::lock_guard<std::mutex> lock(mutex_);
-		int n = channels_.erase(channel);
+		std::lock_guard<std::mutex> lock(m_mutex);
+		int n = m_channels.erase(pChannel);
 		assert(n == 1);
 	}
-	delete channel;
+	delete pChannel;
 }
 
-void NetServer::newConnectionCallback(struct evconnlistener* listener,
+void NetServer::NewConnectionCallback(struct evconnlistener* listener,
 	evutil_socket_t fd, struct sockaddr* address, int socklen, void* ctx)
 {
 	//int flag = 1;
@@ -118,13 +122,13 @@ void NetServer::newConnectionCallback(struct evconnlistener* listener,
 	//应该在此处设置tcp_nodelay， so_linger?
 	printf("newConnectionCallback\n");
 	NetServer* self = static_cast<NetServer*>(ctx);
-	assert(self->evListener_ == listener);
-	self->onConnect(fd);
+	assert(self->m_evListener == listener);
+	self->OnConnect(fd);
 }
 
-void NetServer::disconnectCallback(NetChannel* channel, void* ctx)
+void NetServer::DisconnectCallback(NetChannel* channel, void* ctx)
 {
 	printf("disconnectCallback\n");
 	NetServer* self = static_cast<NetServer*>(ctx);
-	self->onDisconnect(channel);
+	self->OnDisconnect(channel);
 }

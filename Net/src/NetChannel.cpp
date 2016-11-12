@@ -10,14 +10,11 @@ using namespace TerraX;
 using std::string;
 
 NetChannel::NetChannel(EventLoop* loop, const string& host, int port)
-	: evConn_(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE)),
-	connectFailed_(false),
-	disconnect_cb_(nullptr),
-	ptr_(nullptr)
+	: m_evConn(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE))
 {
 
-	bufferevent_setcb(evConn_, readCallback, nullptr, eventCallback, this);
-	bufferevent_socket_connect_hostname(evConn_, nullptr, AF_INET, host.c_str(), port);
+	bufferevent_setcb(m_evConn, ReadCallback, nullptr, EventCallback, this);
+	bufferevent_socket_connect_hostname(m_evConn, nullptr, AF_INET, host.c_str(), port);
 	//setsockopt tpc_nodelay?
 	//evutil_socket_t fd = bufferevent_getfd(evConn_);
 	//assert(fd >= 0);
@@ -26,50 +23,47 @@ NetChannel::NetChannel(EventLoop* loop, const string& host, int port)
 }
 
 NetChannel::NetChannel(struct event_base* base, int fd)
-	: evConn_(bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE)),
-	connectFailed_(false),
-	disconnect_cb_(nullptr),
-	ptr_(nullptr)
+	: m_evConn(bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE))
 {
-	bufferevent_setcb(evConn_, readCallback, nullptr, eventCallback, this);
-	bufferevent_enable(evConn_, EV_READ | EV_WRITE);
+	bufferevent_setcb(m_evConn, ReadCallback, nullptr, EventCallback, this);
+	bufferevent_enable(m_evConn, EV_READ | EV_WRITE);
 }
 
 NetChannel::~NetChannel()
 {
-	bufferevent_free(evConn_);
+	bufferevent_free(m_evConn);
 	// printf("~NetChannel()\n");
 }
 
-void NetChannel::setDisconnectCb(disconnect_cb cb, void* ptr)
+void NetChannel::SetDisconnectCb(disconnect_cb cb, void* ptr)
 {
-	disconnect_cb_ = cb;
-	ptr_ = ptr;
+	m_disconnect_cb = cb;
+	m_ptr = ptr;
 }
 
-void NetChannel::connectFailed()
+void NetChannel::ConnectFailed()
 {
-	connectFailed_ = true;
-	disconnected();
+	m_connectFailed = true;
+	Disconnected();
 }
 
-void NetChannel::connected()
+void NetChannel::Connected()
 {
-	if (!connectFailed_)
+	if (!m_connectFailed)
 	{
-		bufferevent_enable(evConn_, EV_READ | EV_WRITE);
+		bufferevent_enable(m_evConn, EV_READ | EV_WRITE);
 	}
 }
 
-void NetChannel::disconnected()
+void NetChannel::Disconnected()
 {
-	if (disconnect_cb_)
+	if (m_disconnect_cb)
 	{
-		disconnect_cb_(this, ptr_);
+		m_disconnect_cb(this, m_ptr);
 	}
 }
 
-void NetChannel::onRead()
+void NetChannel::OnRead()
 {
 	//struct evbuffer* input = bufferevent_get_input(evConn_);
 
@@ -80,7 +74,7 @@ void NetChannel::onRead()
 	//m_PacketDisPatcher.DeliverPacket("Person", pszMsg.get(), readable);
 	//bufferevent_write_buffer(evConn_, input);
 
-	struct evbuffer* input = bufferevent_get_input(evConn_);
+	struct evbuffer* input = bufferevent_get_input(m_evConn);
 	ParseErrorCode errorCode = read(input, this);
 	if (errorCode != kNoError)
 	{
@@ -88,40 +82,40 @@ void NetChannel::onRead()
 	}
 }
 
-void NetChannel::readCallback(struct bufferevent* bev, void* ptr)
+void NetChannel::ReadCallback(struct bufferevent* bev, void* ptr)
 {
 	NetChannel* self = static_cast<NetChannel*>(ptr);
-	assert(self->evConn_ == bev);
-	self->onRead();
+	assert(self->m_evConn == bev);
+	self->OnRead();
 }
 
-void NetChannel::eventCallback(struct bufferevent* bev, short events, void* ptr)
+void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 {
 	NetChannel* self = static_cast<NetChannel*>(ptr);
 	if (events & BEV_EVENT_CONNECTED)
 	{
 		printf("connected\n");
-		self->connected();
+		self->Connected();
 	}
 	else if (events & BEV_EVENT_EOF)
 	{
 		printf("disconnected\n");
-		self->disconnected();
+		self->Disconnected();
 	}
 	else if (events & BEV_EVENT_ERROR)
 	{
 		printf("connect error\n");
-		self->connectFailed();
+		self->ConnectFailed();
 	}
 }
 
-void NetChannel::sendMessage(int flag, google::protobuf::Message& msg)
+void NetChannel::SendMessage(int flag, google::protobuf::Message& msg)
 {
 	//bufferevent_write(evConn_, msg.c_str(), msg.size());
-	send(evConn_, flag, msg);
+	send(m_evConn, flag, msg);
 }
 
-bool NetChannel::onMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+bool NetChannel::OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
 	return PacketDispatcher::GetInstance().DeliverPacket(*this, strMsgType, pBuffer, nBufferSize);
 }

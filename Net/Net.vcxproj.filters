@@ -27,6 +27,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="proto\server_packet.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CodecLite-inl.h">
@@ -43,6 +46,12 @@
     </ClInclude>
     <ClInclude Include="include\PacketDispatcher.h">
       <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NetDefine.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\server_packet.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

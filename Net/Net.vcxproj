@@ -78,6 +78,8 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\Base\include;.\;.\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include;..\ThirdParty\zlib\win32_include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,6 +117,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="proto\server_packet.pb.cc" />
     <ClCompile Include="src\NetChannel.cpp" />
     <ClCompile Include="src\NetServer.cpp" />
     <ClCompile Include="src\PacketDispatcher.cpp" />
@@ -123,8 +126,10 @@
     <ClInclude Include="include\CodecLite-inl.h" />
     <ClInclude Include="include\EventLoop.h" />
     <ClInclude Include="include\NetChannel.h" />
+    <ClInclude Include="include\NetDefine.h" />
     <ClInclude Include="include\NetServer.h" />
     <ClInclude Include="include\PacketDispatcher.h" />
+    <ClInclude Include="proto\server_packet.pb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

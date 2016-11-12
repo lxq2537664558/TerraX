@@ -1,1 +1,1 @@
-protoc -I=./protocol/ --cpp_out=./cpp_out/ ./protocol/addressbook.proto
+protoc -I=./protocol/ --cpp_out=../../Net/proto ./protocol/server_packet.proto
