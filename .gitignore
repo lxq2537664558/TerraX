@@ -18,4 +18,7 @@ Net/Debug/*
 CenterServer/Debug/*
 GateServer/Debug/*
 GameServer/Debug/*
+WorldServer/Debug/*
+LoginServer/Debug/*
+Client/Debug/*
 build/*

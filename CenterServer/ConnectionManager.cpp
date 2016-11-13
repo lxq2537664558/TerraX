@@ -5,13 +5,13 @@ using namespace TerraX;
 
 ConnectionManager::ConnectionManager(CenterServer& cs)
 	: server(cs) {
-	for (int i = 1; i < Max_WorldConnection_Count; ++i) {
+	for (uint8_t i = 1; i < Max_WorldConnection_Count; ++i) {
 		m_freeindexes[int(PeerType_t::worldserver)].push(i);
 	}
-	for (int i = 1; i < Max_GateConnection_Count; ++i) {
+	for (uint8_t i = 1; i < Max_GateConnection_Count; ++i) {
 		m_freeindexes[int(PeerType_t::gateserver)].push(i);
 	}
-	for (int i = 1; i < Max_GameConnection_Count; ++i) {
+	for (uint8_t i = 1; i < Max_GameConnection_Count; ++i) {
 		m_freeindexes[int(PeerType_t::gameserver)].push(i);
 	}
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
