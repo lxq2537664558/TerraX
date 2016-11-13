@@ -24,13 +24,14 @@ namespace TerraX
 		void SetThreadNum(int numThreads);
 
 		void ForceClose(NetChannel& pChannel);
+		void ForceCloseAll();
 	private:
 		static void NewConnectionCallback(struct evconnlistener* listener,
 			evutil_socket_t fd, struct sockaddr* address, int socklen, void* ctx);
 		static void DisconnectCallback(NetChannel*, void* ctx);
 		static void* RunLoop(void* ptr);
 	protected:
-		void OnConnect(evutil_socket_t fd);
+		virtual void OnConnect(evutil_socket_t fd);
 		virtual void OnDisconnect(NetChannel* pChannel);
 	private:
 		struct evconnlistener* m_evListener{ nullptr };
@@ -38,10 +39,6 @@ namespace TerraX
 		int m_currLoop{ 0 };
 		std::mutex m_mutex;
 		std::set<NetChannel*> m_channels;
-	public:
-		bool IsRegistered{ false };
-		uint8_t m_ServerIndex{ 0 }; 
-		PeerType_t m_PeerType{ PeerType_t::undefine };
 	};
 
 }

@@ -13,6 +13,13 @@ namespace TerraX
 {
 	class EventLoop;
 	using PacketFnCB = std::function<void(class packet*)>;
+	enum class ConnState_t 
+	{ 
+		eDisconnected, 
+		eConnecting, 
+		eConnected, 
+		eDisconnecting 
+	};
 	class NetChannel
 	{
 		NOCOPY(NetChannel);
@@ -27,15 +34,22 @@ namespace TerraX
 		void SendMessage(int flag, google::protobuf::Message& msg);
 		bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 
-	private:
-		void OnRead();
+		ConnState_t GetConnState() { return m_eState; }
+		void ForceClose();
 
-		void ConnectFailed();
-		void Connected();
-		void Disconnected();
+	protected:
+		void OnRead();
+		void OnWrite();
+
+		virtual void ConnectFailed();
+		virtual void Connected();
+		virtual void Disconnected();
+
+		void SetConnState(ConnState_t eState) { m_eState = eState; }
 
 		static void ReadCallback(struct bufferevent *bev, void *ptr);
 		static void EventCallback(struct bufferevent *bev, short events, void *ptr);
+		static void WriteCallback(struct bufferevent *bev, void *ptr);
 	private:
 		struct bufferevent* m_evConn{ nullptr };
 		bool m_connectFailed{ false };
@@ -43,6 +57,7 @@ namespace TerraX
 		void* m_ptr{ nullptr };
 	private:
 		uint16_t m_nChannelIndex{ 0 }; // channel index
+		ConnState_t m_eState{ ConnState_t::eDisconnected };
 	};
 
 

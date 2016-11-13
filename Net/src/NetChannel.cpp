@@ -10,10 +10,11 @@ using namespace TerraX;
 using std::string;
 
 NetChannel::NetChannel(EventLoop* loop, const string& host, int port)
-	: m_evConn(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE))
+	: m_evConn(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE)),
+	m_eState(ConnState_t::eConnecting)
 {
-
-	bufferevent_setcb(m_evConn, ReadCallback, nullptr, EventCallback, this);
+	
+	bufferevent_setcb(m_evConn, ReadCallback, WriteCallback, EventCallback, this);
 	bufferevent_socket_connect_hostname(m_evConn, nullptr, AF_INET, host.c_str(), port);
 	//setsockopt tpc_nodelay?
 	//evutil_socket_t fd = bufferevent_getfd(evConn_);
@@ -25,7 +26,8 @@ NetChannel::NetChannel(EventLoop* loop, const string& host, int port)
 NetChannel::NetChannel(struct event_base* base, int fd)
 	: m_evConn(bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE))
 {
-	bufferevent_setcb(m_evConn, ReadCallback, nullptr, EventCallback, this);
+	SetConnState(ConnState_t::eConnected);
+	bufferevent_setcb(m_evConn, ReadCallback, WriteCallback, EventCallback, this);
 	bufferevent_enable(m_evConn, EV_READ | EV_WRITE);
 }
 
@@ -51,16 +53,24 @@ void NetChannel::Connected()
 {
 	if (!m_connectFailed)
 	{
+		SetConnState(ConnState_t::eConnected);
 		bufferevent_enable(m_evConn, EV_READ | EV_WRITE);
 	}
 }
 
 void NetChannel::Disconnected()
 {
+	SetConnState(ConnState_t::eDisconnected);
 	if (m_disconnect_cb)
 	{
 		m_disconnect_cb(this, m_ptr);
 	}
+}
+
+void NetChannel::ForceClose()
+{
+	bufferevent_disable(m_evConn, EV_READ);
+	SetConnState(ConnState_t::eDisconnecting);
 }
 
 void NetChannel::OnRead()
@@ -82,11 +92,30 @@ void NetChannel::OnRead()
 	}
 }
 
+void NetChannel::OnWrite()
+{
+	if (m_eState == ConnState_t::eDisconnecting) {
+		struct evbuffer* input = bufferevent_get_input(m_evConn);
+		std::size_t readable = evbuffer_get_length(input);
+		std::cout << "Writing: " << readable << std::endl;
+		if (readable <= 0) {
+			Disconnected();
+		}
+	}
+}
+
 void NetChannel::ReadCallback(struct bufferevent* bev, void* ptr)
 {
 	NetChannel* self = static_cast<NetChannel*>(ptr);
 	assert(self->m_evConn == bev);
 	self->OnRead();
+}
+
+void NetChannel::WriteCallback(struct bufferevent *bev, void *ptr)
+{
+	NetChannel* self = static_cast<NetChannel*>(ptr);
+	assert(self->m_evConn == bev);
+	self->OnWrite();
 }
 
 void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
@@ -112,7 +141,9 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 void NetChannel::SendMessage(int flag, google::protobuf::Message& msg)
 {
 	//bufferevent_write(evConn_, msg.c_str(), msg.size());
-	send(m_evConn, flag, msg);
+	if (m_eState == ConnState_t::eConnected) {
+		send(m_evConn, flag, msg);
+	}
 }
 
 bool NetChannel::OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)

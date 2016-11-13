@@ -11,9 +11,10 @@ using namespace ServerPacket;
 namespace TerraX
 {
 	//you can load these info from config file;
-	const int Max_WorldConnection_Count = 1;
-	const int Max_GateConnection_Count = 32;
-	const int Max_GameConnection_Count = 32;
+	//index 0 means not registered,so we start with index 1;
+	const int Max_WorldConnection_Count = 2; 
+	const int Max_GateConnection_Count = 33;
+	const int Max_GameConnection_Count = 4;
 	class CenterServer;
 	class NetChannel;
 	class ConnectionManager
@@ -23,12 +24,12 @@ namespace TerraX
 		ConnectionManager(CenterServer& cs); 
 
 		void OnMessage_RegisterServer(NetChannel& channel, PktRegisterServer& pkt); 
-		//void OnMessage_UnRegisterServer()
 
 		void UnregisterServer(NetChannel* pChannel);
 	private:
 		CenterServer& server;
-		std::array<std::queue<uint32_t>, int32_t(PeerType_t::peer_count)> m_freeindexes;
-		std::map<uint32_t, NetChannel*> m_mapRegisterChannels;
+		std::array<std::queue<int32_t>, int32_t(PeerType_t::peer_count)> m_freeindexes;
+		std::map<int32_t, NetChannel*> m_mapRegisterChannels;
+		// maybe we should use shared_ptr?
 	};
 }

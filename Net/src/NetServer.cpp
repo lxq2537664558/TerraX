@@ -59,7 +59,14 @@ void NetServer::SetThreadNum(int numThreads)
 
 void NetServer::ForceClose(NetChannel& pChannel)
 {
-	//m_evConn->
+	pChannel.ForceClose();
+}
+
+void NetServer::ForceCloseAll()
+{
+	for (auto channel : m_channels) {
+		channel->ForceClose();
+	}
 }
 
 static void cb_func(evutil_socket_t fd, short what, void *arg)

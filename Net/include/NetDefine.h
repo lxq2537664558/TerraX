@@ -1,5 +1,7 @@
 #pragma once
+#include "ComDef.h"
 #include <cstdint>
+#include <cassert>
 namespace TerraX
 {
 	enum class PeerType_t
@@ -23,18 +25,25 @@ namespace TerraX
 	/// |                   |                  |                  | 
 	/// 0        <=       8bits     <=       8bits       <=     16bits 
 	/// @end
-	struct ServerInfo_t
+	class PeerInfo
 	{
-		uint8_t peer_type;
-		uint8_t peer_index;
-		uint16_t channel_index;
-		void parse(int32_t server_info) {
-			peer_type = server_info & 0xFF000000;
-			peer_index = server_info & 0x00FF0000;
-			channel_index = server_info & 0x0000FFFF;
+		NOCOPY(PeerInfo);
+	public:
+		PeerInfo() = default;
+		explicit PeerInfo(PeerType_t ePeerType) : peer_type(uint8_t(ePeerType)){
 		}
-		int serialize() {
+		void parse(int32_t server_info) {
+			peer_type = (server_info & 0xFF000000) >> 24;
+			peer_index = (server_info & 0x00FF0000) >> 16;
+			channel_index = server_info & 0x0000FFFF;
+			assert(peer_type > (uint8_t)PeerType_t::undefine && peer_type < (uint8_t)PeerType_t::peer_count);
+		}
+		int32_t serialize() {
 			return (peer_type << 24) + (peer_index << 16) + channel_index;
 		}
+	public:
+		uint8_t peer_type{ uint8_t(PeerType_t::undefine) };
+		uint8_t peer_index{ 0 };
+		uint16_t channel_index{ 0 };
 	};
 }
