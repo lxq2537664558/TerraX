@@ -2,28 +2,44 @@
 
 using namespace TerraX;
 
-GameServer::GameServer(EventLoop* loop, const std::string& host, int port) :
-	NetChannel(loop, host, port)
+GameServer::GameServer()
 {
 	//you can use marco to wrapper it if you want;
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
 		std::bind(&GameServer::OnMessage_RegisterServerRet, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
+bool GameServer::Init()
+{
+	m_pNetChannel.reset(new NetChannel(&m_loop, "127.0.0.1", 9995));
+	m_pNetChannel->RegConnected_Callback(std::bind(&GameServer::Connected, this));
+	m_pNetChannel->RegConnectFailed_Callback(std::bind(&GameServer::ConnectFailed, this));
+	m_pNetChannel->RegDisconnected_Callback(std::bind(&GameServer::Disconnected, this));
+
+	return true;
+}
+
+void GameServer::Run()
+{
+	while (!m_bExit)
+	{
+		m_loop.loop();
+	}
+}
+
+
 void GameServer::ConnectFailed()
 {
-	NetChannel::ConnectFailed();
+	//Reconnect
 }
 
 void GameServer::Connected()
 {
-	NetChannel::Connected();
 	RegisterServer();
 }
 
 void GameServer::Disconnected()
 {
-	NetChannel::Disconnected();
 }
 
 void GameServer::RegisterServer()

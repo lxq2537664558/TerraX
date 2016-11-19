@@ -14,7 +14,7 @@ namespace TerraX
 	//index 0 means not registered,so we start with index 1;
 	const uint8_t Max_WorldConnection_Count = 2; 
 	const uint8_t Max_GateConnection_Count = 33;
-	const uint8_t Max_GameConnection_Count = 33;
+	const uint8_t Max_GameConnection_Count = 4;
 	class CenterServer;
 	class NetChannel;
 	class ConnectionManager

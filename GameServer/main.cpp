@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdio.h>
-#include "EventLoop.h"
 #include "GameServer.h"
 
 using namespace ServerPacket;
@@ -10,13 +9,17 @@ using namespace TerraX;
 int main(int argc, char* argv[])
 {
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
+
 #ifdef _WIN32
 	WSADATA wsa_data;
 	WSAStartup(0x0201, &wsa_data);
 #endif
-	EventLoop loop;
-	GameServer gameserver(&loop, "127.0.0.1", 9995);
-	loop.loop();
+
+	if (GameServer::GetInstance().Init())
+	{
+		GameServer::GetInstance().Run();
+	}
+
 	google::protobuf::ShutdownProtobufLibrary();
 
 	getchar();

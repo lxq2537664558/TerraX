@@ -12,7 +12,6 @@
 namespace TerraX
 {
 	class EventLoop;
-	using PacketFnCB = std::function<void(class packet*)>;
 	enum class ConnState_t 
 	{ 
 		eDisconnected, 
@@ -20,30 +19,35 @@ namespace TerraX
 		eConnected, 
 		eDisconnecting 
 	};
-	class NetChannel
+	class NetChannel final
 	{
 		NOCOPY(NetChannel);
 	public:
 		using disconnect_cb = std::function<void(NetChannel*, void* ptr)> ;
+		using ConnectionEvent_CB = std::function<void()>;
 
 		explicit NetChannel(struct event_base *base, int fd);
 		explicit NetChannel(EventLoop* loop, const std::string& host, int port);
 		~NetChannel();
 		void SetDisconnectCb(disconnect_cb cb, void* ptr);
 		
-		void SendMessage(int flag, google::protobuf::Message& msg);
+		void SendMsg(int flag, google::protobuf::Message& msg);
 		bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 
 		ConnState_t GetConnState() { return m_eState; }
 		void ForceClose();
 
-	protected:
+		void RegConnectFailed_Callback(ConnectionEvent_CB cb) { m_ConnectFailedCB = cb; }
+		void RegConnected_Callback(ConnectionEvent_CB cb) { m_ConnectedCB = cb; }
+		void RegDisconnected_Callback(ConnectionEvent_CB cb) { m_DisconnectedCB = cb; }
+
+	private:
 		void OnRead();
 		void OnWrite();
 
-		virtual void ConnectFailed();
-		virtual void Connected();
-		virtual void Disconnected();
+		void ConnectFailed();
+		void Connected();
+		void Disconnected();
 
 		void SetConnState(ConnState_t eState) { m_eState = eState; }
 
@@ -53,9 +57,12 @@ namespace TerraX
 	private:
 		struct bufferevent* m_evConn{ nullptr };
 		bool m_connectFailed{ false };
-		disconnect_cb m_disconnect_cb{ nullptr };
+		disconnect_cb m_disconnect_cb;
 		void* m_ptr{ nullptr };
 	private:
+		ConnectionEvent_CB m_ConnectFailedCB;
+		ConnectionEvent_CB m_ConnectedCB;
+		ConnectionEvent_CB m_DisconnectedCB;
 		uint16_t m_nChannelIndex{ 0 }; // channel index
 		ConnState_t m_eState{ ConnState_t::eDisconnected };
 	};

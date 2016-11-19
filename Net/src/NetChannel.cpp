@@ -3,6 +3,7 @@
 #include <event2/buffer.h>
 #include <event2/thread.h>
 #include "CodecLite-inl.h"
+#include "SocketOpt-inl.h"
 #include <cassert>
 #include <iostream>
 using namespace TerraX;
@@ -13,14 +14,9 @@ NetChannel::NetChannel(EventLoop* loop, const string& host, int port)
 	: m_evConn(bufferevent_socket_new(loop->eventBase(), -1, BEV_OPT_CLOSE_ON_FREE)),
 	m_eState(ConnState_t::eConnecting)
 {
-	
+	SetTcpNodelay(bufferevent_getfd(m_evConn));
 	bufferevent_setcb(m_evConn, ReadCallback, WriteCallback, EventCallback, this);
 	bufferevent_socket_connect_hostname(m_evConn, nullptr, AF_INET, host.c_str(), port);
-	//setsockopt tpc_nodelay?
-	//evutil_socket_t fd = bufferevent_getfd(evConn_);
-	//assert(fd >= 0);
-	//int flag = 1;
-	//int ret = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (const char*)&flag, sizeof(flag));
 }
 
 NetChannel::NetChannel(struct event_base* base, int fd)
@@ -47,6 +43,10 @@ void NetChannel::ConnectFailed()
 {
 	m_connectFailed = true;
 	Disconnected();
+
+	if (m_ConnectFailedCB) {
+		m_ConnectFailedCB();
+	}
 }
 
 void NetChannel::Connected()
@@ -55,15 +55,22 @@ void NetChannel::Connected()
 	{
 		SetConnState(ConnState_t::eConnected);
 		bufferevent_enable(m_evConn, EV_READ | EV_WRITE);
+
+		if (m_ConnectedCB) {
+			m_ConnectedCB();
+		}
 	}
 }
 
 void NetChannel::Disconnected()
 {
 	SetConnState(ConnState_t::eDisconnected);
-	if (m_disconnect_cb)
-	{
+	if (m_disconnect_cb) {
 		m_disconnect_cb(this, m_ptr);
+	}
+
+	if (m_DisconnectedCB) {
+		m_DisconnectedCB();
 	}
 }
 
@@ -138,7 +145,7 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 	}
 }
 
-void NetChannel::SendMessage(int flag, google::protobuf::Message& msg)
+void NetChannel::SendMsg(int flag, google::protobuf::Message& msg)
 {
 	//bufferevent_write(evConn_, msg.c_str(), msg.size());
 	if (m_eState == ConnState_t::eConnected) {

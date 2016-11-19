@@ -7,7 +7,7 @@
 #ifndef _WIN32
 #include <unistd.h>
 #endif
-
+#include "SocketOpt-inl.h"
 using namespace TerraX;
 
 struct sockaddr* getListenSock(int port)
@@ -113,6 +113,9 @@ void NetServer::OnConnect(evutil_socket_t fd)
 
 void NetServer::OnDisconnect(NetChannel* pChannel)
 {
+	if (m_DisconnectedCB) {
+		m_DisconnectedCB(pChannel);
+	}
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);
 		int n = m_channels.erase(pChannel);
@@ -124,9 +127,7 @@ void NetServer::OnDisconnect(NetChannel* pChannel)
 void NetServer::NewConnectionCallback(struct evconnlistener* listener,
 	evutil_socket_t fd, struct sockaddr* address, int socklen, void* ctx)
 {
-	//int flag = 1;
-	//int ret = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (const char*)&flag, sizeof(flag));
-	//应该在此处设置tcp_nodelay， so_linger?
+	SetTcpNodelay(fd);
 	printf("newConnectionCallback\n");
 	NetServer* self = static_cast<NetServer*>(ctx);
 	assert(self->m_evListener == listener);

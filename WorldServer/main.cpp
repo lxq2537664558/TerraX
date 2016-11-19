@@ -14,9 +14,9 @@ int main(int argc, char* argv[])
 	WSADATA wsa_data;
 	WSAStartup(0x0201, &wsa_data);
 #endif
-	EventLoop loop;
-	WorldServer gameserver(&loop, "127.0.0.1", 9995);
-	loop.loop();
+	//EventLoop loop;
+	//WorldServer gameserver(&loop, "127.0.0.1", 9995);
+	//loop.loop();
 	google::protobuf::ShutdownProtobufLibrary();
 
 	getchar();

@@ -20,7 +20,7 @@ namespace TerraX
 
 		int loop()
 		{
-			return ::event_base_loop(m_base, 0);
+			return ::event_base_loop(m_base, EVLOOP_ONCE|EVLOOP_NONBLOCK);
 		}
 
 		struct event_base* eventBase()

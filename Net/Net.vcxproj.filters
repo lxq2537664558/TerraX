@@ -53,5 +53,8 @@
     <ClInclude Include="proto\server_packet.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
+    <ClInclude Include="include\SocketOpt-inl.h">
+      <Filter>Net</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
