@@ -2,11 +2,12 @@
 #include "NetDefine.h"
 #include "ComDef.h"
 #include "EventLoop.h"
-#include "proto/server_packet.pb.h"
+#include "proto/server_server.pb.h"
+#include "proto/client_server.pb.h"
 #include "Acceptor.h"
 #include "Connector.h"
 #include "CltConnectionManager.h"
-using namespace ServerPacket;
+using namespace S2SPacket;
 
 namespace TerraX
 {
@@ -28,8 +29,8 @@ namespace TerraX
 		Connector<GateServer, PeerType_t::gateserver>* GetConnector(){ return m_pConnector.get(); }
 	public:
 		//void ForceClose(NetChannel& channel);
-		void RegisterServer(PeerInfo& peerinfo); 
-		void OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt);
+		void Register(PeerInfo& peerinfo); 
+		void OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& pkt);
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;

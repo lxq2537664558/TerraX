@@ -1,11 +1,11 @@
 #pragma once
 #include "ComDef.h"
 #include "NetDefine.h"
-#include "proto/server_packet.pb.h"
+#include "proto/client_server.pb.h"
 #include <queue>
 #include <cassert>
 
-using namespace ServerPacket;
+using namespace C2SPacket;
 namespace TerraX
 {
 	//you can load these info from config file;
@@ -20,7 +20,7 @@ namespace TerraX
 	public:
 		CltConnectionManager(GateServer& cs);
 
-		void OnMessage_RegisterClient(NetChannel& channel, PktRegisterServer& pkt);
+		void OnMessage_RegisterClient(NetChannel& channel, PktRegisterClient& pkt);
 
 	private:
 		GateServer& server;

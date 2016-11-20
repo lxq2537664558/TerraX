@@ -13,6 +13,9 @@ namespace TerraX
 		template<class Packet> 
 		void SendPacket(Packet& packet); 
 		bool IsConnected() { return m_Connector.GetConnState() == ConnState_t::eConnected; }
+
+		void SetPeerInfo(PeerInfo& pi) { m_PeerInfo = pi; }
+		const PeerInfo& GetPeerInfo() const { return m_PeerInfo; }
 	private:
 		void Connected();
 		void ConnectFailed();
@@ -33,7 +36,7 @@ namespace TerraX
 
 	template<class T, PeerType_t peertype>
 	void Connector<T, peertype>::Connected() {
-		T::GetInstance().RegisterServer(m_PeerInfo);
+		T::GetInstance().Register(m_PeerInfo);
 	}
 
 	template<class T, PeerType_t peertype>

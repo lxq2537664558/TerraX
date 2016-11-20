@@ -3,7 +3,7 @@
 #include "EventLoop.h"
 #include "WorldServer.h"
 
-//using namespace ServerPacket;
+//using namespace S2SPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 

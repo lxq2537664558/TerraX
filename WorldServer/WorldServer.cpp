@@ -6,7 +6,7 @@ WorldServer::WorldServer()
 {
 	//you can use marco to wrapper it if you want;
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&WorldServer::OnMessage_RegisterServerRet, this, std::placeholders::_1, std::placeholders::_2)));
+		std::bind(&WorldServer::OnMessage_RegisterRet, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
 
@@ -25,14 +25,14 @@ void WorldServer::Run()
 	}
 }
 
-void WorldServer::RegisterServer(PeerInfo& peerinfo)
+void WorldServer::Register(PeerInfo& peerinfo)
 {
 	PktRegisterServer pkt;
 	pkt.set_server_info(peerinfo.serialize());
 	m_pConnector->SendPacket(pkt);
 }
 
-void WorldServer::OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt)
+void WorldServer::OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& pkt)
 {
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;

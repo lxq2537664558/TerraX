@@ -27,7 +27,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="proto\server_packet.pb.cc">
+    <ClCompile Include="proto\client_server.pb.cc">
+      <Filter>Proto</Filter>
+    </ClCompile>
+    <ClCompile Include="proto\server_server.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,9 +53,6 @@
     <ClInclude Include="include\NetDefine.h">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="proto\server_packet.pb.h">
-      <Filter>Proto</Filter>
-    </ClInclude>
     <ClInclude Include="include\SocketOpt-inl.h">
       <Filter>Net</Filter>
     </ClInclude>
@@ -61,6 +61,12 @@
     </ClInclude>
     <ClInclude Include="include\Acceptor.h">
       <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\client_server.pb.h">
+      <Filter>Proto</Filter>
+    </ClInclude>
+    <ClInclude Include="proto\server_server.pb.h">
+      <Filter>Proto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

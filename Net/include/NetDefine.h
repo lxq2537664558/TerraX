@@ -27,7 +27,6 @@ namespace TerraX
 	/// @end
 	class PeerInfo
 	{
-		NOCOPY(PeerInfo);
 	public:
 		PeerInfo() = default;
 		explicit PeerInfo(PeerType_t ePeerType) : peer_type(uint8_t(ePeerType)){

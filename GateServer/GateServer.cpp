@@ -9,7 +9,7 @@ GateServer::GateServer()
 {
 	//you can use marco to wrapper it if you want;
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&GateServer::OnMessage_RegisterServerRet, this, std::placeholders::_1, std::placeholders::_2)));
+		std::bind(&GateServer::OnMessage_RegisterRet, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
 bool GateServer::Init()
@@ -41,14 +41,14 @@ void GateServer::Run()
 }
 
 
-void GateServer::RegisterServer(PeerInfo& peerinfo)
+void GateServer::Register(PeerInfo& peerinfo)
 {
 	PktRegisterServer pkt;
 	pkt.set_server_info(peerinfo.serialize());
 	m_pConnector->SendPacket(pkt);
 }
 
-void GateServer::OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt)
+void GateServer::OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& pkt)
 {
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;

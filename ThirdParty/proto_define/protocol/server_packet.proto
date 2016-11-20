@@ -1,7 +1,0 @@
-syntax = "proto3";
-package ServerPacket;
-
-message PktRegisterServer
-{
-    int32 server_info = 1;
-}

@@ -3,7 +3,7 @@
 #include "EventLoop.h"
 #include "Client.h"
 
-using namespace ServerPacket;
+using namespace C2SPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 

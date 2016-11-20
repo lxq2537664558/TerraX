@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "GateServer.h"
 
-using namespace ServerPacket;
+using namespace S2SPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 int main(int argc, char* argv[])

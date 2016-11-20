@@ -5,8 +5,8 @@ using namespace TerraX;
 Client::Client()
 {
 	//you can use marco to wrapper it if you want;
-	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&Client::OnMessage_RegisterServerRet, this, std::placeholders::_1, std::placeholders::_2)));
+	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterClient>(new PacketFunctor<PktRegisterClient>(
+		std::bind(&Client::OnMessage_RegisterRet, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
 
@@ -35,21 +35,21 @@ void Client::Run()
 	}
 }
 
-void Client::RegisterServer(PeerInfo& peerinfo)
+void Client::Register(PeerInfo& peerinfo)
 {
-	PktRegisterServer pkt;
-	pkt.set_server_info(peerinfo.serialize());
+	PktRegisterClient pkt;
+	pkt.set_client_info(peerinfo.serialize());
 	m_pConnector->SendPacket(pkt);
 }
 
-void Client::OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt)
+void Client::OnMessage_RegisterRet(NetChannel& channel, PktRegisterClient& pkt)
 {
-	int32_t server_info = pkt.server_info();
+	int32_t server_info = pkt.client_info();
 	PeerInfo pi;
 	pi.parse(server_info);
 	std::cout << "Server: " << int32_t(pi.peer_type) << "\tIndex: " << int32_t(pi.peer_index) <<
 		"\t ChannelIndex: " << int32_t(pi.client_index) << std::endl;
-	if (pi.peer_index <= 0) {
+	if (pi.client_index <= 0) {
 		std::cout << "Register failed!" << std::endl;
 		channel.ForceClose();
 	}

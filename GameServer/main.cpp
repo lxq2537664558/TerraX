@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "GameServer.h"
 
-using namespace ServerPacket;
+using namespace S2SPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 

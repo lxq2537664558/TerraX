@@ -15,10 +15,10 @@ ConnectionManager::ConnectionManager(CenterServer& cs)
 		m_freeindexes[int(PeerType_t::gameserver)].push(i);
 	}
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&ConnectionManager::OnMessage_RegisterServer, this, std::placeholders::_1, std::placeholders::_2)));
+		std::bind(&ConnectionManager::OnMessage_Register, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
-void ConnectionManager::OnMessage_RegisterServer(NetChannel& channel, PktRegisterServer& pkt) {
+void ConnectionManager::OnMessage_Register(NetChannel& channel, PktRegisterServer& pkt) {
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
@@ -39,7 +39,7 @@ void ConnectionManager::OnMessage_RegisterServer(NetChannel& channel, PktRegiste
 	}
 }
 
-void ConnectionManager::UnregisterServer(NetChannel* pChannel) {
+void ConnectionManager::UnRegister(NetChannel* pChannel) {
 	for (auto it = m_mapRegisterChannels.begin(); 
 		it != m_mapRegisterChannels.end(); ++it) {
 		if (it->second == pChannel) {

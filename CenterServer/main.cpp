@@ -3,7 +3,7 @@
 #include "CenterServer.h"
 #include <thread>
 
-using namespace ServerPacket;
+using namespace S2SPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 

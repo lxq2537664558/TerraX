@@ -1,13 +1,13 @@
 #pragma once
 #include "ComDef.h"
 #include "NetDefine.h"
-#include "proto/server_packet.pb.h"
+#include "proto/server_server.pb.h"
 #include <array>
 #include <queue>
 #include <map>
 #include <cassert>
 
-using namespace ServerPacket;
+using namespace S2SPacket;
 namespace TerraX
 {
 	//you can load these info from config file;
@@ -23,9 +23,9 @@ namespace TerraX
 	public:
 		ConnectionManager(CenterServer& cs); 
 
-		void OnMessage_RegisterServer(NetChannel& channel, PktRegisterServer& pkt); 
+		void OnMessage_Register(NetChannel& channel, PktRegisterServer& pkt); 
 
-		void UnregisterServer(NetChannel* pChannel);
+		void UnRegister(NetChannel* pChannel);
 	private:
 		CenterServer& server;
 		std::array<std::queue<uint8_t>, int32_t(PeerType_t::peer_count)> m_freeindexes;

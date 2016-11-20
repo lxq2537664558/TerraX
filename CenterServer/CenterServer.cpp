@@ -38,5 +38,5 @@ void CenterServer::Run()
 
 void CenterServer::OnAcceptor_ChannelDisconnect(NetChannel* pChannel)
 {
-	m_ConnManager.UnregisterServer(pChannel);
+	m_ConnManager.UnRegister(pChannel);
 }

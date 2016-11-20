@@ -117,7 +117,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="proto\server_packet.pb.cc" />
+    <ClCompile Include="proto\client_server.pb.cc" />
+    <ClCompile Include="proto\server_server.pb.cc" />
     <ClCompile Include="src\NetChannel.cpp" />
     <ClCompile Include="src\NetServer.cpp" />
     <ClCompile Include="src\PacketDispatcher.cpp" />
@@ -132,7 +133,8 @@
     <ClInclude Include="include\NetServer.h" />
     <ClInclude Include="include\PacketDispatcher.h" />
     <ClInclude Include="include\SocketOpt-inl.h" />
-    <ClInclude Include="proto\server_packet.pb.h" />
+    <ClInclude Include="proto\client_server.pb.h" />
+    <ClInclude Include="proto\server_server.pb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

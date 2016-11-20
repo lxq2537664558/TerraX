@@ -1,12 +1,12 @@
 #pragma once
 #include "ComDef.h"
 #include "NetChannel.h"
-#include "proto/server_packet.pb.h"
+#include "proto/client_server.pb.h"
 #include "NetDefine.h"
 #include "Connector.h"
 #include "EventLoop.h"
 
-using namespace ServerPacket;
+using namespace C2SPacket;
 namespace TerraX
 {
 	class Client
@@ -21,8 +21,8 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		void RegisterServer(PeerInfo& peerinfo);
-		void OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt);
+		void Register(PeerInfo& peerinfo);
+		void OnMessage_RegisterRet(NetChannel& channel, PktRegisterClient& pkt);
 
 	private:
 		bool m_bExit{ false };

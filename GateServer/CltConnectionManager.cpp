@@ -10,28 +10,28 @@ CltConnectionManager::CltConnectionManager(GateServer& cs)
 		m_freeindexes.push(i);
 	}
 
-	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
+	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterClient>(new PacketFunctor<PktRegisterClient>(
 		std::bind(&CltConnectionManager::OnMessage_RegisterClient, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
 
-void CltConnectionManager::OnMessage_RegisterClient(NetChannel& channel, PktRegisterServer& pkt) {
-	int32_t server_info = pkt.server_info();
+void CltConnectionManager::OnMessage_RegisterClient(NetChannel& channel, PktRegisterClient& pkt) {
+	int32_t client_info = pkt.client_info();
 	PeerInfo pi;
-	pi.parse(server_info);
-	assert(pi.peer_index != 0 && pi.client_index == 0);
+	pi.parse(client_info);
+	assert(pi.peer_type == (uint8_t)PeerType_t::client && pi.peer_index == 0 && pi.client_index == 0);
 	auto pConnector = server.GetConnector();
 	auto pAcceptor = server.GetAcceptor();
 	assert(pAcceptor && pConnector);
-	if (m_freeindexes.empty() || pConnector->IsConnected()) {
+	if (m_freeindexes.empty() || !pConnector->IsConnected()) {
 		pAcceptor->SendPacket(channel, pkt);
 		pAcceptor->ForceClose(channel);
 	}
 	else {
 		pi.client_index = (uint16_t)m_freeindexes.front();
 		m_freeindexes.pop();
-		server_info = pi.serialize();
-		pkt.set_server_info(server_info);
+		client_info = pi.serialize();
+		pkt.set_client_info(client_info);
 		pAcceptor->SendPacket(channel, pkt);
 	}
 }
