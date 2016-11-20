@@ -38,6 +38,7 @@ namespace TerraX
 
 		template <class Packet>
 		void RegPacketHandler(IPacketFunctor* pMsg) {
+			assert(m_mapCallBacks.find(Packet::descriptor()) == m_mapCallBacks.end());
 			m_mapCallBacks[Packet::descriptor()] = pMsg;
 		}
 

@@ -22,17 +22,19 @@ void ConnectionManager::OnMessage_RegisterServer(NetChannel& channel, PktRegiste
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
-	assert(pi.peer_index == 0 && pi.channel_index == 0);
+	assert(pi.peer_index == 0 && pi.client_index == 0);
+	auto pAcceptor = server.GetAcceptor();
+	assert(pAcceptor);
 	if (m_freeindexes[pi.peer_type].empty()) {
-		server.SendPacket(channel, pkt);
-		server.ForceClose(channel);
+		pAcceptor->SendPacket(channel, pkt);
+		pAcceptor->ForceClose(channel);
 	}
 	else {
 		pi.peer_index = (uint8_t)m_freeindexes[pi.peer_type].front();
 		m_freeindexes[pi.peer_type].pop();
 		server_info = pi.serialize();
 		pkt.set_server_info(server_info);
-		server.SendPacket(channel, pkt);
+		pAcceptor->SendPacket(channel, pkt);
 		m_mapRegisterChannels[server_info] = &channel;
 	}
 }

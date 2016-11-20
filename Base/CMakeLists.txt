@@ -3,14 +3,14 @@
  
 file(GLOB SRC_FILES src/*.cpp)
 
-set(Com_Src 
+set(Base_Src 
 main.cpp
 ${SRC_FILES}
 )
 
-add_library(com
-    ${Com_Inc}
-    ${Com_Src}
+add_library(base
+    ${Base_Inc}
+    ${Base_Src}
 )
 set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Lib") #ok
 #set_property(TARGET ComLib PROPERTY
@@ -19,6 +19,6 @@ set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/Lib") #ok
 #message("project source dir is: ${PROJECT_SOURCE_DIR}")
 
 install (
-    TARGETS com 
+    TARGETS base 
     DESTINATION ${PROJECT_SOURCE_DIR}/Lib
     )

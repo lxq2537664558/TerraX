@@ -1,6 +1,8 @@
 #pragma once
 #include <event2/util.h>
-
+#ifdef __GNUC__
+#include <netinet/tcp.h>
+#endif
 namespace TerraX
 {
 	inline void SetTcpNodelay(evutil_socket_t fd) 

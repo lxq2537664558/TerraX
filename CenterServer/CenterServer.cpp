@@ -7,8 +7,7 @@ using namespace TerraX;
 
 bool CenterServer::Init()
 {
-	m_pNetAcceptor.reset(new NetServer(&m_loop, 9995));
-	m_pNetAcceptor->RegDisconnected_Callback(std::bind(&CenterServer::OnAcceptorDisconnect, this, std::placeholders::_1));
+	m_pAcceptor.reset(new Acceptor<CenterServer>(&m_loop, 9995));
 
 #ifdef __GNUC__
 	// we don't need multi-thread
@@ -37,12 +36,7 @@ void CenterServer::Run()
 	}
 }
 
-void CenterServer::ForceClose(NetChannel& channel)
-{
-	assert(m_pNetAcceptor); m_pNetAcceptor->ForceClose(channel);
-}
-
-void CenterServer::OnAcceptorDisconnect(NetChannel* pChannel)
+void CenterServer::OnAcceptor_ChannelDisconnect(NetChannel* pChannel)
 {
 	m_ConnManager.UnregisterServer(pChannel);
 }

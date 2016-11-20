@@ -14,9 +14,12 @@ int main(int argc, char* argv[])
 	WSADATA wsa_data;
 	WSAStartup(0x0201, &wsa_data);
 #endif
-	//EventLoop loop;
-	//Client client(&loop, "127.0.0.1", 9995);
-	//loop.loop();
+
+	if (Client::GetInstance().Init())
+	{
+		Client::GetInstance().Run();
+	}
+
 	google::protobuf::ShutdownProtobufLibrary();
 
 	getchar();

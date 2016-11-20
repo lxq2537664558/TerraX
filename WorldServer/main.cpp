@@ -3,7 +3,7 @@
 #include "EventLoop.h"
 #include "WorldServer.h"
 
-using namespace ServerPacket;
+//using namespace ServerPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 
@@ -14,6 +14,12 @@ int main(int argc, char* argv[])
 	WSADATA wsa_data;
 	WSAStartup(0x0201, &wsa_data);
 #endif
+	
+	if (WorldServer::GetInstance().Init())
+	{
+		WorldServer::GetInstance().Run();
+	}
+
 	//EventLoop loop;
 	//WorldServer gameserver(&loop, "127.0.0.1", 9995);
 	//loop.loop();

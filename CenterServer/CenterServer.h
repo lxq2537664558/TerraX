@@ -4,6 +4,7 @@
 #include "ComDef.h"
 #include "ConnectionManager.h"
 #include "EventLoop.h"
+#include "Acceptor.h"
 
 namespace TerraX
 {
@@ -19,23 +20,14 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		template<class T>
-		void SendPacket(NetChannel& channel, T& packet)
-		{
-			channel.SendMsg(1, packet);
-		}
-	public:
-		void ForceClose(NetChannel& channel); 
-	private:
-		void OnAcceptorDisconnect(NetChannel* pChannel);
-
+		void OnAcceptor_ChannelDisconnect(NetChannel* pChannel);
+		Acceptor<CenterServer>* GetAcceptor() { return m_pAcceptor.get(); }
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
-		std::unique_ptr<NetServer> m_pNetAcceptor; //fore-end 
-		//std::unique_ptr<NetChannel> m_pNetConnector; //back-end
-		PeerInfo m_PeerInfo{ PeerType_t::centerserver };
-
 		ConnectionManager m_ConnManager{ *this };
+
+		std::unique_ptr<Acceptor<CenterServer> > m_pAcceptor; //front-end
+		//std::unique_ptr<Connector<NetChannel, PeerType_t::gateserver> > m_pConnector; //back-end
 	};
 }

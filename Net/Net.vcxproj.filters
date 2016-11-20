@@ -56,5 +56,11 @@
     <ClInclude Include="include\SocketOpt-inl.h">
       <Filter>Net</Filter>
     </ClInclude>
+    <ClInclude Include="include\Connector.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Acceptor.h">
+      <Filter>Net</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include "NetChannel.h"
 #include "proto/server_packet.pb.h"
 #include "NetDefine.h"
+#include "Connector.h"
 #include "EventLoop.h"
 
 using namespace ServerPacket;
@@ -20,26 +21,13 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		explicit GameServer(EventLoop* loop, const std::string& host, int port);
-		template<class T>
-		void SendPacket(T& packet) {
-			m_pNetConnector->SendMsg(0, packet);
-		}
+		void RegisterServer(PeerInfo& peerinfo);
 		void OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt);
-
-	private:
-		void ConnectorConnectFailed();
-		void ConnectorConnected();
-		void ConnectorDisconnected();
-
-	private:
-		void RegisterServer();
-		int32_t GetServerInfo() { return m_PeerInfo.serialize(); }
 
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
-		std::unique_ptr<NetChannel> m_pNetConnector;
-		PeerInfo m_PeerInfo{ PeerType_t::gameserver };
+
+		std::unique_ptr<Connector<GameServer, PeerType_t::gameserver> > m_pConnector;
 	};
 }

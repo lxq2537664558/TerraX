@@ -7,13 +7,13 @@ ${SRC_FILES}
 ${PROTO_CXX_FILES}
 )
 
-include_directories(${ComLib_Inc})
-include_directories(${SrvLib_Inc})
+include_directories(${Base_Inc})
+include_directories(${Net_Inc})
 include_directories(${zlib_Inc})
 include_directories(${libevent_Inc})
 include_directories(${protobuf_Inc})
 
-add_library(srv
+add_library(net
     ${SrvLib_Src}
 )
 #set_target_properties(libhello PROPERTIES OUTPUT_NAME "hello")

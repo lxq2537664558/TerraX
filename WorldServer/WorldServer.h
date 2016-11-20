@@ -3,6 +3,8 @@
 #include "NetChannel.h"
 #include "proto/server_packet.pb.h"
 #include "NetDefine.h"
+#include "Connector.h"
+#include "EventLoop.h"
 
 using namespace ServerPacket;
 namespace TerraX
@@ -10,7 +12,22 @@ namespace TerraX
 	class WorldServer 
 	{
 		NOCOPY(WorldServer);
+		MAKEINSTANCE(WorldServer);
+	public:
+		WorldServer();
+		~WorldServer() = default;
+
+		bool Init(/*Config Info*/);
+		void Run();
+		void Exit() { m_bExit = true; }
+
+		void RegisterServer(PeerInfo& peerinfo);
+		void OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt);
+
 	private:
-		PeerInfo m_PeerInfo{ PeerType_t::worldserver };
+		bool m_bExit{ false };
+		EventLoop m_loop;
+		
+		std::unique_ptr<Connector<WorldServer, PeerType_t::worldserver> > m_pConnector;
 	};
 }

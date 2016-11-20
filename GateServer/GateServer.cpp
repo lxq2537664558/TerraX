@@ -5,16 +5,17 @@
 #include <thread>
 using namespace TerraX;
 
+GateServer::GateServer()
+{
+	//you can use marco to wrapper it if you want;
+	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
+		std::bind(&GateServer::OnMessage_RegisterServerRet, this, std::placeholders::_1, std::placeholders::_2)));
+}
+
 bool GateServer::Init()
 {
-	m_pNetAcceptor.reset(new NetServer(&m_loop, 9991));
-	m_pNetAcceptor->RegDisconnected_Callback(std::bind(&GateServer::OnDisconnect, this, std::placeholders::_1));
-	
-
-	m_pNetConnector.reset(new NetChannel(&m_loop, "127.0.0.1", 9995));
-	m_pNetConnector->RegConnected_Callback(std::bind(&GateServer::ConnectorConnected, this));
-	m_pNetConnector->RegConnectFailed_Callback(std::bind(&GateServer::ConnectorConnectFailed, this));
-	m_pNetConnector->RegDisconnected_Callback(std::bind(&GateServer::ConnectorDisconnected, this));
+	m_pAcceptor.reset(new Acceptor<GateServer>(&m_loop, 9991));
+	m_pConnector.reset(new Connector<GateServer, PeerType_t::gateserver>(&m_loop, "127.0.0.1", 9995));
 
 	return true;
 }
@@ -39,33 +40,23 @@ void GateServer::Run()
 	}
 }
 
-void GateServer::ForceClose(NetChannel& channel)
-{
-	assert(m_pNetAcceptor); m_pNetAcceptor->ForceClose(channel);
-}
 
-void GateServer::OnAcceptorDisconnect(NetChannel* pChannel)
-{
-	//m_ConnManager.UnregisterServer(pChannel);
-}
-
-void GateServer::ConnectorConnectFailed()
-{
-	//Reconnect
-}
-
-void GateServer::ConnectorConnected()
-{
-	RegisterServer();
-}
-
-void GateServer::ConnectorDisconnected()
-{
-}
-
-void GateServer::RegisterServer()
+void GateServer::RegisterServer(PeerInfo& peerinfo)
 {
 	PktRegisterServer pkt;
-	pkt.set_server_info(GetServerInfo());
-	SendPacket(pkt);
+	pkt.set_server_info(peerinfo.serialize());
+	m_pConnector->SendPacket(pkt);
+}
+
+void GateServer::OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt)
+{
+	int32_t server_info = pkt.server_info();
+	PeerInfo pi;
+	pi.parse(server_info);
+	std::cout << "Server: " << int32_t(pi.peer_type) << "\tIndex: " << int32_t(pi.peer_index) <<
+		"\t ChannelIndex: " << int32_t(pi.client_index) << std::endl;
+	if (pi.peer_index <= 0) {
+		std::cout << "Register failed!" << std::endl;
+		channel.ForceClose();
+	}
 }

@@ -21,9 +21,15 @@
     <ClCompile Include="GateServer.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="CltConnectionManager.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GateServer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CltConnectionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
