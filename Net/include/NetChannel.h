@@ -63,7 +63,6 @@ namespace TerraX
 		ConnectionEvent_CB m_ConnectFailedCB;
 		ConnectionEvent_CB m_ConnectedCB;
 		ConnectionEvent_CB m_DisconnectedCB;
-		uint16_t m_nChannelIndex{ 0 }; // channel index
 		ConnState_t m_eState{ ConnState_t::eDisconnected };
 	};
 

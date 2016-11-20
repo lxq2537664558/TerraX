@@ -27,14 +27,14 @@ namespace TerraX
 	public:
 		void ForceClose(NetChannel& channel); 
 	private:
-		void OnDisconnect(NetChannel* pChannel);
+		void OnAcceptorDisconnect(NetChannel* pChannel);
 
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
-		std::unique_ptr<NetServer> m_pNetFrontend; //fore-end , back-end
-		std::unique_ptr<NetChannel> m_pNetBackend;
-		PeerType_t m_ePeerType{ PeerType_t::centerserver };
+		std::unique_ptr<NetServer> m_pNetAcceptor; //fore-end 
+		//std::unique_ptr<NetChannel> m_pNetConnector; //back-end
+		PeerInfo m_PeerInfo{ PeerType_t::centerserver };
 
 		ConnectionManager m_ConnManager{ *this };
 	};

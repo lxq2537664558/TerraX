@@ -11,10 +11,10 @@ GameServer::GameServer()
 
 bool GameServer::Init()
 {
-	m_pNetChannel.reset(new NetChannel(&m_loop, "127.0.0.1", 9995));
-	m_pNetChannel->RegConnected_Callback(std::bind(&GameServer::Connected, this));
-	m_pNetChannel->RegConnectFailed_Callback(std::bind(&GameServer::ConnectFailed, this));
-	m_pNetChannel->RegDisconnected_Callback(std::bind(&GameServer::Disconnected, this));
+	m_pNetConnector.reset(new NetChannel(&m_loop, "127.0.0.1", 9995));
+	m_pNetConnector->RegConnected_Callback(std::bind(&GameServer::ConnectorConnected, this));
+	m_pNetConnector->RegConnectFailed_Callback(std::bind(&GameServer::ConnectorConnectFailed, this));
+	m_pNetConnector->RegDisconnected_Callback(std::bind(&GameServer::ConnectorDisconnected, this));
 
 	return true;
 }
@@ -28,17 +28,17 @@ void GameServer::Run()
 }
 
 
-void GameServer::ConnectFailed()
+void GameServer::ConnectorConnectFailed()
 {
 	//Reconnect
 }
 
-void GameServer::Connected()
+void GameServer::ConnectorConnected()
 {
 	RegisterServer();
 }
 
-void GameServer::Disconnected()
+void GameServer::ConnectorDisconnected()
 {
 }
 

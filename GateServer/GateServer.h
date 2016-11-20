@@ -1,45 +1,46 @@
 #pragma once
-#include "ComDef.h"
-#include "NetChannel.h"
-#include "proto/server_packet.pb.h"
+#include "NetServer.h"
 #include "NetDefine.h"
+#include "ComDef.h"
 #include "EventLoop.h"
-
+#include "proto/server_packet.pb.h"
 using namespace ServerPacket;
+
 namespace TerraX
 {
-	class GameServer
+	class GateServer final
 	{
-		NOCOPY(GameServer);
-		MAKEINSTANCE(GameServer);
+		NOCOPY(GateServer);
+		MAKEINSTANCE(GateServer);
 	public:
-		GameServer();
-		~GameServer() = default;
+		GateServer() = default;
+		~GateServer() = default;
 
 		bool Init(/*Config Info*/);
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		explicit GameServer(EventLoop* loop, const std::string& host, int port);
 		template<class T>
-		void SendPacket(T& packet) {
-			m_pNetConnector->SendMsg(0, packet);
+		void SendPacket(NetChannel& channel, T& packet)
+		{
+			channel.SendMsg(1, packet);
 		}
-		void OnMessage_RegisterServerRet(NetChannel& channel, PktRegisterServer& pkt);
 
+	public:
+		void ForceClose(NetChannel& channel);
 	private:
+		void OnAcceptorDisconnect(NetChannel* pChannel);
+
 		void ConnectorConnectFailed();
 		void ConnectorConnected();
 		void ConnectorDisconnected();
-
-	private:
 		void RegisterServer();
 		int32_t GetServerInfo() { return m_PeerInfo.serialize(); }
-
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
+		std::unique_ptr<NetServer> m_pNetAcceptor; //fore-end , back-end
 		std::unique_ptr<NetChannel> m_pNetConnector;
-		PeerInfo m_PeerInfo{ PeerType_t::gameserver };
+		PeerInfo m_PeerInfo{ PeerType_t::gateserver };
 	};
 }
