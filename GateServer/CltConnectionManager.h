@@ -10,7 +10,7 @@ namespace TerraX
 {
 	//you can load these info from config file;
 	//index 0 means not registered,so we start with index 1;
-	const uint16_t Max_ClientConnection_Count = 1025;
+	const uint16_t Max_ClientConnection_Count = 4;//1025;
 
 	class GateServer;
 	class NetChannel;
@@ -21,6 +21,8 @@ namespace TerraX
 		CltConnectionManager(GateServer& cs);
 
 		void OnMessage_RegisterClient(NetChannel& channel, PktRegisterClient& pkt);
+
+		void UnRegisterClient(int32_t peer_info);
 
 	private:
 		GateServer& server;

@@ -20,7 +20,7 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		void OnAcceptor_ChannelDisconnect(NetChannel* pChannel);
+		void OnAcceptor_Disconnect(int32_t peer_info);
 		Acceptor<CenterServer>* GetAcceptor() { return m_pAcceptor.get(); }
 	private:
 		bool m_bExit{ false };

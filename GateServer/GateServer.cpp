@@ -41,10 +41,10 @@ void GateServer::Run()
 }
 
 
-void GateServer::Register(PeerInfo& peerinfo)
+void GateServer::Register(int32_t peer_info)
 {
 	PktRegisterServer pkt;
-	pkt.set_server_info(peerinfo.serialize());
+	pkt.set_server_info(peer_info);
 	m_pConnector->SendPacket(pkt);
 }
 
@@ -59,4 +59,10 @@ void GateServer::OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& p
 		std::cout << "Register failed!" << std::endl;
 		channel.ForceClose();
 	}
+	channel.SetPeerInfo(server_info);
+}
+
+void GateServer::OnAcceptor_Disconnect(int32_t peer_info)
+{
+	m_CltConnManager.UnRegisterClient(peer_info);
 }

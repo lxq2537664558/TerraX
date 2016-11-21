@@ -17,7 +17,7 @@ namespace TerraX
 	{
 		NOCOPY(NetServer);
 	public:
-		using DisconnectEvent_CB = std::function<void(NetChannel*)>;
+		using DisconnectEvent_CB = std::function<void(int32_t peerinfo)>;
 		NetServer(EventLoop* loop, int port);
 		~NetServer();
 	public:

@@ -35,10 +35,10 @@ void Client::Run()
 	}
 }
 
-void Client::Register(PeerInfo& peerinfo)
+void Client::Register(int32_t peer_info)
 {
 	PktRegisterClient pkt;
-	pkt.set_client_info(peerinfo.serialize());
+	pkt.set_client_info(peer_info);
 	m_pConnector->SendPacket(pkt);
 }
 

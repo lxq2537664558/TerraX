@@ -34,7 +34,10 @@ namespace TerraX
 		void SendMsg(int flag, google::protobuf::Message& msg);
 		bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 
-		ConnState_t GetConnState() { return m_eState; }
+		void SetPeerInfo(int32_t pi) { m_peer_info = pi; }
+		int32_t GetPeerInfo() const { return m_peer_info; }
+
+		ConnState_t GetConnState() const { return m_eState; }
 		void ForceClose();
 
 		void RegConnectFailed_Callback(ConnectionEvent_CB cb) { m_ConnectFailedCB = cb; }
@@ -64,6 +67,7 @@ namespace TerraX
 		ConnectionEvent_CB m_ConnectedCB;
 		ConnectionEvent_CB m_DisconnectedCB;
 		ConnState_t m_eState{ ConnState_t::eDisconnected };
+		int32_t m_peer_info{ 0 };
 	};
 
 

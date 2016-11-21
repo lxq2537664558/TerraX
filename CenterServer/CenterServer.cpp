@@ -36,7 +36,7 @@ void CenterServer::Run()
 	}
 }
 
-void CenterServer::OnAcceptor_ChannelDisconnect(NetChannel* pChannel)
+void CenterServer::OnAcceptor_Disconnect(int32_t peer_info)
 {
-	m_ConnManager.UnRegister(pChannel);
+	m_ConnManager.UnRegister(peer_info);
 }

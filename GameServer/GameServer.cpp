@@ -25,10 +25,10 @@ void GameServer::Run()
 	}
 }
 
-void GameServer::Register(PeerInfo& peerinfo)
+void GameServer::Register(int32_t peer_info)
 {
 	PktRegisterServer pkt;
-	pkt.set_server_info(peerinfo.serialize());
+	pkt.set_server_info(peer_info);
 	m_pConnector->SendPacket(pkt);
 }
 
@@ -43,4 +43,5 @@ void GameServer::OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& p
 		std::cout << "Register failed!" << std::endl;
 		channel.ForceClose();
 	}
+	channel.SetPeerInfo(server_info);
 }

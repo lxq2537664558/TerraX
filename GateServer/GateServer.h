@@ -23,13 +23,13 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		void OnAcceptor_ChannelDisconnect(NetChannel* pChannel) {}
+		void OnAcceptor_Disconnect(int32_t peer_info);
 
 		Acceptor<GateServer>* GetAcceptor() { return m_pAcceptor.get(); }
 		Connector<GateServer, PeerType_t::gateserver>* GetConnector(){ return m_pConnector.get(); }
 	public:
 		//void ForceClose(NetChannel& channel);
-		void Register(PeerInfo& peerinfo); 
+		void Register(int32_t peer_info);
 		void OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& pkt);
 	private:
 		bool m_bExit{ false };

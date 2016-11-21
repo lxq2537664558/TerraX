@@ -114,7 +114,7 @@ void NetServer::OnConnect(evutil_socket_t fd)
 void NetServer::OnDisconnect(NetChannel* pChannel)
 {
 	if (m_DisconnectedCB) {
-		m_DisconnectedCB(pChannel);
+		m_DisconnectedCB(pChannel->GetPeerInfo());
 	}
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);

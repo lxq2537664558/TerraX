@@ -25,11 +25,10 @@ namespace TerraX
 
 		void OnMessage_Register(NetChannel& channel, PktRegisterServer& pkt); 
 
-		void UnRegister(NetChannel* pChannel);
+		void UnRegister(int32_t peer_info);
 	private:
 		CenterServer& server;
 		std::array<std::queue<uint8_t>, int32_t(PeerType_t::peer_count)> m_freeindexes;
-		std::map<int32_t, NetChannel*> m_mapRegisterChannels;
 		// maybe we should use shared_ptr?
 	};
 }

@@ -18,7 +18,7 @@ namespace TerraX
 		void ForceClose(NetChannel& channel);
 	
 	private:
-		void OnDisconnect(NetChannel* pChannel);
+		void OnDisconnect(int32_t peer_info);
 	private:
 		NetServer m_Acceptor;
 	};
@@ -30,8 +30,8 @@ namespace TerraX
 	}
 
 	template<class T>
-	void Acceptor<T>::OnDisconnect(NetChannel* pChannel) {
-		T::GetInstance().OnAcceptor_ChannelDisconnect(pChannel);
+	void Acceptor<T>::OnDisconnect(int32_t peer_info) {
+		T::GetInstance().OnAcceptor_Disconnect(peer_info);
 	}
 
 	template<class T>

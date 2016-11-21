@@ -33,5 +33,15 @@ void CltConnectionManager::OnMessage_RegisterClient(NetChannel& channel, PktRegi
 		client_info = pi.serialize();
 		pkt.set_client_info(client_info);
 		pAcceptor->SendPacket(channel, pkt);
+
+		channel.SetPeerInfo(client_info);
 	}
+}
+
+void CltConnectionManager::UnRegisterClient(int32_t peer_info) {
+	PeerInfo pi;
+	pi.parse(peer_info);
+	assert(pi.client_index != 0);
+	assert(pi.peer_type == (uint8_t)PeerType_t::client);
+	m_freeindexes.push(pi.client_index);
 }

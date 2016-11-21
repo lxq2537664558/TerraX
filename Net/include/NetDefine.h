@@ -7,18 +7,22 @@ namespace TerraX
 	enum class PeerType_t
 	{
 		undefine = 0,
-		client,
+		client = 1,
+
 		centerserver,
 		gateserver,
 		gameserver,
 		loginserver,
 		worldserver,
+
 		peer_count,
 
 		allpeer = 0xFF,
 	};
 	/// server info layout
-	/// @info int32_t
+	/// @peer_type: (uint8_t) 0~peer_count(if 0: unregister , if 0xFF : broadcast all peer)
+	/// @peer_index: (uint8_t) 0~0xFF-1 (if 0: unregister, if 0xFF: broadcast current peer)
+	/// @client_index: (uint16_t) 0x0000~0xFFFF-1 (if 0; unregister, if 0xFFFF boradcast all client that connected to peer)
 	/// +-------------------+------------------+------------------+
 	/// |     peer_type     |     peer_index   |  client_index   |	
 	/// +-------------------+------------------+------------------+

@@ -14,8 +14,6 @@ namespace TerraX
 		void SendPacket(Packet& packet); 
 		bool IsConnected() { return m_Connector.GetConnState() == ConnState_t::eConnected; }
 
-		void SetPeerInfo(PeerInfo& pi) { m_PeerInfo = pi; }
-		const PeerInfo& GetPeerInfo() const { return m_PeerInfo; }
 	private:
 		void Connected();
 		void ConnectFailed();
@@ -23,12 +21,14 @@ namespace TerraX
 	
 	private:
 		NetChannel m_Connector;
-		PeerInfo m_PeerInfo{ PeerType_t::undefine };
 	};
 
 	template<class T, PeerType_t peertype>
 	Connector<T, peertype>::Connector(EventLoop* pLoop, const std::string& host, int port)
-		: m_Connector(pLoop, host, port), m_PeerInfo(peertype) {
+		: m_Connector(pLoop, host, port) {
+		PeerInfo pi(peertype);
+		m_Connector.SetPeerInfo(pi.serialize());
+
 		m_Connector.RegConnected_Callback(std::bind(&Connector<T, peertype>::Connected, this));
 		m_Connector.RegConnectFailed_Callback(std::bind(&Connector<T, peertype>::ConnectFailed, this));
 		m_Connector.RegDisconnected_Callback(std::bind(&Connector<T, peertype>::Disconnected, this));
@@ -36,7 +36,7 @@ namespace TerraX
 
 	template<class T, PeerType_t peertype>
 	void Connector<T, peertype>::Connected() {
-		T::GetInstance().Register(m_PeerInfo);
+		T::GetInstance().Register(m_Connector.GetPeerInfo());
 	}
 
 	template<class T, PeerType_t peertype>

@@ -23,6 +23,7 @@ void ConnectionManager::OnMessage_Register(NetChannel& channel, PktRegisterServe
 	PeerInfo pi;
 	pi.parse(server_info);
 	assert(pi.peer_index == 0 && pi.client_index == 0);
+	assert(pi.peer_type > (uint8_t)PeerType_t::client && pi.peer_type < (uint8_t)PeerType_t::peer_count);
 	auto pAcceptor = server.GetAcceptor();
 	assert(pAcceptor);
 	if (m_freeindexes[pi.peer_type].empty()) {
@@ -35,20 +36,15 @@ void ConnectionManager::OnMessage_Register(NetChannel& channel, PktRegisterServe
 		server_info = pi.serialize();
 		pkt.set_server_info(server_info);
 		pAcceptor->SendPacket(channel, pkt);
-		m_mapRegisterChannels[server_info] = &channel;
+
+		channel.SetPeerInfo(server_info);
 	}
 }
 
-void ConnectionManager::UnRegister(NetChannel* pChannel) {
-	for (auto it = m_mapRegisterChannels.begin(); 
-		it != m_mapRegisterChannels.end(); ++it) {
-		if (it->second == pChannel) {
-			PeerInfo pi;
-			pi.parse(it->first);
-			m_freeindexes[pi.peer_type].push(pi.peer_index);
-			m_mapRegisterChannels.erase(it);
-			return;
-		}
-	}
-	assert(1);//impossible!
+void ConnectionManager::UnRegister(int32_t peer_info) {
+	PeerInfo pi;
+	pi.parse(peer_info);
+	assert(pi.peer_index != 0);
+	assert(pi.peer_type > (uint8_t)PeerType_t::client && pi.peer_type < (uint8_t)PeerType_t::peer_count);
+	m_freeindexes[pi.peer_type].push(pi.peer_index);
 }

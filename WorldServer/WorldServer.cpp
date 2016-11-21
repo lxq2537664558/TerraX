@@ -25,10 +25,10 @@ void WorldServer::Run()
 	}
 }
 
-void WorldServer::Register(PeerInfo& peerinfo)
+void WorldServer::Register(int32_t peer_info)
 {
 	PktRegisterServer pkt;
-	pkt.set_server_info(peerinfo.serialize());
+	pkt.set_server_info(peer_info);
 	m_pConnector->SendPacket(pkt);
 }
 
@@ -43,4 +43,5 @@ void WorldServer::OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& 
 		std::cout << "Register failed!" << std::endl;
 		channel.ForceClose();
 	}
+	channel.SetPeerInfo(server_info);
 }
