@@ -6,7 +6,6 @@
 #include "proto/client_server.pb.h"
 #include "Acceptor.h"
 #include "Connector.h"
-#include "CltConnectionManager.h"
 using namespace S2SPacket;
 
 namespace TerraX
@@ -25,17 +24,16 @@ namespace TerraX
 
 		void OnAcceptor_Disconnect(int32_t peer_info);
 
-		Acceptor<GateServer>* GetAcceptor() { return m_pAcceptor.get(); }
+		Acceptor<GateServer, 4>* GetAcceptor() { return m_pAcceptor.get(); }
 		Connector<GateServer, PeerType_t::gateserver>* GetConnector(){ return m_pConnector.get(); }
 	public:
 		//void ForceClose(NetChannel& channel);
 		void Register(int32_t peer_info);
-		void OnMessage_RegisterRet(NetChannel& channel, PktRegisterServer& pkt);
+		void OnMessage_RegisterResult(NetChannel& channel, PktRegisterServer& pkt);
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
-		CltConnectionManager m_CltConnManager{ *this };
-		std::unique_ptr<Acceptor<GateServer> > m_pAcceptor; //front-end
+		std::unique_ptr<Acceptor<GateServer, 4> > m_pAcceptor; //front-end
 		std::unique_ptr<Connector<GateServer, PeerType_t::gateserver> > m_pConnector; //back-end
 	};
 }

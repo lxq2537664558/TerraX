@@ -36,6 +36,8 @@ namespace TerraX
 
 		void SetPeerInfo(int32_t pi) { m_peer_info = pi; }
 		int32_t GetPeerInfo() const { return m_peer_info; }
+		void SetChannelIndex(uint16_t idx) { m_peer_info = m_peer_info & 0xFFFF0000 + idx; }
+		uint16_t GetChannelIndex() const { return m_peer_info & 0x0000FFFF; }
 
 		ConnState_t GetConnState() const { return m_eState; }
 		void ForceClose();

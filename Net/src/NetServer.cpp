@@ -19,12 +19,19 @@ struct sockaddr* getListenSock(int port)
 	return (struct sockaddr*)&sin;
 }
 
-NetServer::NetServer(EventLoop* loop, int port)
-	: m_evListener(evconnlistener_new_bind(loop->eventBase(),
+NetServer::NetServer(EventLoop* loop, int port, uint16_t max_conns)
+	: m_maxconnections(max_conns), 
+	m_evListener(evconnlistener_new_bind(loop->eventBase(),
 		NewConnectionCallback, this, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE, -1,
 		getListenSock(port), sizeof(struct sockaddr_in)))
 {
 	m_loops.push_back(loop->eventBase());
+
+	for (int i = 1; i < max_conns; ++i) {
+		m_freeindexes.push(max_conns);
+	}
+	m_vecChannels.resize(max_conns);
+
 }
 
 NetServer::~NetServer()
@@ -64,7 +71,7 @@ void NetServer::ForceClose(NetChannel& pChannel)
 
 void NetServer::ForceCloseAll()
 {
-	for (auto channel : m_channels) {
+	for (auto channel : m_vecChannels) {
 		channel->ForceClose();
 	}
 }
@@ -104,22 +111,34 @@ void NetServer::OnConnect(evutil_socket_t fd)
 		m_currLoop = 0;
 	}
 
-	NetChannel* channel = new NetChannel(base, static_cast<int>(fd));
-	channel->SetDisconnectCb(&NetServer::DisconnectCallback, this);
-
-	std::lock_guard<std::mutex> lock(m_mutex);
-	m_channels.insert(channel);
+	NetChannel* pChannel = new NetChannel(base, static_cast<int>(fd));
+	pChannel->SetDisconnectCb(&NetServer::DisconnectCallback, this);
+	
+	if (m_freeindexes.empty())
+	{
+		printf("No Enough Connection Index! \n");
+		delete pChannel;
+	}
+	else
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		int nIndex = m_freeindexes.front();
+		m_freeindexes.pop();
+		m_vecChannels[nIndex] = pChannel;
+		pChannel->SetChannelIndex(nIndex);
+	}
 }
 
 void NetServer::OnDisconnect(NetChannel* pChannel)
 {
+	assert(pChannel);
 	if (m_DisconnectedCB) {
 		m_DisconnectedCB(pChannel->GetPeerInfo());
 	}
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);
-		int n = m_channels.erase(pChannel);
-		assert(n == 1);
+		m_freeindexes.push(pChannel->GetChannelIndex());
+		m_vecChannels[pChannel->GetChannelIndex()] = nullptr;
 	}
 	delete pChannel;
 }

@@ -22,12 +22,12 @@ void ConnectionManager::OnMessage_Register(NetChannel& channel, PktRegisterServe
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
-	assert(pi.peer_index == 0 && pi.client_index == 0);
+	assert(pi.peer_index == 0 && pi.channel_index == 0);
 	assert(pi.peer_type > (uint8_t)PeerType_t::client && pi.peer_type < (uint8_t)PeerType_t::peer_count);
 	auto pAcceptor = server.GetAcceptor();
 	assert(pAcceptor);
 	if (m_freeindexes[pi.peer_type].empty()) {
-		pAcceptor->SendPacket(channel, pkt);
+		//pAcceptor->SendPacket(channel, pkt);
 		pAcceptor->ForceClose(channel);
 	}
 	else {

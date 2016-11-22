@@ -5,6 +5,8 @@
 #include <set>
 #include <mutex>
 #include <string>
+#include <array>
+#include <queue>
 #include "NetChannel.h"
 #include "ComDef.h"
 #include "NetDefine.h"
@@ -18,7 +20,7 @@ namespace TerraX
 		NOCOPY(NetServer);
 	public:
 		using DisconnectEvent_CB = std::function<void(int32_t peerinfo)>;
-		NetServer(EventLoop* loop, int port);
+		NetServer(EventLoop* loop, int port, uint16_t max_conns);
 		~NetServer();
 	public:
 		void SetThreadNum(int numThreads);
@@ -42,8 +44,10 @@ namespace TerraX
 		std::vector<struct event_base*> m_loops;
 		int m_currLoop{ 0 };
 		std::mutex m_mutex;
-		std::set<NetChannel*> m_channels;
 	private:
+		std::vector<NetChannel*> m_vecChannels;
+		std::queue<uint16_t> m_freeindexes;
+		const uint16_t m_maxconnections;
 		DisconnectEvent_CB m_DisconnectedCB;
 	};
 
