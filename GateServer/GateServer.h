@@ -10,6 +10,7 @@ using namespace S2SPacket;
 
 namespace TerraX
 {
+	const int MAX_CONNECTION = 1024;
 	class GateServer final
 	{
 		NOCOPY(GateServer);
@@ -24,16 +25,15 @@ namespace TerraX
 
 		void OnAcceptor_Disconnect(int32_t peer_info);
 
-		Acceptor<GateServer, 4>* GetAcceptor() { return m_pAcceptor.get(); }
-		Connector<GateServer, PeerType_t::gateserver>* GetConnector(){ return m_pConnector.get(); }
+		//Acceptor<GateServer, MAX_CONNECTION>* GetAcceptor() { return m_pAcceptor.get(); }
+		//Connector<GateServer, PeerType_t::gateserver>* GetConnector(){ return m_pConnector.get(); }
 	public:
-		//void ForceClose(NetChannel& channel);
 		void Register(int32_t peer_info);
 		void OnMessage_RegisterResult(NetChannel& channel, PktRegisterServer& pkt);
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
-		std::unique_ptr<Acceptor<GateServer, 4> > m_pAcceptor; //front-end
+		std::unique_ptr<Acceptor<GateServer, MAX_CONNECTION> > m_pAcceptor; //front-end
 		std::unique_ptr<Connector<GateServer, PeerType_t::gateserver> > m_pConnector; //back-end
 	};
 }

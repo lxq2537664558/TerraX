@@ -14,7 +14,7 @@ GateServer::GateServer()
 
 bool GateServer::Init()
 {
-	m_pAcceptor.reset(new Acceptor<GateServer, 4>(&m_loop, 9991));
+	m_pAcceptor.reset(new Acceptor<GateServer, MAX_CONNECTION>(&m_loop, 9991));
 	m_pConnector.reset(new Connector<GateServer, PeerType_t::gateserver>(&m_loop, "127.0.0.1", 9995));
 
 	return true;
@@ -53,9 +53,10 @@ void GateServer::OnMessage_RegisterResult(NetChannel& channel, PktRegisterServer
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
-	std::cout << "Server: " << int32_t(pi.peer_type) << "\tIndex: " << int32_t(pi.peer_index) <<
-		"\t ChannelIndex: " << int32_t(pi.channel_index) << std::endl;
-	channel.SetPeerInfo(server_info);
+	assert(pi.channel_index == 0 && channel.GetChannelIndex() != 0);
+	std::cout << "Server: " << pi.server_name() << 
+		"\t ChannelIndex: " << int32_t(channel.GetChannelIndex()) << std::endl;
+	channel.SetPeerType(pi.peer_type);
 }
 
 void GateServer::OnAcceptor_Disconnect(int32_t peer_info)

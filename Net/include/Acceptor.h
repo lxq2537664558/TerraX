@@ -15,10 +15,13 @@ namespace TerraX
 
 		template<class Packet>
 		void SendPacket(NetChannel& channel, Packet& packet);
+		//template<class Packet>
+		//void SendPacket(int32_t peer_info, Packet& packet);
+
 		void ForceClose(NetChannel& channel);
 	
 	private:
-		void OnDisconnect(int32_t peer_info);
+		void OnDisconnect(NetChannel& channel);
 	private:
 		NetServer m_Acceptor;
 	};
@@ -30,8 +33,8 @@ namespace TerraX
 	}
 
 	template<class T, uint16_t max_connections>
-	void Acceptor<T, max_connections>::OnDisconnect(int32_t peer_info) {
-		T::GetInstance().OnAcceptor_Disconnect(peer_info);
+	void Acceptor<T, max_connections>::OnDisconnect(NetChannel& channel) {
+		//T::GetInstance().OnAcceptor_Disconnect(channel);
 	}
 
 	template<class T, uint16_t max_connections>
@@ -44,4 +47,10 @@ namespace TerraX
 	void Acceptor<T, max_connections>::SendPacket(NetChannel& channel, Packet& packet) {
 		channel.SendMsg(1, packet);
 	}
+
+	//template<class T, uint16_t max_connections>
+	//template<class Packet>
+	//void Acceptor<T, max_connections>::SendPacket(int32_t peer_info, Packet& packet) {
+		//channel.SendMsg(1, packet);
+	//}
 }

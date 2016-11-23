@@ -34,10 +34,11 @@ namespace TerraX
 		void SendMsg(int flag, google::protobuf::Message& msg);
 		bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 
-		void SetPeerInfo(int32_t pi) { m_peer_info = pi; }
-		int32_t GetPeerInfo() const { return m_peer_info; }
-		void SetChannelIndex(uint16_t idx) { m_peer_info = m_peer_info & 0xFFFF0000 + idx; }
+		void SetPeerType(uint16_t peer_type) { m_peer_info = (peer_type << 16) + (m_peer_info & 0x0000FFFF); }
+		uint16_t GetPeerType() const { return (m_peer_info & 0xFFFF0000) >> 16; }
+		void SetChannelIndex(uint16_t idx) { m_peer_info = (m_peer_info & 0xFFFF0000) + idx; }
 		uint16_t GetChannelIndex() const { return m_peer_info & 0x0000FFFF; }
+		int32_t GetPeerInfo() const { return m_peer_info; }
 
 		ConnState_t GetConnState() const { return m_eState; }
 		void ForceClose();

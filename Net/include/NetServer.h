@@ -19,13 +19,13 @@ namespace TerraX
 	{
 		NOCOPY(NetServer);
 	public:
-		using DisconnectEvent_CB = std::function<void(int32_t peerinfo)>;
+		using DisconnectEvent_CB = std::function<void(NetChannel& channel)>;
 		NetServer(EventLoop* loop, int port, uint16_t max_conns);
 		~NetServer();
 	public:
 		void SetThreadNum(int numThreads);
 
-		void ForceClose(NetChannel& pChannel);
+		void ForceClose(NetChannel& channel);
 		void ForceCloseAll();
 
 		void RegDisconnected_Callback(DisconnectEvent_CB cb) {

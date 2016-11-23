@@ -13,12 +13,4 @@ x64/*
 x86/*
 /.vs/*
 /*.db
-Base/Debug/*
-Net/Debug/*
-CenterServer/Debug/*
-GateServer/Debug/*
-GameServer/Debug/*
-WorldServer/Debug/*
-LoginServer/Debug/*
-Client/Debug/*
 build/*

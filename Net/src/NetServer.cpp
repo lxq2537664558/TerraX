@@ -28,7 +28,7 @@ NetServer::NetServer(EventLoop* loop, int port, uint16_t max_conns)
 	m_loops.push_back(loop->eventBase());
 
 	for (int i = 1; i < max_conns; ++i) {
-		m_freeindexes.push(max_conns);
+		m_freeindexes.push(i);
 	}
 	m_vecChannels.resize(max_conns);
 
@@ -64,9 +64,9 @@ void NetServer::SetThreadNum(int numThreads)
 #endif
 }
 
-void NetServer::ForceClose(NetChannel& pChannel)
+void NetServer::ForceClose(NetChannel& channel)
 {
-	pChannel.ForceClose();
+	channel.ForceClose();
 }
 
 void NetServer::ForceCloseAll()
@@ -133,7 +133,7 @@ void NetServer::OnDisconnect(NetChannel* pChannel)
 {
 	assert(pChannel);
 	if (m_DisconnectedCB) {
-		m_DisconnectedCB(pChannel->GetPeerInfo());
+		m_DisconnectedCB(*pChannel);
 	}
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);

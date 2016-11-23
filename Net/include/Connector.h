@@ -26,8 +26,8 @@ namespace TerraX
 	template<class T, PeerType_t peertype>
 	Connector<T, peertype>::Connector(EventLoop* pLoop, const std::string& host, int port)
 		: m_Connector(pLoop, host, port) {
-		PeerInfo pi(peertype);
-		m_Connector.SetPeerInfo(pi.serialize());
+		m_Connector.SetPeerType(uint16_t(peertype));
+		m_Connector.SetChannelIndex(0);
 
 		m_Connector.RegConnected_Callback(std::bind(&Connector<T, peertype>::Connected, this));
 		m_Connector.RegConnectFailed_Callback(std::bind(&Connector<T, peertype>::ConnectFailed, this));

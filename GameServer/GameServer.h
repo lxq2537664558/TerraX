@@ -22,7 +22,7 @@ namespace TerraX
 		void Exit() { m_bExit = true; }
 
 		void Register(int32_t peer_info);
-		void OnMessage_RegisterResult(NetChannel& channel, PktRegisterServer& pkt);
+		//void OnMessage_RegisterResult(NetChannel& channel, PktRegisterServer& pkt);
 
 	private:
 		bool m_bExit{ false };

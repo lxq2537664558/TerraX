@@ -7,7 +7,7 @@ using namespace TerraX;
 
 bool CenterServer::Init()
 {
-	m_pAcceptor.reset(new Acceptor<CenterServer, 4>(&m_loop, 9995));
+	m_pAcceptor.reset(new Acceptor<CenterServer, MAX_CONNECTION>(&m_loop, 9995));
 
 #ifdef __GNUC__
 	// we don't need multi-thread
@@ -34,9 +34,4 @@ void CenterServer::Run()
 		}
 		//std::cout << std::this_thread::get_id() << ": " << costms << std::endl;
 	}
-}
-
-void CenterServer::OnAcceptor_Disconnect(int32_t peer_info)
-{
-	m_ConnManager.UnRegister(peer_info);
 }
