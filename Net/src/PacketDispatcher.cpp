@@ -2,7 +2,7 @@
 
 using namespace TerraX;
 
-bool PacketDispatcher::DeliverPacket(NetChannel& rChannel, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+bool PacketDispatcher::DeliverPacket(NetChannelPtr& rChannel, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
 	for (auto& it : m_mapCallBacks) {
 		if (it.first->name() == strMsgType || it.first->full_name() == strMsgType) {

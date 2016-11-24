@@ -14,14 +14,14 @@ namespace TerraX
 		~Acceptor() = default;
 
 		template<class Packet>
-		void SendPacket(NetChannel& channel, Packet& packet);
+		void SendPacket(NetChannelPtr& channel, Packet& packet);
 		//template<class Packet>
 		//void SendPacket(int32_t peer_info, Packet& packet);
 
-		void ForceClose(NetChannel& channel);
+		void ForceClose(NetChannelPtr& channel);
 	
 	private:
-		void OnDisconnect(NetChannel& channel);
+		void OnDisconnect(NetChannelPtr& channel);
 	private:
 		NetServer m_Acceptor;
 	};
@@ -33,24 +33,24 @@ namespace TerraX
 	}
 
 	template<class T, uint16_t max_connections>
-	void Acceptor<T, max_connections>::OnDisconnect(NetChannel& channel) {
+	void Acceptor<T, max_connections>::OnDisconnect(NetChannelPtr& channel) {
 		//T::GetInstance().OnAcceptor_Disconnect(channel);
 	}
 
 	template<class T, uint16_t max_connections>
-	void Acceptor<T, max_connections>::ForceClose(NetChannel& channel) {
+	void Acceptor<T, max_connections>::ForceClose(NetChannelPtr& channel) {
 		m_Acceptor.ForceClose(channel);
 	}
 
 	template<class T, uint16_t max_connections>
 	template<class Packet>
-	void Acceptor<T, max_connections>::SendPacket(NetChannel& channel, Packet& packet) {
-		channel.SendMsg(1, packet);
+	void Acceptor<T, max_connections>::SendPacket(NetChannelPtr& channel, Packet& packet) {
+		channel->SendMsg(1, packet);
 	}
 
 	//template<class T, uint16_t max_connections>
 	//template<class Packet>
 	//void Acceptor<T, max_connections>::SendPacket(int32_t peer_info, Packet& packet) {
-		//channel.SendMsg(1, packet);
+		//channel->SendMsg(1, packet);
 	//}
 }

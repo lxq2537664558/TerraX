@@ -19,11 +19,12 @@ namespace TerraX
 		eConnected, 
 		eDisconnecting 
 	};
-	class NetChannel final
+	//typedef std::shared_ptr<google::protobuf::Message> MessagePtr;
+	class NetChannel final : public std::enable_shared_from_this<NetChannel>
 	{
 		NOCOPY(NetChannel);
 	public:
-		using disconnect_cb = std::function<void(NetChannel*, void* ptr)> ;
+		using disconnect_cb = std::function<void(NetChannelPtr, void* ptr)> ;
 		using ConnectionEvent_CB = std::function<void()>;
 
 		explicit NetChannel(struct event_base *base, int fd);

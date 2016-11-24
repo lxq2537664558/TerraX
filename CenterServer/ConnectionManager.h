@@ -18,7 +18,7 @@ namespace TerraX
 	public:
 		ConnectionManager(CenterServer& cs); 
 
-		void OnMessage_Register(NetChannel& channel, PktRegisterServer& pkt); 
+		void OnMessage_Register(NetChannelPtr& channel, PktRegisterServer& pkt);
 
 	private:
 		CenterServer& server;

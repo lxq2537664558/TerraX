@@ -48,15 +48,15 @@ void GateServer::Register(int32_t peer_info)
 	m_pConnector->SendPacket(pkt);
 }
 
-void GateServer::OnMessage_RegisterResult(NetChannel& channel, PktRegisterServer& pkt)
+void GateServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt)
 {
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
-	assert(pi.channel_index == 0 && channel.GetChannelIndex() != 0);
+	assert(pi.channel_index == 0 && channel->GetChannelIndex() != 0);
 	std::cout << "Server: " << pi.server_name() << 
-		"\t ChannelIndex: " << int32_t(channel.GetChannelIndex()) << std::endl;
-	channel.SetPeerType(pi.peer_type);
+		"\t ChannelIndex: " << int32_t(channel->GetChannelIndex()) << std::endl;
+	channel->SetPeerType(pi.peer_type);
 }
 
 void GateServer::OnAcceptor_Disconnect(int32_t peer_info)

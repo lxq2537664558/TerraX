@@ -2,8 +2,12 @@
 #include "ComDef.h"
 #include <cstdint>
 #include <cassert>
+#include <memory>
 namespace TerraX
 {
+	class NetChannel;
+	typedef std::shared_ptr<NetChannel> NetChannelPtr;
+
 	enum class PeerType_t
 	{
 		undefine = 0,

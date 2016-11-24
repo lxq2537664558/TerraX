@@ -18,7 +18,8 @@ namespace TerraX
 		void Connected();
 		void ConnectFailed();
 		void Disconnected();
-	
+		
+		//void OnMessageReceived();
 	private:
 		NetChannel m_Connector;
 	};

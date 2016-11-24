@@ -66,7 +66,7 @@ void NetChannel::Disconnected()
 {
 	SetConnState(ConnState_t::eDisconnected);
 	if (m_disconnect_cb) {
-		m_disconnect_cb(this, m_ptr);
+		m_disconnect_cb(shared_from_this(), m_ptr);
 	}
 
 	if (m_DisconnectedCB) {
@@ -155,5 +155,5 @@ void NetChannel::SendMsg(int flag, google::protobuf::Message& msg)
 
 bool NetChannel::OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
-	return PacketDispatcher::GetInstance().DeliverPacket(*this, strMsgType, pBuffer, nBufferSize);
+	return PacketDispatcher::GetInstance().DeliverPacket(shared_from_this(), strMsgType, pBuffer, nBufferSize);
 }

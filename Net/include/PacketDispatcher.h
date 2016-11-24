@@ -2,6 +2,7 @@
 #include <map>
 #include <functional>
 #include <google/protobuf/message.h>
+#include "NetDefine.h"
 #include "ComDef.h"
 
 namespace TerraX
@@ -12,18 +13,18 @@ namespace TerraX
 	{
 	public:
 		IPacketFunctor() = default;
-		virtual void operator()(NetChannel& channel, gpb::Message& arg) = 0;
+		virtual void operator()(NetChannelPtr& channel, gpb::Message& arg) = 0;
 	};
 
 	template<typename Packet>
 	class PacketFunctor : public IPacketFunctor
 	{
-		using PacketCB = std::function<void(NetChannel&, Packet&)>;
+		using PacketCB = std::function<void(NetChannelPtr&, Packet&)>;
 	public:
 		PacketFunctor(PacketCB cb) {
 			this->cb = cb;
 		}
-		void operator()(NetChannel& channel, gpb::Message& msg) override {
+		void operator()(NetChannelPtr& channel, gpb::Message& msg) override {
 			cb(channel, static_cast<Packet&>(msg));
 		}
 	private:
@@ -42,7 +43,7 @@ namespace TerraX
 			m_mapCallBacks[Packet::descriptor()] = pMsg;
 		}
 
-		bool DeliverPacket(NetChannel& rChannel, const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
+		bool DeliverPacket(NetChannelPtr& rChannel, const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 	private:
 		std::map<const google::protobuf::Descriptor*, IPacketFunctor* > m_mapCallBacks;
 	};

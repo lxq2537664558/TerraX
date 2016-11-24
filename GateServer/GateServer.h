@@ -29,7 +29,7 @@ namespace TerraX
 		//Connector<GateServer, PeerType_t::gateserver>* GetConnector(){ return m_pConnector.get(); }
 	public:
 		void Register(int32_t peer_info);
-		void OnMessage_RegisterResult(NetChannel& channel, PktRegisterServer& pkt);
+		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt);
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
