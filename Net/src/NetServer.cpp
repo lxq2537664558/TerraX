@@ -124,7 +124,7 @@ void NetServer::OnConnect(evutil_socket_t fd)
 		std::lock_guard<std::mutex> lock(m_mutex);
 		int nIndex = m_freeindexes.front();
 		m_freeindexes.pop();
-		m_vecChannels[nIndex] = std::shared_ptr<NetChannel>(pChannel);
+		m_vecChannels[nIndex] = pChannel;
 		pChannel->SetChannelIndex(nIndex);
 	}
 }
