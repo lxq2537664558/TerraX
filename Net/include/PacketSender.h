@@ -11,6 +11,10 @@ namespace TerraX
 		PacketSender() = default;
 		~PacketSender() = default;
 		void SendPacket(){}
+		void SendPacket(int32_t server) {}
+
+	private:
+		//const 
 	};
 
 }

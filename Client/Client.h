@@ -9,7 +9,6 @@
 using namespace C2SPacket;
 namespace TerraX
 {
-
 	class Client
 	{
 		NOCOPY(Client);
