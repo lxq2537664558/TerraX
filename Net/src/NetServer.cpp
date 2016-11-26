@@ -111,8 +111,8 @@ void NetServer::OnConnect(evutil_socket_t fd)
 		m_currLoop = 0;
 	}
 
-	NetChannelPtr pChannel(new NetChannel(base, static_cast<int>(fd)));
-	pChannel->SetDisconnectCb(&NetServer::DisconnectCallback, this);
+	NetChannelPtr pChannel = std::make_shared<NetChannel>(base, static_cast<int>(fd));
+	pChannel->SetDisconnectCb(std::bind(&NetServer::DisconnectCallback, this, std::placeholders::_1));
 	
 	if (m_freeindexes.empty())
 	{
@@ -121,24 +121,29 @@ void NetServer::OnConnect(evutil_socket_t fd)
 	}
 	else
 	{
-		std::lock_guard<std::mutex> lock(m_mutex);
-		int nIndex = m_freeindexes.front();
-		m_freeindexes.pop();
-		m_vecChannels[nIndex] = pChannel;
-		pChannel->SetChannelIndex(nIndex);
+		{
+			std::lock_guard<std::mutex> lock(m_mutex);
+			int nIndex = m_freeindexes.front();
+			m_freeindexes.pop();
+			m_vecChannels[nIndex] = pChannel;
+			pChannel->SetChannelIndex(nIndex);
+		}
+		if (m_NetEventCB) {
+			m_NetEventCB(pChannel, NetEvent_t::eConnected);
+		}
 	}
 }
 
 void NetServer::OnDisconnect(NetChannelPtr& pChannel)
 {
 	assert(pChannel);
-	if (m_DisconnectedCB) {
-		m_DisconnectedCB(pChannel);
-	}
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);
 		m_freeindexes.push(pChannel->GetChannelIndex());
-		m_vecChannels[pChannel->GetChannelIndex()] = nullptr;
+		m_vecChannels[pChannel->GetChannelIndex()] = nullptr;//.reset(); // both are correct.
+	}
+	if (m_NetEventCB) {
+		m_NetEventCB(pChannel, NetEvent_t::eDisconnected);
 	}
 	pChannel.reset();
 }
@@ -153,9 +158,8 @@ void NetServer::NewConnectionCallback(struct evconnlistener* listener,
 	self->OnConnect(fd);
 }
 
-void NetServer::DisconnectCallback(NetChannelPtr& channel, void* ctx)
+void NetServer::DisconnectCallback(NetChannelPtr& channel)
 {
 	printf("disconnectCallback\n");
-	NetServer* self = static_cast<NetServer*>(ctx);
-	self->OnDisconnect(channel);
+	this->OnDisconnect(channel);
 }

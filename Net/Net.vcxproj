@@ -147,6 +147,7 @@
     <ClInclude Include="include\NetDefine.h" />
     <ClInclude Include="include\NetServer.h" />
     <ClInclude Include="include\PacketDispatcher.h" />
+    <ClInclude Include="include\PacketSender.h" />
     <ClInclude Include="include\SocketOpt-inl.h" />
     <ClInclude Include="proto\client_server.pb.h" />
     <ClInclude Include="proto\server_server.pb.h" />

@@ -14,8 +14,12 @@ GateServer::GateServer()
 
 bool GateServer::Init()
 {
-	m_pAcceptor.reset(new Acceptor<GateServer, MAX_CONNECTION>(&m_loop, 9991));
 	m_pConnector.reset(new Connector<GateServer, PeerType_t::gateserver>(&m_loop, "127.0.0.1", 9995));
+	m_pConnector->SetNetEventCB(std::bind(&GateServer::OnConnector_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
+
+	m_pAcceptor.reset(new Acceptor<GateServer, MAX_CONNECTION>(&m_loop, 9991));
+	m_pAcceptor->SetNetEventCB(std::bind(&GateServer::OnAcceptor_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
+
 
 	return true;
 }
@@ -59,7 +63,34 @@ void GateServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterSer
 	channel->SetPeerType(pi.peer_type);
 }
 
-void GateServer::OnAcceptor_Disconnect(int32_t peer_info)
+void GateServer::OnConnector_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
 {
+	if(eEvent == NetEvent_t::eConnected) {
 	
+	} 
+	else if (eEvent == NetEvent_t::eConnectFailed) {
+
+	}
+	else if (eEvent == NetEvent_t::eDisconnected) {
+
+	}
+	else {
+
+	}
+}
+
+void GateServer::OnAcceptor_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
+{
+	if (eEvent == NetEvent_t::eConnected) {
+
+	}
+	else if (eEvent == NetEvent_t::eConnectFailed) {
+
+	}
+	else if (eEvent == NetEvent_t::eDisconnected) {
+
+	}
+	else {
+
+	}
 }

@@ -1,5 +1,5 @@
 #include "Client.h"
-
+#include "GameStateManager.h"
 using namespace TerraX;
 
 Client::Client()
@@ -11,6 +11,8 @@ bool Client::Init()
 {
 	m_pConnector.reset(new Connector<Client, PeerType_t::client>(&m_loop, "127.0.0.1", 9991));
 
+	
+
 	return true;
 }
 
@@ -19,6 +21,9 @@ void Client::Run()
 	while (!m_bExit)
 	{
 		auto start = std::chrono::steady_clock::now();
+
+		RunGame();
+
 
 		m_loop.loop();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -30,4 +35,9 @@ void Client::Run()
 			std::this_thread::sleep_for(std::chrono::milliseconds(50 - costms));
 		}
 	}
+}
+
+void Client::RunGame()
+{
+	GameStateManager::GetInstance().Tick();
 }

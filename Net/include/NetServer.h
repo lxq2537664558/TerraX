@@ -19,7 +19,6 @@ namespace TerraX
 	{
 		NOCOPY(NetServer);
 	public:
-		using DisconnectEvent_CB = std::function<void(NetChannelPtr& channel)>;
 		NetServer(EventLoop* loop, int port, uint16_t max_conns);
 		~NetServer();
 	public:
@@ -28,17 +27,15 @@ namespace TerraX
 		void ForceClose(NetChannelPtr& channel);
 		void ForceCloseAll();
 
-		void RegDisconnected_Callback(DisconnectEvent_CB cb) {
-			m_DisconnectedCB = cb;
-		}
+		void RegNetEvent_Callback(NetEvent_CB cb) { m_NetEventCB = cb; }
 	private:
 		static void NewConnectionCallback(struct evconnlistener* listener,
 			evutil_socket_t fd, struct sockaddr* address, int socklen, void* ctx);
-		static void DisconnectCallback(NetChannelPtr&, void* ctx);
 		static void* RunLoop(void* ptr);
 
 		void OnConnect(evutil_socket_t fd);
 		void OnDisconnect(NetChannelPtr& pChannel);
+		void DisconnectCallback(NetChannelPtr&);
 	private:
 		struct evconnlistener* m_evListener{ nullptr };
 		std::vector<struct event_base*> m_loops;
@@ -48,7 +45,7 @@ namespace TerraX
 		std::vector<NetChannelPtr> m_vecChannels;
 		std::queue<uint16_t> m_freeindexes;
 		const uint16_t m_maxconnections;
-		DisconnectEvent_CB m_DisconnectedCB;
+		NetEvent_CB m_NetEventCB;
 	};
 
 }

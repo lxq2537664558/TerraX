@@ -19,9 +19,8 @@ namespace TerraX
 		//void SendPacket(int32_t peer_info, Packet& packet);
 
 		void ForceClose(NetChannelPtr& channel);
-	
-	private:
-		void OnDisconnect(NetChannelPtr& channel);
+		
+		void SetNetEventCB(NetEvent_CB cb) { m_Acceptor.RegNetEvent_Callback(cb); }
 	private:
 		NetServer m_Acceptor;
 	};
@@ -29,12 +28,6 @@ namespace TerraX
 	template<class T, uint16_t max_connections>
 	Acceptor<T, max_connections>::Acceptor(EventLoop* pLoop, int port)
 		: m_Acceptor(pLoop, port, max_connections) {
-		m_Acceptor.RegDisconnected_Callback(std::bind(&Acceptor<T, max_connections>::OnDisconnect, this, std::placeholders::_1));
-	}
-
-	template<class T, uint16_t max_connections>
-	void Acceptor<T, max_connections>::OnDisconnect(NetChannelPtr& channel) {
-		//T::GetInstance().OnAcceptor_Disconnect(channel);
 	}
 
 	template<class T, uint16_t max_connections>

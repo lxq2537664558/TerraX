@@ -68,5 +68,8 @@
     <ClInclude Include="proto\server_server.pb.h">
       <Filter>Proto</Filter>
     </ClInclude>
+    <ClInclude Include="include\PacketSender.h">
+      <Filter>Net</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

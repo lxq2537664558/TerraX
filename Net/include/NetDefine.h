@@ -3,10 +3,28 @@
 #include <cstdint>
 #include <cassert>
 #include <memory>
+#include <functional>
 namespace TerraX
 {
 	class NetChannel;
 	typedef std::shared_ptr<NetChannel> NetChannelPtr;
+
+	enum class NetEvent_t
+	{
+		eConnected,
+		eConnectFailed,
+		eDisconnected,
+	};
+	using NetEvent_CB = std::function<void(NetChannelPtr&, NetEvent_t)>;
+
+
+	enum class ConnState_t
+	{
+		eDisconnected,
+		eConnecting,
+		eConnected,
+		eDisconnecting
+	};
 
 	enum class PeerType_t
 	{
@@ -49,12 +67,12 @@ namespace TerraX
 		const char* server_name() {
 			switch (PeerType_t(peer_type))
 			{
-			case PeerType_t::client:			return "client";
-			case PeerType_t::centerserver:		return "center";
+			case PeerType_t::client:				return "client";
+			case PeerType_t::centerserver:			return "center";
 			case PeerType_t::gateserver:			return "gate";
-			case PeerType_t::gameserver:		return "game";
+			case PeerType_t::gameserver:			return "game";
 			case PeerType_t::loginserver:			return "login";
-			case PeerType_t::worldserver:		return "world";
+			case PeerType_t::worldserver:			return "world";
 			default:
 				break;
 			}

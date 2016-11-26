@@ -36,6 +36,7 @@ void protobuf_AddDesc_client_5fserver_2eproto();
 void protobuf_AssignDesc_client_5fserver_2eproto();
 void protobuf_ShutdownFile_client_5fserver_2eproto();
 
+class PktAccountRequestEnterWorld;
 class PktRegisterClient;
 
 // ===================================================================
@@ -120,6 +121,105 @@ class PktRegisterClient : public ::google::protobuf::Message /* @@protoc_inserti
   void InitAsDefaultInstance();
   static PktRegisterClient* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class PktAccountRequestEnterWorld : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:C2SPacket.PktAccountRequestEnterWorld) */ {
+ public:
+  PktAccountRequestEnterWorld();
+  virtual ~PktAccountRequestEnterWorld();
+
+  PktAccountRequestEnterWorld(const PktAccountRequestEnterWorld& from);
+
+  inline PktAccountRequestEnterWorld& operator=(const PktAccountRequestEnterWorld& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PktAccountRequestEnterWorld& default_instance();
+
+  void Swap(PktAccountRequestEnterWorld* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PktAccountRequestEnterWorld* New() const { return New(NULL); }
+
+  PktAccountRequestEnterWorld* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PktAccountRequestEnterWorld& from);
+  void MergeFrom(const PktAccountRequestEnterWorld& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PktAccountRequestEnterWorld* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string szAccountName = 1;
+  void clear_szaccountname();
+  static const int kSzAccountNameFieldNumber = 1;
+  const ::std::string& szaccountname() const;
+  void set_szaccountname(const ::std::string& value);
+  void set_szaccountname(const char* value);
+  void set_szaccountname(const char* value, size_t size);
+  ::std::string* mutable_szaccountname();
+  ::std::string* release_szaccountname();
+  void set_allocated_szaccountname(::std::string* szaccountname);
+
+  // optional string szSessionKey = 2;
+  void clear_szsessionkey();
+  static const int kSzSessionKeyFieldNumber = 2;
+  const ::std::string& szsessionkey() const;
+  void set_szsessionkey(const ::std::string& value);
+  void set_szsessionkey(const char* value);
+  void set_szsessionkey(const char* value, size_t size);
+  ::std::string* mutable_szsessionkey();
+  ::std::string* release_szsessionkey();
+  void set_allocated_szsessionkey(::std::string* szsessionkey);
+
+  // @@protoc_insertion_point(class_scope:C2SPacket.PktAccountRequestEnterWorld)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr szaccountname_;
+  ::google::protobuf::internal::ArenaStringPtr szsessionkey_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_client_5fserver_2eproto();
+  friend void protobuf_AssignDesc_client_5fserver_2eproto();
+  friend void protobuf_ShutdownFile_client_5fserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static PktAccountRequestEnterWorld* default_instance_;
+};
 // ===================================================================
 
 
@@ -142,7 +242,101 @@ inline void PktRegisterClient::set_client_info(::google::protobuf::int32 value) 
   // @@protoc_insertion_point(field_set:C2SPacket.PktRegisterClient.client_info)
 }
 
+// -------------------------------------------------------------------
+
+// PktAccountRequestEnterWorld
+
+// optional string szAccountName = 1;
+inline void PktAccountRequestEnterWorld::clear_szaccountname() {
+  szaccountname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PktAccountRequestEnterWorld::szaccountname() const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+  return szaccountname_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktAccountRequestEnterWorld::set_szaccountname(const ::std::string& value) {
+  
+  szaccountname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+}
+inline void PktAccountRequestEnterWorld::set_szaccountname(const char* value) {
+  
+  szaccountname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+}
+inline void PktAccountRequestEnterWorld::set_szaccountname(const char* value, size_t size) {
+  
+  szaccountname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+}
+inline ::std::string* PktAccountRequestEnterWorld::mutable_szaccountname() {
+  
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+  return szaccountname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PktAccountRequestEnterWorld::release_szaccountname() {
+  // @@protoc_insertion_point(field_release:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+  
+  return szaccountname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktAccountRequestEnterWorld::set_allocated_szaccountname(::std::string* szaccountname) {
+  if (szaccountname != NULL) {
+    
+  } else {
+    
+  }
+  szaccountname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), szaccountname);
+  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+}
+
+// optional string szSessionKey = 2;
+inline void PktAccountRequestEnterWorld::clear_szsessionkey() {
+  szsessionkey_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PktAccountRequestEnterWorld::szsessionkey() const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+  return szsessionkey_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktAccountRequestEnterWorld::set_szsessionkey(const ::std::string& value) {
+  
+  szsessionkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+}
+inline void PktAccountRequestEnterWorld::set_szsessionkey(const char* value) {
+  
+  szsessionkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+}
+inline void PktAccountRequestEnterWorld::set_szsessionkey(const char* value, size_t size) {
+  
+  szsessionkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+}
+inline ::std::string* PktAccountRequestEnterWorld::mutable_szsessionkey() {
+  
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+  return szsessionkey_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PktAccountRequestEnterWorld::release_szsessionkey() {
+  // @@protoc_insertion_point(field_release:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+  
+  return szsessionkey_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktAccountRequestEnterWorld::set_allocated_szsessionkey(::std::string* szsessionkey) {
+  if (szsessionkey != NULL) {
+    
+  } else {
+    
+  }
+  szsessionkey_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), szsessionkey);
+  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

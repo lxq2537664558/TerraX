@@ -5,3 +5,10 @@ message PktRegisterClient
 {
     int32 client_info = 1;
 }
+
+
+message PktAccountRequestEnterWorld
+{
+    string szAccountName = 1;
+    string szSessionKey = 2;
+}

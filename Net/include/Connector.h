@@ -12,48 +12,26 @@ namespace TerraX
 		~Connector() = default;
 		template<class Packet> 
 		void SendPacket(Packet& packet); 
-		bool IsConnected() { return m_Connector.GetConnState() == ConnState_t::eConnected; }
+		bool IsConnected() { return m_pConnector->GetConnState() == ConnState_t::eConnected; }
 
-	private:
-		void Connected();
-		void ConnectFailed();
-		void Disconnected();
+		void SetNetEventCB(NetEvent_CB cb) { m_pConnector->RegNetEvent_Callback(cb); }
 		
 		//void OnMessageReceived();
 	private:
-		NetChannel m_Connector;
+		NetChannelPtr m_pConnector;
 	};
 
 	template<class T, PeerType_t peertype>
 	Connector<T, peertype>::Connector(EventLoop* pLoop, const std::string& host, int port)
-		: m_Connector(pLoop, host, port) {
-		m_Connector.SetPeerType(uint16_t(peertype));
-		m_Connector.SetChannelIndex(0);
-
-		m_Connector.RegConnected_Callback(std::bind(&Connector<T, peertype>::Connected, this));
-		m_Connector.RegConnectFailed_Callback(std::bind(&Connector<T, peertype>::ConnectFailed, this));
-		m_Connector.RegDisconnected_Callback(std::bind(&Connector<T, peertype>::Disconnected, this));
-	}
-
-	template<class T, PeerType_t peertype>
-	void Connector<T, peertype>::Connected() {
-		T::GetInstance().Register(m_Connector.GetPeerInfo());
-	}
-
-	template<class T, PeerType_t peertype>
-	void Connector<T, peertype>::ConnectFailed() {
-
-	}
-
-	template<class T, PeerType_t peertype>
-	void Connector<T, peertype>::Disconnected() {
-
+		: m_pConnector(std::make_shared<NetChannel>(pLoop, host, port)) {
+		m_pConnector->SetPeerType(uint16_t(peertype));
+		m_pConnector->SetChannelIndex(0);
 	}
 
 	template<class T, PeerType_t peertype>
 	template<class Packet>
 	void Connector<T, peertype>::SendPacket(Packet& packet) {
-		m_Connector.SendMsg(0, packet);
+		m_pConnector->SendMsg(0, packet);
 	}
 
 }

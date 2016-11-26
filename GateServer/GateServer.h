@@ -23,7 +23,8 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		void OnAcceptor_Disconnect(int32_t peer_info);
+		void OnConnector_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
+		void OnAcceptor_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
 
 		//Acceptor<GateServer, MAX_CONNECTION>* GetAcceptor() { return m_pAcceptor.get(); }
 		//Connector<GateServer, PeerType_t::gateserver>* GetConnector(){ return m_pConnector.get(); }

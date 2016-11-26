@@ -33,19 +33,13 @@ NetChannel::~NetChannel()
 	// printf("~NetChannel()\n");
 }
 
-void NetChannel::SetDisconnectCb(disconnect_cb cb, void* ptr)
-{
-	m_disconnect_cb = cb;
-	m_ptr = ptr;
-}
-
 void NetChannel::ConnectFailed()
 {
 	m_connectFailed = true;
 	Disconnected();
 
-	if (m_ConnectFailedCB) {
-		m_ConnectFailedCB();
+	if (m_NetEventCB) {
+		m_NetEventCB(shared_from_this(), NetEvent_t::eConnectFailed);
 	}
 }
 
@@ -56,8 +50,8 @@ void NetChannel::Connected()
 		SetConnState(ConnState_t::eConnected);
 		bufferevent_enable(m_evConn, EV_READ | EV_WRITE);
 
-		if (m_ConnectedCB) {
-			m_ConnectedCB();
+		if (m_NetEventCB) {
+			m_NetEventCB(shared_from_this(), NetEvent_t::eConnected);
 		}
 	}
 }
@@ -65,12 +59,12 @@ void NetChannel::Connected()
 void NetChannel::Disconnected()
 {
 	SetConnState(ConnState_t::eDisconnected);
-	if (m_disconnect_cb) {
-		m_disconnect_cb(shared_from_this(), m_ptr);
+	if (m_SrvDisconnectCB) {
+		m_SrvDisconnectCB(shared_from_this());
 	}
 
-	if (m_DisconnectedCB) {
-		m_DisconnectedCB();
+	if (m_NetEventCB) {
+		m_NetEventCB(shared_from_this(), NetEvent_t::eDisconnected);
 	}
 }
 

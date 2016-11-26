@@ -9,6 +9,7 @@
 using namespace C2SPacket;
 namespace TerraX
 {
+
 	class Client
 	{
 		NOCOPY(Client);
@@ -21,8 +22,10 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		void Register(int32_t peer_info) {};
+		void RunGame();
 
+		void Register(int32_t peer_info) {};
+		
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
