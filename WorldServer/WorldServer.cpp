@@ -40,10 +40,11 @@ void WorldServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterSe
 	PeerInfo pi;
 	pi.parse(server_info);
 	assert(pi.peer_type == uint8_t(PeerType_t::worldserver));
+	assert(pi.peer_index > 0);
 	assert(pi.channel_index != 0 && channel->GetChannelIndex() == 0);
-	std::cout << "Server: " << pi.server_name() <<
+	std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index) <<
 		"\t ChannelIndex: " << pi.channel_index << std::endl;
-	channel->SetPeerType(pi.peer_type);
+	channel->SetPeerInfo(server_info);
 }
 
 void WorldServer::OnConnector_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)

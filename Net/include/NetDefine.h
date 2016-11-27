@@ -31,38 +31,40 @@ namespace TerraX
 		undefine = 0,
 		client = 1,
 
-		centerserver = 1 << 1,
-		gateserver = 1 << 2,
-		gameserver = 1 << 3,
-		loginserver = 1 << 4,
-		worldserver = 1 << 5,
+		centerserver = 2,
+		gateserver = 3,
+		gameserver = 4,
+		loginserver = 5,
+		worldserver = 6,
 
-		peer_count = 1 << 6,
-		all_peer = 0xFFFF,
+		peer_count = 7,
+		all_peer = 0xFF,
 
 	};
 	/// server info layout
-	/// @peer_type: (uint16_t) 0~peer_count(if 0: unregister , if 0xFFFF : broadcast all peer)
+	/// @peer_type: (uint8_t) 0~peer_count(if 0: unregister , if 0xFF : broadcast all peer)
+	/// @peer_index: (uint8_t) 0~peer_index(if 0: unregister , if 0xFF : broadcast current peer)
 	/// @channel_index: (uint16_t) 0x0000~0xFFFF-1 (if 0; unregister, if 0xFFFF boradcast all channel that connected to peer)
-	/// +-------------------+------------------+
-	/// |     peer_type     |  channel_index   |
-	/// +-------------------+------------------+
+	/// +-------------------+------------------+------------------+
+	/// |     peer_type     |  channel_index   |  channel_index   |
+	/// +-------------------+------------------+------------------+
 	/// |                   |                  |              
-	/// 0        <=       16bits     <=      32bits    
+	/// 0        <=        8bits     <=      8bits     <=      32bits    
 	/// @end
 	class PeerInfo
 	{
 	public:
 		PeerInfo() = default;
-		explicit PeerInfo(PeerType_t ePeerType) : peer_type(uint16_t(ePeerType)){
+		explicit PeerInfo(PeerType_t ePeerType) : peer_type(uint8_t(ePeerType)){
 		}
 		void parse(int32_t server_info) {
-			peer_type = (server_info & 0xFFFF0000) >> 16;
-			channel_index = server_info & 0x0000FFFF;
-			assert(peer_type > (uint16_t)PeerType_t::undefine && peer_type < (uint16_t)PeerType_t::peer_count);
+			peer_type		=  (server_info & 0xFF000000) >> 24;
+			peer_index		=  (server_info & 0x00FF0000) >> 16;
+			channel_index	=	server_info & 0x0000FFFF;
+			assert(peer_type > (uint8_t)PeerType_t::undefine && peer_type < (uint8_t)PeerType_t::peer_count);
 		}
 		int32_t serialize() {
-			return (peer_type << 16) + channel_index;
+			return (peer_type << 24) + (peer_index << 16) + channel_index;
 		}
 		const char* server_name() {
 			switch (PeerType_t(peer_type))
@@ -79,7 +81,8 @@ namespace TerraX
 			return "unknown host";
 		}
 	public:
-		uint16_t peer_type{ uint16_t(PeerType_t::undefine) };
+		uint8_t peer_type{ uint16_t(PeerType_t::undefine) };
+		uint8_t peer_index{ 0 };
 		uint16_t channel_index{ 0 };
 	};
 }

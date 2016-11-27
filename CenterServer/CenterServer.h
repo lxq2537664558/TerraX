@@ -21,6 +21,7 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
+		void OnAcceptor_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
