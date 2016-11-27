@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "GameStateManager.h"
 #include "proto/client_server.pb.h"
-#include "PacketSender.h"
+#include "NetManagerClient.h"
 using namespace TerraX;
 using namespace C2SPacket;
 
@@ -30,9 +30,11 @@ void GameState_eLoginForm::Enter()
 
 void GameState_AccountEnteringWorld::Enter()
 {
+	NetManagerClient::GetInstance().Connect("127.0.0.1", 9991, true);
+
 	PktAccountRequestEnterWorld pkt;
 	pkt.set_szaccountname("ghost");
 	pkt.set_szsessionkey("key session");
-	//SendPacket2World();
-	//PacketSender::GetInstance().SendPacket();
+
+	NetManagerClient::GetInstance().SendPacket2Server(int32_t(PeerType_t::worldserver)| int32_t(PeerType_t::gateserver), pkt);
 }

@@ -134,9 +134,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="proto\client_server.pb.cc" />
     <ClCompile Include="proto\server_server.pb.cc" />
+    <ClCompile Include="src\Acceptor.cpp" />
+    <ClCompile Include="src\Connector.cpp" />
     <ClCompile Include="src\NetChannel.cpp" />
     <ClCompile Include="src\NetServer.cpp" />
     <ClCompile Include="src\PacketDispatcher.cpp" />
+    <ClCompile Include="src\ProtobufCodecLite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Acceptor.h" />
@@ -147,7 +150,7 @@
     <ClInclude Include="include\NetDefine.h" />
     <ClInclude Include="include\NetServer.h" />
     <ClInclude Include="include\PacketDispatcher.h" />
-    <ClInclude Include="include\PacketSender.h" />
+    <ClInclude Include="include\ProtobufCodecLite.h" />
     <ClInclude Include="include\SocketOpt-inl.h" />
     <ClInclude Include="proto\client_server.pb.h" />
     <ClInclude Include="proto\server_server.pb.h" />

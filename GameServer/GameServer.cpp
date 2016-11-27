@@ -12,7 +12,7 @@ GameServer::GameServer()
 
 bool GameServer::Init()
 {
-	m_pConnector.reset(new Connector<GameServer, PeerType_t::gameserver>(&m_loop, "127.0.0.1", 9995));
+	m_pConnector.reset(new Connector(PeerType_t::gameserver, &m_loop, "127.0.0.1", 9995));
 	m_pConnector->SetNetEventCB(std::bind(&GameServer::OnConnector_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
 
 	return true;

@@ -1,5 +1,6 @@
 #include "Client.h"
 #include "GameStateManager.h"
+#include "NetManagerClient.h"
 using namespace TerraX;
 
 Client::Client()
@@ -9,10 +10,6 @@ Client::Client()
 
 bool Client::Init()
 {
-	m_pConnector.reset(new Connector<Client, PeerType_t::client>(&m_loop, "127.0.0.1", 9991));
-
-	
-
 	return true;
 }
 
@@ -24,10 +21,8 @@ void Client::Run()
 
 		RunGame();
 
-
-		m_loop.loop();
+		ProcessPacket();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
 		auto end = std::chrono::steady_clock::now();
 		auto costms = std::chrono::duration_cast<std::chrono::milliseconds>
 			(end - start).count();
@@ -40,4 +35,11 @@ void Client::Run()
 void Client::RunGame()
 {
 	GameStateManager::GetInstance().Tick();
+
+}
+
+void Client::ProcessPacket()
+{
+	//Process Packet
+	NetManagerClient::GetInstance().Tick();
 }

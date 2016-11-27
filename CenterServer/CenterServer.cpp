@@ -7,7 +7,7 @@ using namespace TerraX;
 
 bool CenterServer::Init()
 {
-	m_pAcceptor.reset(new Acceptor<CenterServer, MAX_CONNECTION>(&m_loop, 9995));
+	m_pAcceptor.reset(new Acceptor(&m_loop, 9995, MAX_CONNECTION));
 
 #ifdef __GNUC__
 	// we don't need multi-thread

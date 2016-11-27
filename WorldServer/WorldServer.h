@@ -31,6 +31,6 @@ namespace TerraX
 		bool m_bExit{ false };
 		EventLoop m_loop;
 		
-		std::unique_ptr<Connector<WorldServer, PeerType_t::worldserver> > m_pConnector;
+		std::unique_ptr<Connector> m_pConnector;
 	};
 }

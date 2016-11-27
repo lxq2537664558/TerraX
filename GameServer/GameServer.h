@@ -31,6 +31,6 @@ namespace TerraX
 		bool m_bExit{ false };
 		EventLoop m_loop;
 
-		std::unique_ptr<Connector<GameServer, PeerType_t::gameserver> > m_pConnector;
+		std::unique_ptr<Connector> m_pConnector;
 	};
 }

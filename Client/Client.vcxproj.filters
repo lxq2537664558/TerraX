@@ -27,6 +27,9 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="NetManagerClient.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameStateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetManagerClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -26,7 +26,7 @@ namespace TerraX
 		EventLoop m_loop;
 		ConnectionManager m_ConnManager{ *this };
 
-		std::unique_ptr<Acceptor<CenterServer, MAX_CONNECTION> > m_pAcceptor; //front-end
+		std::unique_ptr<Acceptor> m_pAcceptor; //front-end
 		//std::unique_ptr<Connector<NetChannel, PeerType_t::centerserver> > m_pConnector; //back-end
 	};
 }

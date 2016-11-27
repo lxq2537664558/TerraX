@@ -26,5 +26,8 @@
     <ClInclude Include="GateServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GuestManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

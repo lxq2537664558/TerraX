@@ -14,10 +14,10 @@ GateServer::GateServer()
 
 bool GateServer::Init()
 {
-	m_pConnector.reset(new Connector<GateServer, PeerType_t::gateserver>(&m_loop, "127.0.0.1", 9995));
+	m_pConnector.reset(new Connector(PeerType_t::gateserver, &m_loop, "127.0.0.1", 9995));
 	m_pConnector->SetNetEventCB(std::bind(&GateServer::OnConnector_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
 
-	m_pAcceptor.reset(new Acceptor<GateServer, MAX_CONNECTION>(&m_loop, 9991));
+	m_pAcceptor.reset(new Acceptor(&m_loop, 9991, MAX_CONNECTION));
 	m_pAcceptor->SetNetEventCB(std::bind(&GateServer::OnAcceptor_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
 
 

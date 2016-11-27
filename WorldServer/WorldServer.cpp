@@ -13,7 +13,7 @@ WorldServer::WorldServer()
 
 bool WorldServer::Init()
 {
-	m_pConnector.reset(new Connector<WorldServer, PeerType_t::worldserver>(&m_loop, "127.0.0.1", 9995));
+	m_pConnector.reset(new Connector(PeerType_t::worldserver, &m_loop, "127.0.0.1", 9995));
 	m_pConnector->SetNetEventCB(std::bind(&WorldServer::OnConnector_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
 
 	return true;

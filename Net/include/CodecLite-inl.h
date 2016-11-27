@@ -150,4 +150,19 @@ namespace TerraX
 		}
 		return error;
 	}
+
+	inline void send(struct bufferevent* bev, const uint8_t* data, int32_t len)
+	{
+		struct evbuffer* buf = evbuffer_new();
+		evbuffer_expand(buf, len);
+		struct evbuffer_iovec vec;
+		evbuffer_reserve_space(buf, len, &vec, 1);
+		uint8_t* start = static_cast<uint8_t*>(vec.iov_base);
+		memcpy(start, data, sizeof(uint8_t) * len);
+		assert(start - static_cast<uint8_t*>(vec.iov_base) == len);
+		vec.iov_len = len;
+		evbuffer_commit_space(buf, &vec, 1);
+		bufferevent_write_buffer(bev, buf);
+		evbuffer_free(buf);
+	}
 }
