@@ -16,7 +16,7 @@ namespace TerraX
 
 		void SetNetEventCB(NetEvent_CB cb) { m_pConnector->RegNetEvent_Callback(cb); }
 		
-		//void OnMessageReceived();
+		//int32_t GetPeerInfo() { return m_pConnector->GetPeerInfo(); }
 	private:
 		NetChannelPtr m_pConnector;
 	};

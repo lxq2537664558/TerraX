@@ -16,7 +16,9 @@ void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, PktRegisterSe
 	assert(channel->GetChannelIndex() != 0 && pi.channel_index == 0);
 	assert(pi.peer_type > (uint16_t)PeerType_t::client && pi.peer_type < (uint16_t)PeerType_t::peer_count);
 	channel->SetPeerType(pi.peer_type);
-
 	std::cout << "Server: " << pi.server_name() <<
 		"\t ChannelIndex: " << int32_t(channel->GetChannelIndex()) << std::endl;
+
+	pkt.set_server_info(channel->GetPeerInfo());
+	channel->SendMsg(0, pkt);
 }

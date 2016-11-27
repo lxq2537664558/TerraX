@@ -57,25 +57,26 @@ void GateServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterSer
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
-	assert(pi.channel_index == 0 && channel->GetChannelIndex() != 0);
+	assert(pi.peer_type == uint8_t(PeerType_t::gateserver));
+	assert(pi.channel_index != 0 && channel->GetChannelIndex() == 0);
 	std::cout << "Server: " << pi.server_name() << 
-		"\t ChannelIndex: " << int32_t(channel->GetChannelIndex()) << std::endl;
+		"\t ChannelIndex: " << pi.channel_index << std::endl;
 	channel->SetPeerType(pi.peer_type);
 }
 
 void GateServer::OnConnector_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
 {
 	if(eEvent == NetEvent_t::eConnected) {
-	
+		Register(channel->GetPeerInfo());
 	} 
 	else if (eEvent == NetEvent_t::eConnectFailed) {
-
+		// do exit...
 	}
 	else if (eEvent == NetEvent_t::eDisconnected) {
-
+		// do disconnect...
 	}
 	else {
-
+		// unknown event
 	}
 }
 
