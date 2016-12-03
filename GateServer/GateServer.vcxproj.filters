@@ -21,12 +21,18 @@
     <ClCompile Include="GateServer.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="NetManagerGate.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GateServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GuestManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetManagerGate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

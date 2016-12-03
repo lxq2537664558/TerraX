@@ -38,7 +38,7 @@ void GameServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterSer
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
-	assert(pi.peer_type == uint8_t(PeerType_t::gameserver));
+	assert(pi.peer_type == PeerType_t::gameserver);
 	assert(pi.peer_index > 0);
 	assert(pi.channel_index != 0 && channel->GetChannelIndex() == 0);
 	std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index) <<

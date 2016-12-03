@@ -11,7 +11,7 @@ void Acceptor::ForceClose(NetChannelPtr& channel) {
 }
 
 void Acceptor::SendPacket(NetChannelPtr& channel, google::protobuf::Message& packet) {
-	channel->SendMsg(1, packet);
+	//channel->SendMsg(1, packet);
 }
 
 //template<class Packet>

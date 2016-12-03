@@ -136,10 +136,12 @@
   <ItemGroup>
     <ClCompile Include="GateServer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetManagerGate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GateServer.h" />
     <ClInclude Include="GuestManager.h" />
+    <ClInclude Include="NetManagerGate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

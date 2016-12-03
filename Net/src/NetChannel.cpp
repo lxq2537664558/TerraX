@@ -136,19 +136,11 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 		self->ConnectFailed();
 	}
 }
-/*
-void NetChannel::SendMsg(int flag, google::protobuf::Message& msg)
+
+bool NetChannel::OnMessage(int32_t nFromGuestID, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
-	//bufferevent_write(evConn_, msg.c_str(), msg.size());
-	if (m_eState == ConnState_t::eConnected) {
-		send(m_evConn, flag, msg);
-	}
-}*/
-/*
-bool NetChannel::OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
-{
-	return PacketDispatcher::GetInstance().DeliverPacket(shared_from_this(), strMsgType, pBuffer, nBufferSize);
-}*/
+	return PacketDispatcher::GetInstance().DeliverPacket(shared_from_this(), nFromGuestID, strMsgType, pBuffer, nBufferSize);
+}
 
 void NetChannel::SendMsg(struct evbuffer* buf)
 {

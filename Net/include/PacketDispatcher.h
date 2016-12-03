@@ -14,21 +14,30 @@ namespace TerraX
 	public:
 		IPacketFunctor() = default;
 		virtual void operator()(NetChannelPtr& channel, gpb::Message& arg) = 0;
+		virtual void operator()(NetChannelPtr& channel, int32_t fromid, gpb::Message& arg) = 0;
 	};
 
 	template<typename Packet>
 	class PacketFunctor : public IPacketFunctor
 	{
 		using PacketCB = std::function<void(NetChannelPtr&, Packet&)>;
+		using GuestPacketCB = std::function<void(NetChannelPtr&, int32_t, Packet&)>;
 	public:
-		PacketFunctor(PacketCB cb) {
+		explicit PacketFunctor(PacketCB cb) {
 			this->cb = cb;
+		}
+		explicit PacketFunctor(GuestPacketCB gcb) {
+			this->gcb = gcb;
 		}
 		void operator()(NetChannelPtr& channel, gpb::Message& msg) override {
 			cb(channel, static_cast<Packet&>(msg));
 		}
+		void operator()(NetChannelPtr& channel, int32_t fromid, gpb::Message& msg) override {
+			gcb(channel, fromid, static_cast<Packet&>(msg));
+		}
 	private:
 		PacketCB cb;
+		GuestPacketCB gcb;
 	};
 
 	class PacketDispatcher
@@ -43,7 +52,7 @@ namespace TerraX
 			m_mapCallBacks[Packet::descriptor()] = pMsg;
 		}
 
-		bool DeliverPacket(NetChannelPtr& rChannel, const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
+		bool DeliverPacket(NetChannelPtr& rChannel, int32_t nFromGuestID, const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 	private:
 		std::map<const google::protobuf::Descriptor*, IPacketFunctor* > m_mapCallBacks;
 	};

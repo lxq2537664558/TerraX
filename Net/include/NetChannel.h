@@ -25,13 +25,11 @@ namespace TerraX
 		~NetChannel();
 		void SetDisconnectCb(SrvDisconnect_CB cb) { m_SrvDisconnectCB = cb; };
 		
-		//void SendMsg(int flag, google::protobuf::Message& msg);
-		//bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 		void SendMsg(struct evbuffer* buf);
+		bool OnMessage(int32_t nFromGuestID, const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 
-
-		void SetPeerType(uint8_t peer_type) { m_peer_info = (peer_type << 24) + (m_peer_info & 0x00FFFFFF); }
-		uint8_t GetPeerType() const { return (m_peer_info & 0xFF000000) >> 24; }
+		void SetPeerType(PeerType_t peer_type) { m_peer_info = (uint8_t(peer_type) << 24) + (m_peer_info & 0x00FFFFFF); }
+		PeerType_t GetPeerType() const { return PeerType_t((m_peer_info & 0xFF000000) >> 24); }
 		void SetPeerIndex(uint8_t peer_index) { m_peer_info = (peer_index << 16) + (m_peer_info & 0xFF00FFFF); }
 		uint8_t GetPeerIndex() const { return  (m_peer_info & 0x00FF0000) >> 16; }
 		void SetChannelIndex(uint16_t idx) { m_peer_info = (m_peer_info & 0xFFFF0000) + idx; }

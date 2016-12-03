@@ -55,19 +55,19 @@ namespace TerraX
 	{
 	public:
 		PeerInfo() = default;
-		explicit PeerInfo(PeerType_t ePeerType) : peer_type(uint8_t(ePeerType)){
+		explicit PeerInfo(PeerType_t ePeerType) : peer_type(ePeerType){
 		}
 		void parse(int32_t server_info) {
-			peer_type		=  (server_info & 0xFF000000) >> 24;
+			peer_type		= PeerType_t((server_info & 0xFF000000) >> 24);
 			peer_index		=  (server_info & 0x00FF0000) >> 16;
 			channel_index	=	server_info & 0x0000FFFF;
-			assert(peer_type > (uint8_t)PeerType_t::undefine && peer_type < (uint8_t)PeerType_t::peer_count);
+			assert(peer_type > PeerType_t::undefine && peer_type < PeerType_t::peer_count);
 		}
 		int32_t serialize() {
-			return (peer_type << 24) + (peer_index << 16) + channel_index;
+			return (uint8_t(peer_type) << 24) + (peer_index << 16) + channel_index;
 		}
 		const char* server_name() {
-			switch (PeerType_t(peer_type))
+			switch (peer_type)
 			{
 			case PeerType_t::client:				return "client";
 			case PeerType_t::centerserver:			return "center";
@@ -81,7 +81,7 @@ namespace TerraX
 			return "unknown host";
 		}
 	public:
-		uint8_t peer_type{ uint16_t(PeerType_t::undefine) };
+		PeerType_t peer_type{ PeerType_t::undefine };
 		uint8_t peer_index{ 0 };
 		uint16_t channel_index{ 0 };
 	};

@@ -36,5 +36,5 @@ void GameState_AccountEnteringWorld::Enter()
 	pkt.set_szaccountname("ghost");
 	pkt.set_szsessionkey("key session");
 
-	NetManagerClient::GetInstance().SendPacket2Server(int32_t(PeerType_t::worldserver)| int32_t(PeerType_t::gateserver), pkt);
+	NetManagerClient::GetInstance().SendPacket(PeerType_t::gateserver, pkt);
 }

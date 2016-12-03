@@ -58,8 +58,8 @@ void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, PktRegisterSe
 	pi.parse(server_info);
 	assert(channel->GetChannelIndex() != 0 && pi.channel_index == 0);
 	assert(pi.peer_index == 0);
-	assert(pi.peer_type > (uint16_t)PeerType_t::client && pi.peer_type < (uint16_t)PeerType_t::peer_count);
-	uint8_t conn_id = GetAvailableConnIdx(PeerType_t(pi.peer_type));
+	assert(pi.peer_type > PeerType_t::client && pi.peer_type < PeerType_t::peer_count);
+	uint8_t conn_id = GetAvailableConnIdx(pi.peer_type);
 	if (conn_id == 0) {
 		channel->ForceClose();
 	}

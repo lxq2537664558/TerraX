@@ -23,18 +23,10 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		void OnConnector_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
-		void OnAcceptor_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
-
 		//Acceptor* GetAcceptor() { return m_pAcceptor.get(); }
 		//Connector* GetConnector(){ return m_pConnector.get(); }
-	public:
-		void Register(int32_t peer_info);
-		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt);
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
-		std::unique_ptr<Acceptor> m_pAcceptor; //front-end
-		std::unique_ptr<Connector> m_pConnector; //back-end
 	};
 }
