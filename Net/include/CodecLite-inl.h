@@ -103,12 +103,12 @@ namespace TerraX
 
 			//deliver packet
 			assert(channel);
-			if (channel->OnMessage(packetname, buf + start, total_len - start - 4)) {
+			/*if (channel->OnMessage(packetname, buf + start, total_len - start - 4)) {
 				error = kNoError;// or erro == kUnknownMessageType;
 			}
 			else {
 				error = kParseError; 
-			}
+			}*/
 		}
 		else
 		{

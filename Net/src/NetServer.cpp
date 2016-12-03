@@ -88,8 +88,8 @@ void* NetServer::RunLoop(void* ptr)
 	int pipefd[2];
 	int ret = pipe(pipefd);
 	assert(ret == 0);
-	struct event* ev = event_new(base, pipefd[0], EV_READ, cb_func, nullptr);
-	event_add(ev, nullptr);
+	struct event* ev = event_new(base, pipefd[0], EV_READ, cb_func, NULL);
+	event_add(ev, NULL);
 
 	std::cout << "Run Thread Loop: " << std::this_thread::get_id() << std::endl;
 	event_base_loop(base, 0);

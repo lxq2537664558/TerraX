@@ -86,11 +86,9 @@ void NetChannel::OnRead()
 	//bufferevent_write_buffer(evConn_, input);
 
 	struct evbuffer* input = bufferevent_get_input(m_evConn);
-	ParseErrorCode errorCode = read(input, this);
-	if (errorCode != kNoError)
-	{
-	//FIXME:
-	}
+	m_OnMessageCB(input, shared_from_this());
+	//ParseErrorCode errorCode = read(input, this);
+	//if (errorCode != kNoError){ /*FIXME:*/ }
 }
 
 void NetChannel::OnWrite()
@@ -138,16 +136,24 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 		self->ConnectFailed();
 	}
 }
-
+/*
 void NetChannel::SendMsg(int flag, google::protobuf::Message& msg)
 {
 	//bufferevent_write(evConn_, msg.c_str(), msg.size());
 	if (m_eState == ConnState_t::eConnected) {
 		send(m_evConn, flag, msg);
 	}
-}
-
+}*/
+/*
 bool NetChannel::OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
 	return PacketDispatcher::GetInstance().DeliverPacket(shared_from_this(), strMsgType, pBuffer, nBufferSize);
+}*/
+
+void NetChannel::SendMsg(struct evbuffer* buf)
+{
+	if (m_eState == ConnState_t::eConnected) {
+		bufferevent_write_buffer(m_evConn, buf);
+	}
 }
+

@@ -12,6 +12,7 @@
 namespace TerraX
 {
 	class EventLoop;
+	using OnMessage_CB = std::function<void(evbuffer*, NetChannelPtr&)>;
 	//typedef std::shared_ptr<google::protobuf::Message> MessagePtr;
 	class NetChannel final : public std::enable_shared_from_this<NetChannel>
 	{
@@ -24,8 +25,10 @@ namespace TerraX
 		~NetChannel();
 		void SetDisconnectCb(SrvDisconnect_CB cb) { m_SrvDisconnectCB = cb; };
 		
-		void SendMsg(int flag, google::protobuf::Message& msg);
-		bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
+		//void SendMsg(int flag, google::protobuf::Message& msg);
+		//bool OnMessage(const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
+		void SendMsg(struct evbuffer* buf);
+
 
 		void SetPeerType(uint8_t peer_type) { m_peer_info = (peer_type << 24) + (m_peer_info & 0x00FFFFFF); }
 		uint8_t GetPeerType() const { return (m_peer_info & 0xFF000000) >> 24; }
@@ -40,6 +43,7 @@ namespace TerraX
 		void ForceClose();
 
 		void RegNetEvent_Callback(NetEvent_CB cb) { m_NetEventCB = cb; }
+		void RegOnMessage_Callback(OnMessage_CB cb) { m_OnMessageCB = cb; }
 
 	private:
 		void OnRead();
@@ -62,6 +66,7 @@ namespace TerraX
 		NetEvent_CB m_NetEventCB;
 		ConnState_t m_eState{ ConnState_t::eDisconnected };
 		int32_t m_peer_info{ 0 };
+		OnMessage_CB m_OnMessageCB;
 	};
 
 
