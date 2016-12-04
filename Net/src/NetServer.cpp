@@ -64,6 +64,15 @@ void NetServer::SetThreadNum(int numThreads)
 #endif
 }
 
+NetChannelPtr NetServer::GetChannel(uint16_t nChannelIndex)
+{
+	if (nChannelIndex <= 0 || nChannelIndex >= m_vecChannels.size())
+	{
+		return nullptr;
+	}
+	return m_vecChannels[nChannelIndex];
+}
+
 void NetServer::ForceClose(NetChannelPtr& channel)
 {
 	channel->ForceClose();
@@ -113,6 +122,7 @@ void NetServer::OnConnect(evutil_socket_t fd)
 
 	NetChannelPtr pChannel = std::make_shared<NetChannel>(base, static_cast<int>(fd));
 	pChannel->SetDisconnectCb(std::bind(&NetServer::DisconnectCallback, this, std::placeholders::_1));
+	pChannel->RegOnMessage_Callback(m_OnMessageCB);
 	
 	if (m_freeindexes.empty())
 	{

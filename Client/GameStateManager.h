@@ -14,7 +14,7 @@ namespace TerraX
 		GameStateManager();
 		~GameStateManager() = default;
 		void Tick();
-
+		void EnterDefaultState();
 		void NextState(GameState_t eGameState);
 	private:
 		GameState_t m_CurGameState{ GameState_t::eUnKnownState };

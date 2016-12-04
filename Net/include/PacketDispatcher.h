@@ -13,32 +13,41 @@ namespace TerraX
 	{
 	public:
 		IPacketFunctor() = default;
-		virtual void operator()(NetChannelPtr& channel, gpb::Message& arg) = 0;
-		virtual void operator()(NetChannelPtr& channel, int32_t fromid, gpb::Message& arg) = 0;
+		virtual void operator()(NetChannelPtr& channel, gpb::Message& arg) {}
+		virtual void operator()(NetChannelPtr& channel, int32_t fromid, gpb::Message& arg) {}
 	};
 
 	template<typename Packet>
 	class PacketFunctor : public IPacketFunctor
 	{
 		using PacketCB = std::function<void(NetChannelPtr&, Packet&)>;
-		using GuestPacketCB = std::function<void(NetChannelPtr&, int32_t, Packet&)>;
 	public:
 		explicit PacketFunctor(PacketCB cb) {
 			this->cb = cb;
 		}
-		explicit PacketFunctor(GuestPacketCB gcb) {
-			this->gcb = gcb;
-		}
-		void operator()(NetChannelPtr& channel, gpb::Message& msg) override {
+		void operator()(NetChannelPtr& channel, gpb::Message& msg) override final {
 			cb(channel, static_cast<Packet&>(msg));
-		}
-		void operator()(NetChannelPtr& channel, int32_t fromid, gpb::Message& msg) override {
-			gcb(channel, fromid, static_cast<Packet&>(msg));
 		}
 	private:
 		PacketCB cb;
+	};
+
+	template<typename Packet, typename int32_t>
+	class PacketFunctorArg1 : public IPacketFunctor
+	{
+		using GuestPacketCB = std::function<void(NetChannelPtr&, Packet&, int32_t)>;
+	public:
+		PacketFunctorArg1(GuestPacketCB gcb) {
+		this->gcb = gcb;
+		}
+		void operator()(NetChannelPtr& channel, int32_t fromid, gpb::Message& msg) override final {
+			gcb(channel, fromid, static_cast<Packet&>(msg));
+		}
+	private:
 		GuestPacketCB gcb;
 	};
+
+
 
 	class PacketDispatcher
 	{

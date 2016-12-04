@@ -1,10 +1,10 @@
 #include "ConnectionManager.h"
 #include "PacketDispatcher.h"
 #include "CenterServer.h"
+#include "NetManagerCenter.h"
 using namespace TerraX;
 
-ConnectionManager::ConnectionManager(CenterServer& cs)
-	: server(cs) {
+ConnectionManager::ConnectionManager() {
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
 		std::bind(&ConnectionManager::OnMessage_Register, this, std::placeholders::_1, std::placeholders::_2)));
 
@@ -70,7 +70,7 @@ void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, PktRegisterSe
 		std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index) <<
 			"\t ChannelIndex: " << pi.channel_index << std::endl;
 		pkt.set_server_info(channel->GetPeerInfo());
-		channel->SendMsg(0, pkt);
+		NetManagerCenter::GetInstance().SendPacket(channel, pkt);
 	}
 }
 

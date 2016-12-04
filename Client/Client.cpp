@@ -10,6 +10,8 @@ Client::Client()
 
 bool Client::Init()
 {
+	GameStateManager::GetInstance().EnterDefaultState();
+
 	return true;
 }
 

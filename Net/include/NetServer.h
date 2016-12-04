@@ -27,7 +27,10 @@ namespace TerraX
 		void ForceClose(NetChannelPtr& channel);
 		void ForceCloseAll();
 
+		NetChannelPtr GetChannel(uint16_t nChannelIndex);
+
 		void RegNetEvent_Callback(NetEvent_CB cb) { m_NetEventCB = cb; }
+		void RegOnMessage_Callback(OnMessage_CB cb) { m_OnMessageCB = cb; }
 	private:
 		static void NewConnectionCallback(struct evconnlistener* listener,
 			evutil_socket_t fd, struct sockaddr* address, int socklen, void* ctx);
@@ -46,6 +49,7 @@ namespace TerraX
 		std::queue<uint16_t> m_freeindexes;
 		const uint16_t m_maxconnections;
 		NetEvent_CB m_NetEventCB;
+		OnMessage_CB m_OnMessageCB;
 	};
 
 }

@@ -4,7 +4,6 @@
 #include "ComDef.h"
 #include "ConnectionManager.h"
 #include "EventLoop.h"
-#include "Acceptor.h"
 
 namespace TerraX
 {
@@ -21,13 +20,7 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		void OnAcceptor_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
 	private:
 		bool m_bExit{ false };
-		EventLoop m_loop;
-		ConnectionManager m_ConnManager{ *this };
-
-		std::unique_ptr<Acceptor> m_pAcceptor; //front-end
-		//std::unique_ptr<Connector<NetChannel, PeerType_t::centerserver> > m_pConnector; //back-end
 	};
 }

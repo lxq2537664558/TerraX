@@ -33,12 +33,6 @@
     <ClCompile Include="proto\server_server.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
-    <ClCompile Include="src\Acceptor.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Connector.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
     <ClCompile Include="src\ProtobufCodecLite.cpp">
       <Filter>Net</Filter>
     </ClCompile>
@@ -63,12 +57,6 @@
       <Filter>Net</Filter>
     </ClInclude>
     <ClInclude Include="include\SocketOpt-inl.h">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Connector.h">
-      <Filter>Net</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Acceptor.h">
       <Filter>Net</Filter>
     </ClInclude>
     <ClInclude Include="proto\client_server.pb.h">

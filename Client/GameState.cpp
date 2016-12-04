@@ -2,15 +2,13 @@
 #include <iostream>
 #include <stdio.h>
 #include "GameStateManager.h"
-#include "proto/client_server.pb.h"
 #include "NetManagerClient.h"
 using namespace TerraX;
-using namespace C2SPacket;
 
 void GameState_Press2Start::Enter()
 {
-	std::cout << "Press any key to continue..." << std::endl;
-	getchar();
+	//std::cout << "Press any key to continue..." << std::endl;
+	//getchar();
 	GameStateManager::GetInstance().NextState(GameState_t::eLoginForm);
 }
 
@@ -31,10 +29,4 @@ void GameState_eLoginForm::Enter()
 void GameState_AccountEnteringWorld::Enter()
 {
 	NetManagerClient::GetInstance().Connect("127.0.0.1", 9991, true);
-
-	PktAccountRequestEnterWorld pkt;
-	pkt.set_szaccountname("ghost");
-	pkt.set_szsessionkey("key session");
-
-	NetManagerClient::GetInstance().SendPacket(PeerType_t::gateserver, pkt);
 }

@@ -91,7 +91,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Base\include;..\Net;..\Net\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Base\include;..\Net;..\Net\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include\;..\ThirdParty\zlib\win32_include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -137,10 +137,12 @@
     <ClCompile Include="CenterServer.cpp" />
     <ClCompile Include="ConnectionManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetManagerCenter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterServer.h" />
     <ClInclude Include="ConnectionManager.h" />
+    <ClInclude Include="NetManagerCenter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

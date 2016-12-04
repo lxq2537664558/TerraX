@@ -94,7 +94,7 @@
       </AdditionalUsingDirectories>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\Base\include;..\Net;..\Net\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Base\include;..\Net;..\Net\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include\;..\ThirdParty\zlib\win32_include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\Lib;..\ThirdParty\Lib</AdditionalLibraryDirectories>
@@ -136,9 +136,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetManagerWorld.cpp" />
     <ClCompile Include="WorldServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NetManagerWorld.h" />
     <ClInclude Include="WorldServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

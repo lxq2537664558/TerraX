@@ -24,12 +24,18 @@
     <ClCompile Include="ConnectionManager.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="NetManagerCenter.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConnectionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetManagerCenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

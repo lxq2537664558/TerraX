@@ -4,8 +4,6 @@
 #include "EventLoop.h"
 #include "proto/server_server.pb.h"
 #include "proto/client_server.pb.h"
-#include "Acceptor.h"
-#include "Connector.h"
 using namespace S2SPacket;
 
 namespace TerraX
@@ -27,6 +25,5 @@ namespace TerraX
 		//Connector* GetConnector(){ return m_pConnector.get(); }
 	private:
 		bool m_bExit{ false };
-		EventLoop m_loop;
 	};
 }

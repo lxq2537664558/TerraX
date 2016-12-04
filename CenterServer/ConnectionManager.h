@@ -20,8 +20,9 @@ namespace TerraX
 	class ConnectionManager
 	{
 		NOCOPY(ConnectionManager);
+		MAKEINSTANCE(ConnectionManager);
 	public:
-		ConnectionManager(CenterServer& cs); 
+		ConnectionManager(); 
 
 		void OnMessage_Register(NetChannelPtr& channel, PktRegisterServer& pkt);
 
@@ -30,7 +31,6 @@ namespace TerraX
 		uint8_t GetAvailableConnIdx(PeerType_t peer_type);
 
 	private:
-		CenterServer& server;
 		std::queue<uint8_t> m_queue_gateconnIds;
 		std::queue<uint8_t> m_queue_gameconnIds;
 		std::queue<uint8_t> m_queue_worldconnIds;
