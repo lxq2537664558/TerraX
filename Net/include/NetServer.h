@@ -28,6 +28,7 @@ namespace TerraX
 		void ForceCloseAll();
 
 		NetChannelPtr GetChannel(uint16_t nChannelIndex);
+		NetChannelPtr GetChannel(PeerType_t peer_type, uint8_t peer_index);
 
 		void RegNetEvent_Callback(NetEvent_CB cb) { m_NetEventCB = cb; }
 		void RegOnMessage_Callback(OnMessage_CB cb) { m_OnMessageCB = cb; }

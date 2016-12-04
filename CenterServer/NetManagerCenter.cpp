@@ -30,7 +30,8 @@ void NetManagerCenter::OnMessageAcceptor(evbuffer* evbuf, NetChannelPtr& pChanne
 			}
 			PeerInfo pi;
 			pi.parse(nDestPeerInfo);
-			NetChannelPtr m_pChannel = m_pAcceptor->GetChannel(pi.channel_index);
+			NetChannelPtr m_pChannel = (pi.peer_type == PeerType_t::client) ? 
+				m_pAcceptor->GetChannel(PeerType_t::gateserver, pi.peer_index) : m_pAcceptor->GetChannel(pi.channel_index);
 			if (m_pChannel) {
 				m_pChannel->SendMsg(evOutput);
 			}

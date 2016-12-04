@@ -73,6 +73,16 @@ NetChannelPtr NetServer::GetChannel(uint16_t nChannelIndex)
 	return m_vecChannels[nChannelIndex];
 }
 
+NetChannelPtr NetServer::GetChannel(PeerType_t peer_type, uint8_t peer_index)
+{
+	for (auto channel : m_vecChannels) {
+		if (channel && channel->GetPeerType() == peer_type && channel->GetPeerIndex() == peer_index) {
+			return channel;
+		}
+	}
+	return nullptr;
+}
+
 void NetServer::ForceClose(NetChannelPtr& channel)
 {
 	channel->ForceClose();
