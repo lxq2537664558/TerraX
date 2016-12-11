@@ -17,49 +17,67 @@ void NetManagerCenter::OnMessageAcceptor(evbuffer* evbuf, NetChannelPtr& pChanne
 	struct evbuffer* evOutput = evbuffer_new();
 	while (true)
 	{
-		ErrorCode_t errCode = m_Codec.TryReadMsg(evbuf, pChannel, evOutput, PeerType_t::centerserver);
+		MsgHeader msgHeader;
+		ErrorCode_t errCode = m_Codec.ReadMessage_OneByOne(evbuf, evOutput, msgHeader);
 		if (errCode == ErrorCode_t::eNoMoreData) {
 			break;
 		}
-		else if (errCode == ErrorCode_t::eNotDestination) {
-			int nDestPeerInfo = 0;
-			if (!m_Codec.TryExtractDestInfo(evOutput, nDestPeerInfo)) {
-				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-				//LOG why Error
-				continue;
+		if (errCode == ErrorCode_t::eNoError) {
+			char* pMsgName = nullptr;
+			int nMsgNameSize = 0;
+			char* pBuffer = nullptr;
+			int nBufferSize = 0;
+			ErrorCode_t eParError = m_Codec.Parse(evOutput, msgHeader, pMsgName, nMsgNameSize, pBuffer, nBufferSize);
+			if (eParError == ErrorCode_t::eNoError)
+			{
+				PeerInfo pi;
+				pi.parse(msgHeader.dest_peer_info());
+				if (pi.peer_type == PeerType_t::centerserver)
+				{
+					std::string packetname(pMsgName, nMsgNameSize - 1);
+					pChannel->OnMessage(msgHeader.from_peer_info(), packetname, pBuffer, nBufferSize);
+				}
+				else
+				{
+					NetChannelPtr pFrontEndChannel = (pi.peer_type == PeerType_t::client) ?
+						m_pAcceptor->GetChannel(PeerType_t::gateserver, pi.peer_index) : m_pAcceptor->GetChannel(pi.channel_index);
+					assert(pFrontEndChannel);
+					if (pFrontEndChannel) {
+						pChannel->SendMsg(evOutput);
+					}
+				}
 			}
-			PeerInfo pi;
-			pi.parse(nDestPeerInfo);
-			NetChannelPtr m_pChannel = (pi.peer_type == PeerType_t::client) ? 
-				m_pAcceptor->GetChannel(PeerType_t::gateserver, pi.peer_index) : m_pAcceptor->GetChannel(pi.channel_index);
-			if (m_pChannel) {
-				m_pChannel->SendMsg(evOutput);
-			}
-			else {
-				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-			}
-		}
-		else if (errCode == ErrorCode_t::eInvalidLength) {
-			pChannel->ForceClose(); //Log Why Error
-			break;
-		}
-		else
-		{
-			//Log ?
 			evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
 			continue;
+		}
+		if (errCode == ErrorCode_t::eInvalidLength) {
+			pChannel->ForceClose(); //Log Why Error
+			break;
 		}
 	}
 	evbuffer_free(evOutput);
 }
 
-void NetManagerCenter::SendPacket(NetChannelPtr& channel, google::protobuf::Message& packet) {
-	m_Codec.SendMsg(channel, packet, channel->GetPeerInfo());
+void NetManagerCenter::SendPacket(int32_t nDestPeerInfo, google::protobuf::Message& packet) {
+	//SendPacket(m_pConnector, nDestPeerInfo, packet);
 }
 
-void NetManagerCenter::SendPacket(int32_t nDestPeerInfo, google::protobuf::Message& packet) {
-	//PeerInfo pi(eDestPeer);
-	//m_Codec.SendMsg(m_pConnector, packet, pi.serialize());
+void NetManagerCenter::SendPacket(NetChannelPtr& channel, int32_t nDestPeerInfo, gpb::Message& packet) {
+	MsgHeader msgHeader(channel->GetPeerInfo(), nDestPeerInfo);
+	struct evbuffer* buf = evbuffer_new();
+	m_Codec.Serialize(buf, msgHeader, packet);
+	channel->SendMsg(buf);
+	evbuffer_free(buf);
+}
+
+void NetManagerCenter::SendPacket(int32_t nFromChannelPeer, int32_t nDestPeerInfo, gpb::Message& packet) {
+	PeerInfo pi;
+	pi.parse(nFromChannelPeer);
+	auto& pChannel = m_pAcceptor->GetChannel(pi.channel_index);
+	assert(pChannel);
+	if (pChannel) {
+		SendPacket(pChannel, nDestPeerInfo, packet);
+	}
 }
 
 void NetManagerCenter::OnAcceptor_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)

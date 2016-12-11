@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="DebugLib|Win32">
-      <Configuration>DebugLib</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="DebugLib|x64">
-      <Configuration>DebugLib</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -27,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{ACE18C71-51EA-4387-9114-01F9FC7A7229}</ProjectGuid>
-    <RootNamespace>Net</RootNamespace>
+    <ProjectGuid>{46BDB414-4FF4-42DB-89F9-419E14E53791}</ProjectGuid>
+    <RootNamespace>SrvLib</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -58,12 +50,6 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DebugLib|Win32'">
-    <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DebugLib|x64'">
-    <PlatformToolset>v140</PlatformToolset>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -91,9 +77,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Base\include;.\;.\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include;..\ThirdParty\zlib\win32_include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\Base\include;.\;.\include;..\Net;..\Net\include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -131,24 +115,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="proto\client_server.pb.cc" />
-    <ClCompile Include="proto\server_server.pb.cc" />
-    <ClCompile Include="src\NetChannel.cpp" />
-    <ClCompile Include="src\NetServer.cpp" />
-    <ClCompile Include="src\PacketDispatcher.cpp" />
-    <ClCompile Include="src\ProtobufCodecLite.cpp" />
+    <ClInclude Include="include\ServerAddrManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\EventLoop.h" />
-    <ClInclude Include="include\NetChannel.h" />
-    <ClInclude Include="include\NetDefine.h" />
-    <ClInclude Include="include\NetServer.h" />
-    <ClInclude Include="include\PacketDispatcher.h" />
-    <ClInclude Include="include\ProtobufCodecLite.h" />
-    <ClInclude Include="include\SocketOpt-inl.h" />
-    <ClInclude Include="proto\client_server.pb.h" />
-    <ClInclude Include="proto\server_server.pb.h" />
+    <ClCompile Include="src\ServerAddrManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

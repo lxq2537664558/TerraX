@@ -5,3 +5,15 @@ message PktRegisterServer
 {
     int32 server_info = 1;
 }
+
+message PktUpdateServerInfo
+{
+    enum UpdateType
+    {
+        add = 0;
+        sync = 1;
+        remove = 2;
+    }
+    UpdateType type = 1;
+    repeated int32 server_info = 2;
+}

@@ -38,9 +38,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CodecLite-inl.h">
-      <Filter>Net</Filter>
-    </ClInclude>
     <ClInclude Include="include\EventLoop.h">
       <Filter>Net</Filter>
     </ClInclude>

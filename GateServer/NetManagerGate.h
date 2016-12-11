@@ -11,6 +11,7 @@ using namespace S2SPacket;
 
 namespace TerraX
 {
+	class Guest;
 	class NetManagerGate
 	{
 		NOCOPY(NetManagerGate);
@@ -21,10 +22,9 @@ namespace TerraX
 
 		void Connect(const std::string& host, int port);
 		void Accept(int port, uint16_t max_connections);
-		void SendPacket(PeerType_t eDestPeer, google::protobuf::Message& packet);
 		void SendPacket(NetChannelPtr& channel, google::protobuf::Message& packet);
 
-
+		void SendPacket2Backend(int32_t nDestPeerInfo, google::protobuf::Message& packet);
 
 		void Tick() { m_loop.loop(); }
 
@@ -35,7 +35,7 @@ namespace TerraX
 		void OnMessageClient(evbuffer* evbuf, NetChannelPtr& pChannel);
 	private:
 		void Register(int32_t peer_info);
-		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt);
+		void OnMessage_RegisterResult(NetChannelPtr& channel, int32_t nFromPeerInfo, PktRegisterServer& pkt);
 		//void OnClientMessage
 	private:
 		EventLoop m_loop;

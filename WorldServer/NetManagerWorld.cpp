@@ -19,19 +19,39 @@ void NetManagerWorld::OnMessageCenterServer(evbuffer* evbuf, NetChannelPtr& pCha
 	struct evbuffer* evOutput = evbuffer_new();
 	while (true)
 	{
-		ErrorCode_t errCode = m_Codec.TryReadMsg(evbuf, pChannel, evOutput, PeerType_t::worldserver);
+		MsgHeader msgHeader;
+		ErrorCode_t errCode = m_Codec.ReadMessage_OneByOne(evbuf, evOutput, msgHeader);
 		if (errCode == ErrorCode_t::eNoMoreData) {
 			break;
 		}
-		else if (errCode == ErrorCode_t::eInvalidLength) {
+		if (errCode == ErrorCode_t::eNoError) {
+			char* pMsgName = nullptr;
+			int nMsgNameSize = 0;
+			char* pBuffer = nullptr;
+			int nBufferSize = 0;
+			ErrorCode_t eParError = m_Codec.Parse(evOutput, msgHeader, pMsgName, nMsgNameSize, pBuffer, nBufferSize);
+			if (eParError == ErrorCode_t::eNoError)
+			{
+				PeerInfo pi;
+				pi.parse(msgHeader.dest_peer_info());
+				if (pi.peer_type == PeerType_t::worldserver)
+				{
+					std::string packetname(pMsgName, nMsgNameSize - 1);
+					pChannel->OnMessage(pChannel->GetPeerInfo(), packetname, pBuffer, nBufferSize);
+				}
+				else
+				{
+					evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
+				}
+			}
+			else
+			{
+				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
+			}
+		}
+		if (errCode == ErrorCode_t::eInvalidLength) {
 			pChannel->ForceClose(); //Log Why Error
 			break;
-		}
-		else
-		{
-			evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-			//Log ?
-			continue;
 		}
 	}
 	evbuffer_free(evOutput);
@@ -39,8 +59,8 @@ void NetManagerWorld::OnMessageCenterServer(evbuffer* evbuf, NetChannelPtr& pCha
 
 
 void NetManagerWorld::SendPacket(PeerType_t eDestPeer, google::protobuf::Message& packet) {
-	PeerInfo pi(eDestPeer);
-	m_Codec.SendMsg(m_pConnector, packet, pi.serialize());
+	//PeerInfo pi(eDestPeer);
+	//m_Codec.SendMsg(m_pConnector, packet, pi.serialize());
 }
 
 void NetManagerWorld::OnCenterServer_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)

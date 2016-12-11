@@ -20,16 +20,19 @@ namespace TerraX
 		~NetManagerCenter() = default;
 
 		void Accept(int port, uint16_t max_connections);
-		void SendPacket(NetChannelPtr& channel, google::protobuf::Message& packet);
 		void Tick() { m_loop.loop(); }
 
 		void SendPacket(int32_t nDestPeerInfo, google::protobuf::Message& packet);
+
+		void SendPacket(NetChannelPtr& channel, int32_t nDestPeerInfo, gpb::Message& packet);
+
+		void SendPacket(int32_t nFromChannelPeer, int32_t nDestPeerInfo, gpb::Message& packet);
 
 		void OnAcceptor_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
 
 		void OnMessageAcceptor(evbuffer* evbuf, NetChannelPtr& pChannel);
 	private:
-		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt);
+		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt) {};
 		//void OnClientMessage
 	private:
 		EventLoop m_loop;

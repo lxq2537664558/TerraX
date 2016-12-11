@@ -6,6 +6,7 @@
 #include <queue>
 #include <map>
 #include <cassert>
+#include "ServerAddrManager.h"
 
 using namespace S2SPacket;
 namespace TerraX
@@ -24,7 +25,7 @@ namespace TerraX
 	public:
 		ConnectionManager(); 
 
-		void OnMessage_Register(NetChannelPtr& channel, PktRegisterServer& pkt);
+		void OnMessage_Register(NetChannelPtr& channel, int32_t nFromPeerInfo, PktRegisterServer& pkt);
 
 		void OnChannel_DisConnect(NetChannelPtr& channel);
 	private:
@@ -34,6 +35,6 @@ namespace TerraX
 		std::queue<uint8_t> m_queue_gateconnIds;
 		std::queue<uint8_t> m_queue_gameconnIds;
 		std::queue<uint8_t> m_queue_worldconnIds;
-		// maybe we should use shared_ptr?
+		ServerAddrManager m_SrvAddrManager;
 	};
 }

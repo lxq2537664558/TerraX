@@ -24,6 +24,10 @@ namespace {
 const ::google::protobuf::Descriptor* PktRegisterServer_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   PktRegisterServer_reflection_ = NULL;
+const ::google::protobuf::Descriptor* PktUpdateServerInfo_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  PktUpdateServerInfo_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* PktUpdateServerInfo_UpdateType_descriptor_ = NULL;
 
 }  // namespace
 
@@ -50,6 +54,23 @@ void protobuf_AssignDesc_server_5fserver_2eproto() {
       sizeof(PktRegisterServer),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterServer, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterServer, _is_default_instance_));
+  PktUpdateServerInfo_descriptor_ = file->message_type(1);
+  static const int PktUpdateServerInfo_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktUpdateServerInfo, type_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktUpdateServerInfo, server_info_),
+  };
+  PktUpdateServerInfo_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      PktUpdateServerInfo_descriptor_,
+      PktUpdateServerInfo::default_instance_,
+      PktUpdateServerInfo_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(PktUpdateServerInfo),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktUpdateServerInfo, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktUpdateServerInfo, _is_default_instance_));
+  PktUpdateServerInfo_UpdateType_descriptor_ = PktUpdateServerInfo_descriptor_->enum_type(0);
 }
 
 namespace {
@@ -65,6 +86,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       PktRegisterServer_descriptor_, &PktRegisterServer::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      PktUpdateServerInfo_descriptor_, &PktUpdateServerInfo::default_instance());
 }
 
 }  // namespace
@@ -72,6 +95,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_server_5fserver_2eproto() {
   delete PktRegisterServer::default_instance_;
   delete PktRegisterServer_reflection_;
+  delete PktUpdateServerInfo::default_instance_;
+  delete PktUpdateServerInfo_reflection_;
 }
 
 void protobuf_AddDesc_server_5fserver_2eproto() GOOGLE_ATTRIBUTE_COLD;
@@ -83,12 +108,17 @@ void protobuf_AddDesc_server_5fserver_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\023server_server.proto\022\tS2SPacket\"(\n\021PktR"
-    "egisterServer\022\023\n\013server_info\030\001 \001(\005b\006prot"
-    "o3", 82);
+    "egisterServer\022\023\n\013server_info\030\001 \001(\005\"\220\001\n\023P"
+    "ktUpdateServerInfo\0227\n\004type\030\001 \001(\0162).S2SPa"
+    "cket.PktUpdateServerInfo.UpdateType\022\023\n\013s"
+    "erver_info\030\002 \003(\005\"+\n\nUpdateType\022\007\n\003add\020\000\022"
+    "\010\n\004sync\020\001\022\n\n\006remove\020\002b\006proto3", 229);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "server_server.proto", &protobuf_RegisterTypes);
   PktRegisterServer::default_instance_ = new PktRegisterServer();
+  PktUpdateServerInfo::default_instance_ = new PktUpdateServerInfo();
   PktRegisterServer::default_instance_->InitAsDefaultInstance();
+  PktUpdateServerInfo::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_server_5fserver_2eproto);
 }
 
@@ -333,6 +363,362 @@ void PktRegisterServer::clear_server_info() {
   
   server_info_ = value;
   // @@protoc_insertion_point(field_set:S2SPacket.PktRegisterServer.server_info)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+const ::google::protobuf::EnumDescriptor* PktUpdateServerInfo_UpdateType_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PktUpdateServerInfo_UpdateType_descriptor_;
+}
+bool PktUpdateServerInfo_UpdateType_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const PktUpdateServerInfo_UpdateType PktUpdateServerInfo::add;
+const PktUpdateServerInfo_UpdateType PktUpdateServerInfo::sync;
+const PktUpdateServerInfo_UpdateType PktUpdateServerInfo::remove;
+const PktUpdateServerInfo_UpdateType PktUpdateServerInfo::UpdateType_MIN;
+const PktUpdateServerInfo_UpdateType PktUpdateServerInfo::UpdateType_MAX;
+const int PktUpdateServerInfo::UpdateType_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int PktUpdateServerInfo::kTypeFieldNumber;
+const int PktUpdateServerInfo::kServerInfoFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+PktUpdateServerInfo::PktUpdateServerInfo()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:S2SPacket.PktUpdateServerInfo)
+}
+
+void PktUpdateServerInfo::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+PktUpdateServerInfo::PktUpdateServerInfo(const PktUpdateServerInfo& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:S2SPacket.PktUpdateServerInfo)
+}
+
+void PktUpdateServerInfo::SharedCtor() {
+    _is_default_instance_ = false;
+  _cached_size_ = 0;
+  type_ = 0;
+}
+
+PktUpdateServerInfo::~PktUpdateServerInfo() {
+  // @@protoc_insertion_point(destructor:S2SPacket.PktUpdateServerInfo)
+  SharedDtor();
+}
+
+void PktUpdateServerInfo::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void PktUpdateServerInfo::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* PktUpdateServerInfo::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PktUpdateServerInfo_descriptor_;
+}
+
+const PktUpdateServerInfo& PktUpdateServerInfo::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_server_5fserver_2eproto();
+  return *default_instance_;
+}
+
+PktUpdateServerInfo* PktUpdateServerInfo::default_instance_ = NULL;
+
+PktUpdateServerInfo* PktUpdateServerInfo::New(::google::protobuf::Arena* arena) const {
+  PktUpdateServerInfo* n = new PktUpdateServerInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void PktUpdateServerInfo::Clear() {
+// @@protoc_insertion_point(message_clear_start:S2SPacket.PktUpdateServerInfo)
+  type_ = 0;
+  server_info_.Clear();
+}
+
+bool PktUpdateServerInfo::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:S2SPacket.PktUpdateServerInfo)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional .S2SPacket.PktUpdateServerInfo.UpdateType type = 1;
+      case 1: {
+        if (tag == 8) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_type(static_cast< ::S2SPacket::PktUpdateServerInfo_UpdateType >(value));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_server_info;
+        break;
+      }
+
+      // repeated int32 server_info = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_server_info:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, this->mutable_server_info())));
+        } else if (tag == 16) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 18, input, this->mutable_server_info())));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:S2SPacket.PktUpdateServerInfo)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:S2SPacket.PktUpdateServerInfo)
+  return false;
+#undef DO_
+}
+
+void PktUpdateServerInfo::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:S2SPacket.PktUpdateServerInfo)
+  // optional .S2SPacket.PktUpdateServerInfo.UpdateType type = 1;
+  if (this->type() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      1, this->type(), output);
+  }
+
+  // repeated int32 server_info = 2;
+  if (this->server_info_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(2, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(_server_info_cached_byte_size_);
+  }
+  for (int i = 0; i < this->server_info_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->server_info(i), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:S2SPacket.PktUpdateServerInfo)
+}
+
+::google::protobuf::uint8* PktUpdateServerInfo::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:S2SPacket.PktUpdateServerInfo)
+  // optional .S2SPacket.PktUpdateServerInfo.UpdateType type = 1;
+  if (this->type() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      1, this->type(), target);
+  }
+
+  // repeated int32 server_info = 2;
+  if (this->server_info_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      2,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+      _server_info_cached_byte_size_, target);
+  }
+  for (int i = 0; i < this->server_info_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteInt32NoTagToArray(this->server_info(i), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:S2SPacket.PktUpdateServerInfo)
+  return target;
+}
+
+int PktUpdateServerInfo::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:S2SPacket.PktUpdateServerInfo)
+  int total_size = 0;
+
+  // optional .S2SPacket.PktUpdateServerInfo.UpdateType type = 1;
+  if (this->type() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
+  }
+
+  // repeated int32 server_info = 2;
+  {
+    int data_size = 0;
+    for (int i = 0; i < this->server_info_size(); i++) {
+      data_size += ::google::protobuf::internal::WireFormatLite::
+        Int32Size(this->server_info(i));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(data_size);
+    }
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _server_info_cached_byte_size_ = data_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PktUpdateServerInfo::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:S2SPacket.PktUpdateServerInfo)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const PktUpdateServerInfo* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const PktUpdateServerInfo>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:S2SPacket.PktUpdateServerInfo)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:S2SPacket.PktUpdateServerInfo)
+    MergeFrom(*source);
+  }
+}
+
+void PktUpdateServerInfo::MergeFrom(const PktUpdateServerInfo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:S2SPacket.PktUpdateServerInfo)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  server_info_.MergeFrom(from.server_info_);
+  if (from.type() != 0) {
+    set_type(from.type());
+  }
+}
+
+void PktUpdateServerInfo::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:S2SPacket.PktUpdateServerInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PktUpdateServerInfo::CopyFrom(const PktUpdateServerInfo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:S2SPacket.PktUpdateServerInfo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PktUpdateServerInfo::IsInitialized() const {
+
+  return true;
+}
+
+void PktUpdateServerInfo::Swap(PktUpdateServerInfo* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void PktUpdateServerInfo::InternalSwap(PktUpdateServerInfo* other) {
+  std::swap(type_, other->type_);
+  server_info_.UnsafeArenaSwap(&other->server_info_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata PktUpdateServerInfo::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = PktUpdateServerInfo_descriptor_;
+  metadata.reflection = PktUpdateServerInfo_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// PktUpdateServerInfo
+
+// optional .S2SPacket.PktUpdateServerInfo.UpdateType type = 1;
+void PktUpdateServerInfo::clear_type() {
+  type_ = 0;
+}
+ ::S2SPacket::PktUpdateServerInfo_UpdateType PktUpdateServerInfo::type() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktUpdateServerInfo.type)
+  return static_cast< ::S2SPacket::PktUpdateServerInfo_UpdateType >(type_);
+}
+ void PktUpdateServerInfo::set_type(::S2SPacket::PktUpdateServerInfo_UpdateType value) {
+  
+  type_ = value;
+  // @@protoc_insertion_point(field_set:S2SPacket.PktUpdateServerInfo.type)
+}
+
+// repeated int32 server_info = 2;
+int PktUpdateServerInfo::server_info_size() const {
+  return server_info_.size();
+}
+void PktUpdateServerInfo::clear_server_info() {
+  server_info_.Clear();
+}
+ ::google::protobuf::int32 PktUpdateServerInfo::server_info(int index) const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktUpdateServerInfo.server_info)
+  return server_info_.Get(index);
+}
+ void PktUpdateServerInfo::set_server_info(int index, ::google::protobuf::int32 value) {
+  server_info_.Set(index, value);
+  // @@protoc_insertion_point(field_set:S2SPacket.PktUpdateServerInfo.server_info)
+}
+ void PktUpdateServerInfo::add_server_info(::google::protobuf::int32 value) {
+  server_info_.Add(value);
+  // @@protoc_insertion_point(field_add:S2SPacket.PktUpdateServerInfo.server_info)
+}
+ const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+PktUpdateServerInfo::server_info() const {
+  // @@protoc_insertion_point(field_list:S2SPacket.PktUpdateServerInfo.server_info)
+  return server_info_;
+}
+ ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+PktUpdateServerInfo::mutable_server_info() {
+  // @@protoc_insertion_point(field_mutable_list:S2SPacket.PktUpdateServerInfo.server_info)
+  return &server_info_;
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

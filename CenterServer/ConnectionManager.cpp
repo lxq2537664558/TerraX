@@ -6,7 +6,7 @@ using namespace TerraX;
 
 ConnectionManager::ConnectionManager() {
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&ConnectionManager::OnMessage_Register, this, std::placeholders::_1, std::placeholders::_2)));
+		std::bind(&ConnectionManager::OnMessage_Register, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
 
 	for (uint8_t i = 1; i <= MAX_GATE_CONNECTION_COUNT; ++i) {
 		m_queue_gateconnIds.push(i);
@@ -52,7 +52,7 @@ uint8_t ConnectionManager::GetAvailableConnIdx(PeerType_t peer_type)
 	return 0;
 }
 
-void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, PktRegisterServer& pkt) {
+void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, int32_t nFromPeerInfo, PktRegisterServer& pkt) {
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;
 	pi.parse(server_info);
@@ -66,11 +66,31 @@ void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, PktRegisterSe
 	else {
 		pi.peer_index = conn_id;
 		pi.channel_index = channel->GetChannelIndex();
-		channel->SetPeerInfo(pi.serialize());
+		int32_t reg_peer_info = pi.serialize();
+		channel->SetPeerInfo(reg_peer_info);
 		std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index) <<
 			"\t ChannelIndex: " << pi.channel_index << std::endl;
 		pkt.set_server_info(channel->GetPeerInfo());
-		NetManagerCenter::GetInstance().SendPacket(channel, pkt);
+		NetManagerCenter::GetInstance().SendPacket(channel, nFromPeerInfo, pkt);
+
+		PktUpdateServerInfo pktSync;
+		pktSync.set_type(PktUpdateServerInfo_UpdateType_sync);
+		pktSync.add_server_info(reg_peer_info);
+		auto allservers = m_SrvAddrManager.GetServerAddrs();
+		for (auto& peer : allservers)
+		{
+			NetManagerCenter::GetInstance().SendPacket(peer, peer, pkt);
+		}
+
+		PktUpdateServerInfo pktAdd;
+		pktSync.set_type(PktUpdateServerInfo_UpdateType_add);
+		for (auto& peer : allservers)
+		{
+			pktAdd.add_server_info(peer);
+		}
+		NetManagerCenter::GetInstance().SendPacket(channel, nFromPeerInfo, pktAdd);
+
+		//m_SrvAddrManager.AddServer(reg_peer_info);
 	}
 }
 

@@ -2,7 +2,6 @@
 #include "EventLoop.h"
 #include <event2/buffer.h>
 #include <event2/thread.h>
-#include "CodecLite-inl.h"
 #include "SocketOpt-inl.h"
 #include <cassert>
 #include <iostream>
@@ -137,9 +136,9 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 	}
 }
 
-bool NetChannel::OnMessage(int32_t nFromGuestID, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+bool NetChannel::OnMessage(int32_t nFromPeerInfo, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
-	return PacketDispatcher::GetInstance().DeliverPacket(shared_from_this(), nFromGuestID, strMsgType, pBuffer, nBufferSize);
+	return PacketDispatcher::GetInstance().DeliverPacket(shared_from_this(), nFromPeerInfo, strMsgType, pBuffer, nBufferSize);
 }
 
 void NetChannel::SendMsg(struct evbuffer* buf)

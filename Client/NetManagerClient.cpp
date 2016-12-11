@@ -16,8 +16,11 @@ void NetManagerClient::Connect(const std::string& host, int port, bool bGate) {
 };
 
 void NetManagerClient::SendPacket(PeerType_t eDestPeer, google::protobuf::Message& packet) {
-	PeerInfo pi(eDestPeer);
-	m_Codec.SendMsg(m_pConnector, packet, pi.serialize());
+	MsgHeader msgHeader(eDestPeer);
+	struct evbuffer* buf = evbuffer_new();
+	m_Codec.Serialize(buf, msgHeader, packet);
+	m_pConnector->SendMsg(buf);
+	evbuffer_free(buf);
 }
 
 void NetManagerClient::OnGateServer_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)

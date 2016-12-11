@@ -5,7 +5,7 @@ using namespace TerraX;
 NetManagerGate::NetManagerGate() {
 	//you can use marco to wrapper it if you want;
 	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&NetManagerGate::OnMessage_RegisterResult, this, std::placeholders::_1, std::placeholders::_2)));
+		std::bind(&NetManagerGate::OnMessage_RegisterResult, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
 }
 
 
@@ -27,36 +27,41 @@ void NetManagerGate::OnMessageCenterServer(evbuffer* evbuf, NetChannelPtr& pChan
 	struct evbuffer* evOutput = evbuffer_new();
 	while (true)
 	{
-		ErrorCode_t errCode = m_Codec.TryReadMsg(evbuf, pChannel, evOutput, PeerType_t::gateserver);
+		MsgHeader msgHeader;
+		ErrorCode_t errCode = m_Codec.ReadMessage_OneByOne(evbuf, evOutput, msgHeader);
 		if (errCode == ErrorCode_t::eNoMoreData) {
 			break;
 		}
-		else if (errCode == ErrorCode_t::eNotDestination) {
-			int nDestPeerInfo = 0;
-			if (!m_Codec.TryExtractDestInfo(evOutput, nDestPeerInfo)) {
-				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-				//LOG why Error
-				continue;
+		if (errCode == ErrorCode_t::eNoError) {
+			char* pMsgName = nullptr;
+			int nMsgNameSize = 0;
+			char* pBuffer = nullptr;
+			int nBufferSize = 0;
+			ErrorCode_t eParError = m_Codec.Parse(evOutput, msgHeader, pMsgName, nMsgNameSize, pBuffer, nBufferSize);
+			if (eParError == ErrorCode_t::eNoError)
+			{
+				PeerInfo pi;
+				pi.parse(msgHeader.dest_peer_info());				
+				if (pi.peer_type == PeerType_t::gateserver)
+				{
+					std::string packetname(pMsgName, nMsgNameSize - 1);
+					pChannel->OnMessage(msgHeader.from_peer_info(), packetname, pBuffer, nBufferSize);
+				}
+				else
+				{
+					auto& pFrontEndChannel = m_pAcceptor->GetChannel(pi.channel_index);
+					assert(pFrontEndChannel);
+					if (pFrontEndChannel) {
+						pFrontEndChannel->SendMsg(evOutput);
+					}
+				}
 			}
-			PeerInfo pi;
-			pi.parse(nDestPeerInfo);
-			NetChannelPtr m_pCltChannel = m_pAcceptor->GetChannel(pi.channel_index);
-			if (m_pCltChannel) {
-				m_pCltChannel->SendMsg(evOutput);
-			}
-			else {
-				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-			}
-		}
-		else if (errCode == ErrorCode_t::eInvalidLength) {
-			pChannel->ForceClose(); //Log Why Error
-			break;
-		}
-		else
-		{
-			//Log ?
 			evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
 			continue;
+		}
+		if (errCode == ErrorCode_t::eInvalidLength) {
+			pChannel->ForceClose(); //Log Why Error
+			break;
 		}
 	}
 	evbuffer_free(evOutput);
@@ -67,47 +72,48 @@ void NetManagerGate::OnMessageClient(evbuffer* evbuf, NetChannelPtr& pChannel)
 	struct evbuffer* evOutput = evbuffer_new();
 	while (true)
 	{
-		ErrorCode_t errCode = m_Codec.TryReadMsg(evbuf, pChannel, evOutput, PeerType_t::gateserver);
+		MsgHeader msgHeader;
+		ErrorCode_t errCode = m_Codec.ReadMessage_OneByOne(evbuf, evOutput, msgHeader);
 		if (errCode == ErrorCode_t::eNoMoreData) {
 			break;
 		}
-		else if ( errCode == ErrorCode_t::eNotDestination) {
-			int nDestPeerInfo = 0;
-			if (!m_Codec.TryExtractDestInfo(evOutput, nDestPeerInfo)) {
-				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-				//LOG why Error
-				continue;
-			}
-			const Guest* pGuest = GuestManager::GetInstance().FindGuest(pChannel->GetPeerInfo());
-			if (!pGuest) {
-				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-				continue;
-			}
-			PeerInfo pi;
-			pi.parse(nDestPeerInfo);
-			if (m_Codec.TrySetMsgInfo(evOutput, pGuest->GetDestPeerInfo(pi.peer_type), pGuest->GetGuestID())) {
+		if (errCode == ErrorCode_t::eNoError) {
+			char* pMsgName = nullptr;
+			int nMsgNameSize = 0;
+			char* pBuffer = nullptr;
+			int nBufferSize = 0;
+			ErrorCode_t eParError =  m_Codec.Parse(evOutput, msgHeader, pMsgName, nMsgNameSize, pBuffer, nBufferSize);
+			if (eParError == ErrorCode_t::eNoError)
+			{
+				PeerInfo pi;
+				pi.parse(msgHeader.dest_peer_info());
+				if (pi.peer_type == PeerType_t::gateserver)
+				{
+					std::string packetname(pMsgName, nMsgNameSize - 1);
+					pChannel->OnMessage(pChannel->GetPeerInfo(), packetname, pBuffer, nBufferSize);
+				}
+				else
+				{
+					const Guest* pGuest = GuestManager::GetInstance().FindGuest(pChannel->GetPeerInfo());
+					if (!pGuest) {
+						evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
+						continue;
+					}
+					msgHeader.set_dest_peer_info(pGuest->GetDestPeerInfo(pi.peer_type));
+					msgHeader.set_from_peer_info(pChannel->GetPeerInfo());
+					m_Codec.SetMsgHeader(evOutput, msgHeader);
 					m_pConnector->SendMsg(evOutput);
+				}
 			}
-			else {
-				evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
-			}
+			evbuffer_drain(evOutput, evbuffer_get_length(evOutput));
+			continue;
 		}
-		else if (errCode == ErrorCode_t::eInvalidLength) {
+		if (errCode == ErrorCode_t::eInvalidLength) {
 			pChannel->ForceClose(); //Log Why Error
 			break;
 		}
-		else
-		{
-			//Log ?
-			continue;
-		}
 	}
 	evbuffer_free(evOutput);
-}
-
-void NetManagerGate::SendPacket(PeerType_t eDestPeer, google::protobuf::Message& packet) {
-	PeerInfo pi(eDestPeer);
-	m_Codec.SendMsg(m_pConnector, packet, pi.serialize());
 }
 
 void NetManagerGate::OnClient_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
@@ -145,17 +151,27 @@ void NetManagerGate::OnCenterServer_NetEvent(NetChannelPtr& channel, NetEvent_t 
 
 void NetManagerGate::Register(int32_t peer_info)
 {
+	PeerInfo pi(PeerType_t::centerserver);
 	PktRegisterServer pkt;
 	pkt.set_server_info(peer_info);
-	SendPacket(PeerType_t::centerserver, pkt);
+	SendPacket2Backend(pi.serialize(), pkt);
 	//m_pConnector->SendPacket(PeerType_t::worldserver, pkt);
+}
+
+void NetManagerGate::SendPacket2Backend(int32_t nDestPeerInfo, google::protobuf::Message& packet)
+{
+	MsgHeader msgHeader(nDestPeerInfo, m_pConnector->GetPeerInfo());
+	struct evbuffer* buf = evbuffer_new();
+	m_Codec.Serialize(buf, msgHeader, packet);
+	m_pConnector->SendMsg(buf);
+	evbuffer_free(buf);
 }
 
 void NetManagerGate::SendPacket(NetChannelPtr& channel, google::protobuf::Message& packet)
 {
-	m_Codec.SendMsg(channel, packet, channel->GetPeerInfo());
+	//m_Codec.SendMsg(channel, packet, channel->GetPeerInfo());
 }
-void NetManagerGate::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt)
+void NetManagerGate::OnMessage_RegisterResult(NetChannelPtr& channel, int32_t nFromPeerInfo, PktRegisterServer& pkt)
 {
 	int32_t server_info = pkt.server_info();
 	PeerInfo pi;

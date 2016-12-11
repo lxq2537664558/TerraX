@@ -26,6 +26,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 
@@ -37,7 +38,30 @@ void protobuf_AssignDesc_server_5fserver_2eproto();
 void protobuf_ShutdownFile_server_5fserver_2eproto();
 
 class PktRegisterServer;
+class PktUpdateServerInfo;
 
+enum PktUpdateServerInfo_UpdateType {
+  PktUpdateServerInfo_UpdateType_add = 0,
+  PktUpdateServerInfo_UpdateType_sync = 1,
+  PktUpdateServerInfo_UpdateType_remove = 2,
+  PktUpdateServerInfo_UpdateType_PktUpdateServerInfo_UpdateType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  PktUpdateServerInfo_UpdateType_PktUpdateServerInfo_UpdateType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool PktUpdateServerInfo_UpdateType_IsValid(int value);
+const PktUpdateServerInfo_UpdateType PktUpdateServerInfo_UpdateType_UpdateType_MIN = PktUpdateServerInfo_UpdateType_add;
+const PktUpdateServerInfo_UpdateType PktUpdateServerInfo_UpdateType_UpdateType_MAX = PktUpdateServerInfo_UpdateType_remove;
+const int PktUpdateServerInfo_UpdateType_UpdateType_ARRAYSIZE = PktUpdateServerInfo_UpdateType_UpdateType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PktUpdateServerInfo_UpdateType_descriptor();
+inline const ::std::string& PktUpdateServerInfo_UpdateType_Name(PktUpdateServerInfo_UpdateType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PktUpdateServerInfo_UpdateType_descriptor(), value);
+}
+inline bool PktUpdateServerInfo_UpdateType_Parse(
+    const ::std::string& name, PktUpdateServerInfo_UpdateType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PktUpdateServerInfo_UpdateType>(
+    PktUpdateServerInfo_UpdateType_descriptor(), name, value);
+}
 // ===================================================================
 
 class PktRegisterServer : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:S2SPacket.PktRegisterServer) */ {
@@ -120,6 +144,130 @@ class PktRegisterServer : public ::google::protobuf::Message /* @@protoc_inserti
   void InitAsDefaultInstance();
   static PktRegisterServer* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class PktUpdateServerInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:S2SPacket.PktUpdateServerInfo) */ {
+ public:
+  PktUpdateServerInfo();
+  virtual ~PktUpdateServerInfo();
+
+  PktUpdateServerInfo(const PktUpdateServerInfo& from);
+
+  inline PktUpdateServerInfo& operator=(const PktUpdateServerInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PktUpdateServerInfo& default_instance();
+
+  void Swap(PktUpdateServerInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PktUpdateServerInfo* New() const { return New(NULL); }
+
+  PktUpdateServerInfo* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PktUpdateServerInfo& from);
+  void MergeFrom(const PktUpdateServerInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PktUpdateServerInfo* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef PktUpdateServerInfo_UpdateType UpdateType;
+  static const UpdateType add =
+    PktUpdateServerInfo_UpdateType_add;
+  static const UpdateType sync =
+    PktUpdateServerInfo_UpdateType_sync;
+  static const UpdateType remove =
+    PktUpdateServerInfo_UpdateType_remove;
+  static inline bool UpdateType_IsValid(int value) {
+    return PktUpdateServerInfo_UpdateType_IsValid(value);
+  }
+  static const UpdateType UpdateType_MIN =
+    PktUpdateServerInfo_UpdateType_UpdateType_MIN;
+  static const UpdateType UpdateType_MAX =
+    PktUpdateServerInfo_UpdateType_UpdateType_MAX;
+  static const int UpdateType_ARRAYSIZE =
+    PktUpdateServerInfo_UpdateType_UpdateType_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  UpdateType_descriptor() {
+    return PktUpdateServerInfo_UpdateType_descriptor();
+  }
+  static inline const ::std::string& UpdateType_Name(UpdateType value) {
+    return PktUpdateServerInfo_UpdateType_Name(value);
+  }
+  static inline bool UpdateType_Parse(const ::std::string& name,
+      UpdateType* value) {
+    return PktUpdateServerInfo_UpdateType_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .S2SPacket.PktUpdateServerInfo.UpdateType type = 1;
+  void clear_type();
+  static const int kTypeFieldNumber = 1;
+  ::S2SPacket::PktUpdateServerInfo_UpdateType type() const;
+  void set_type(::S2SPacket::PktUpdateServerInfo_UpdateType value);
+
+  // repeated int32 server_info = 2;
+  int server_info_size() const;
+  void clear_server_info();
+  static const int kServerInfoFieldNumber = 2;
+  ::google::protobuf::int32 server_info(int index) const;
+  void set_server_info(int index, ::google::protobuf::int32 value);
+  void add_server_info(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      server_info() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_server_info();
+
+  // @@protoc_insertion_point(class_scope:S2SPacket.PktUpdateServerInfo)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > server_info_;
+  mutable int _server_info_cached_byte_size_;
+  int type_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_server_5fserver_2eproto();
+  friend void protobuf_AssignDesc_server_5fserver_2eproto();
+  friend void protobuf_ShutdownFile_server_5fserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static PktUpdateServerInfo* default_instance_;
+};
 // ===================================================================
 
 
@@ -142,11 +290,75 @@ inline void PktRegisterServer::set_server_info(::google::protobuf::int32 value) 
   // @@protoc_insertion_point(field_set:S2SPacket.PktRegisterServer.server_info)
 }
 
+// -------------------------------------------------------------------
+
+// PktUpdateServerInfo
+
+// optional .S2SPacket.PktUpdateServerInfo.UpdateType type = 1;
+inline void PktUpdateServerInfo::clear_type() {
+  type_ = 0;
+}
+inline ::S2SPacket::PktUpdateServerInfo_UpdateType PktUpdateServerInfo::type() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktUpdateServerInfo.type)
+  return static_cast< ::S2SPacket::PktUpdateServerInfo_UpdateType >(type_);
+}
+inline void PktUpdateServerInfo::set_type(::S2SPacket::PktUpdateServerInfo_UpdateType value) {
+  
+  type_ = value;
+  // @@protoc_insertion_point(field_set:S2SPacket.PktUpdateServerInfo.type)
+}
+
+// repeated int32 server_info = 2;
+inline int PktUpdateServerInfo::server_info_size() const {
+  return server_info_.size();
+}
+inline void PktUpdateServerInfo::clear_server_info() {
+  server_info_.Clear();
+}
+inline ::google::protobuf::int32 PktUpdateServerInfo::server_info(int index) const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktUpdateServerInfo.server_info)
+  return server_info_.Get(index);
+}
+inline void PktUpdateServerInfo::set_server_info(int index, ::google::protobuf::int32 value) {
+  server_info_.Set(index, value);
+  // @@protoc_insertion_point(field_set:S2SPacket.PktUpdateServerInfo.server_info)
+}
+inline void PktUpdateServerInfo::add_server_info(::google::protobuf::int32 value) {
+  server_info_.Add(value);
+  // @@protoc_insertion_point(field_add:S2SPacket.PktUpdateServerInfo.server_info)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+PktUpdateServerInfo::server_info() const {
+  // @@protoc_insertion_point(field_list:S2SPacket.PktUpdateServerInfo.server_info)
+  return server_info_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+PktUpdateServerInfo::mutable_server_info() {
+  // @@protoc_insertion_point(field_mutable_list:S2SPacket.PktUpdateServerInfo.server_info)
+  return &server_info_;
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace S2SPacket
+
+#ifndef SWIG
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::S2SPacket::PktUpdateServerInfo_UpdateType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::S2SPacket::PktUpdateServerInfo_UpdateType>() {
+  return ::S2SPacket::PktUpdateServerInfo_UpdateType_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
+#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 

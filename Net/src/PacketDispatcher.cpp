@@ -2,7 +2,7 @@
 
 using namespace TerraX;
 
-bool PacketDispatcher::DeliverPacket(NetChannelPtr& rChannel, int32_t nFromGuestID, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+bool PacketDispatcher::DeliverPacket(NetChannelPtr& pChannel, int32_t nFromPeerInfo, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
 	for (auto& it : m_mapCallBacks) {
 		if (it.first->name() == strMsgType || it.first->full_name() == strMsgType) {
@@ -12,17 +12,13 @@ bool PacketDispatcher::DeliverPacket(NetChannelPtr& rChannel, int32_t nFromGuest
 			if (!pMsg->ParseFromArray(pBuffer, nBufferSize)) {
 				return false; //parse error!
 			}
-			if (nFromGuestID == 0)
 			{
-				(*(it.second))(rChannel, *(pMsg.get()));
-			}
-			else
-			{
-				(*(it.second))(rChannel, nFromGuestID, *(pMsg.get()));
+				(*(it.second))(pChannel, nFromPeerInfo, *(pMsg.get()));
 			}
 			return true;
 		}
 	}
+	assert(0);
 	return false;
 	// packet handler not find! 
 	// if you want to process the unknown packet, you can add a default handler.
