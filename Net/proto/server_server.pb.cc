@@ -21,9 +21,12 @@ namespace S2SPacket {
 
 namespace {
 
-const ::google::protobuf::Descriptor* PktRegisterServer_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* PktRegisterReq_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  PktRegisterServer_reflection_ = NULL;
+  PktRegisterReq_reflection_ = NULL;
+const ::google::protobuf::Descriptor* PktRegisterAck_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  PktRegisterAck_reflection_ = NULL;
 const ::google::protobuf::Descriptor* PktUpdateServerInfo_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   PktUpdateServerInfo_reflection_ = NULL;
@@ -39,22 +42,36 @@ void protobuf_AssignDesc_server_5fserver_2eproto() {
     ::google::protobuf::DescriptorPool::generated_pool()->FindFileByName(
       "server_server.proto");
   GOOGLE_CHECK(file != NULL);
-  PktRegisterServer_descriptor_ = file->message_type(0);
-  static const int PktRegisterServer_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterServer, server_info_),
+  PktRegisterReq_descriptor_ = file->message_type(0);
+  static const int PktRegisterReq_offsets_[1] = {
   };
-  PktRegisterServer_reflection_ =
+  PktRegisterReq_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      PktRegisterServer_descriptor_,
-      PktRegisterServer::default_instance_,
-      PktRegisterServer_offsets_,
+      PktRegisterReq_descriptor_,
+      PktRegisterReq::default_instance_,
+      PktRegisterReq_offsets_,
       -1,
       -1,
       -1,
-      sizeof(PktRegisterServer),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterServer, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterServer, _is_default_instance_));
-  PktUpdateServerInfo_descriptor_ = file->message_type(1);
+      sizeof(PktRegisterReq),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterReq, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterReq, _is_default_instance_));
+  PktRegisterAck_descriptor_ = file->message_type(1);
+  static const int PktRegisterAck_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterAck, server_info_),
+  };
+  PktRegisterAck_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      PktRegisterAck_descriptor_,
+      PktRegisterAck::default_instance_,
+      PktRegisterAck_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(PktRegisterAck),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterAck, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktRegisterAck, _is_default_instance_));
+  PktUpdateServerInfo_descriptor_ = file->message_type(2);
   static const int PktUpdateServerInfo_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktUpdateServerInfo, type_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktUpdateServerInfo, server_info_),
@@ -85,7 +102,9 @@ void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      PktRegisterServer_descriptor_, &PktRegisterServer::default_instance());
+      PktRegisterReq_descriptor_, &PktRegisterReq::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      PktRegisterAck_descriptor_, &PktRegisterAck::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       PktUpdateServerInfo_descriptor_, &PktUpdateServerInfo::default_instance());
 }
@@ -93,8 +112,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
 }  // namespace
 
 void protobuf_ShutdownFile_server_5fserver_2eproto() {
-  delete PktRegisterServer::default_instance_;
-  delete PktRegisterServer_reflection_;
+  delete PktRegisterReq::default_instance_;
+  delete PktRegisterReq_reflection_;
+  delete PktRegisterAck::default_instance_;
+  delete PktRegisterAck_reflection_;
   delete PktUpdateServerInfo::default_instance_;
   delete PktUpdateServerInfo_reflection_;
 }
@@ -107,17 +128,20 @@ void protobuf_AddDesc_server_5fserver_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\023server_server.proto\022\tS2SPacket\"(\n\021PktR"
-    "egisterServer\022\023\n\013server_info\030\001 \001(\005\"\220\001\n\023P"
-    "ktUpdateServerInfo\0227\n\004type\030\001 \001(\0162).S2SPa"
-    "cket.PktUpdateServerInfo.UpdateType\022\023\n\013s"
-    "erver_info\030\002 \003(\005\"+\n\nUpdateType\022\007\n\003add\020\000\022"
-    "\010\n\004sync\020\001\022\n\n\006remove\020\002b\006proto3", 229);
+    "\n\023server_server.proto\022\tS2SPacket\"\020\n\016PktR"
+    "egisterReq\"%\n\016PktRegisterAck\022\023\n\013server_i"
+    "nfo\030\001 \001(\005\"\220\001\n\023PktUpdateServerInfo\0227\n\004typ"
+    "e\030\001 \001(\0162).S2SPacket.PktUpdateServerInfo."
+    "UpdateType\022\023\n\013server_info\030\002 \003(\005\"+\n\nUpdat"
+    "eType\022\007\n\003add\020\000\022\010\n\004sync\020\001\022\n\n\006remove\020\002b\006pr"
+    "oto3", 244);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "server_server.proto", &protobuf_RegisterTypes);
-  PktRegisterServer::default_instance_ = new PktRegisterServer();
+  PktRegisterReq::default_instance_ = new PktRegisterReq();
+  PktRegisterAck::default_instance_ = new PktRegisterAck();
   PktUpdateServerInfo::default_instance_ = new PktUpdateServerInfo();
-  PktRegisterServer::default_instance_->InitAsDefaultInstance();
+  PktRegisterReq::default_instance_->InitAsDefaultInstance();
+  PktRegisterAck::default_instance_->InitAsDefaultInstance();
   PktUpdateServerInfo::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_server_5fserver_2eproto);
 }
@@ -132,78 +156,259 @@ struct StaticDescriptorInitializer_server_5fserver_2eproto {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int PktRegisterServer::kServerInfoFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-PktRegisterServer::PktRegisterServer()
+PktRegisterReq::PktRegisterReq()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(constructor:S2SPacket.PktRegisterReq)
 }
 
-void PktRegisterServer::InitAsDefaultInstance() {
+void PktRegisterReq::InitAsDefaultInstance() {
   _is_default_instance_ = true;
 }
 
-PktRegisterServer::PktRegisterServer(const PktRegisterServer& from)
+PktRegisterReq::PktRegisterReq(const PktRegisterReq& from)
   : ::google::protobuf::Message(),
     _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(copy_constructor:S2SPacket.PktRegisterReq)
 }
 
-void PktRegisterServer::SharedCtor() {
+void PktRegisterReq::SharedCtor() {
     _is_default_instance_ = false;
   _cached_size_ = 0;
-  server_info_ = 0;
 }
 
-PktRegisterServer::~PktRegisterServer() {
-  // @@protoc_insertion_point(destructor:S2SPacket.PktRegisterServer)
+PktRegisterReq::~PktRegisterReq() {
+  // @@protoc_insertion_point(destructor:S2SPacket.PktRegisterReq)
   SharedDtor();
 }
 
-void PktRegisterServer::SharedDtor() {
+void PktRegisterReq::SharedDtor() {
   if (this != default_instance_) {
   }
 }
 
-void PktRegisterServer::SetCachedSize(int size) const {
+void PktRegisterReq::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* PktRegisterServer::descriptor() {
+const ::google::protobuf::Descriptor* PktRegisterReq::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return PktRegisterServer_descriptor_;
+  return PktRegisterReq_descriptor_;
 }
 
-const PktRegisterServer& PktRegisterServer::default_instance() {
+const PktRegisterReq& PktRegisterReq::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_server_5fserver_2eproto();
   return *default_instance_;
 }
 
-PktRegisterServer* PktRegisterServer::default_instance_ = NULL;
+PktRegisterReq* PktRegisterReq::default_instance_ = NULL;
 
-PktRegisterServer* PktRegisterServer::New(::google::protobuf::Arena* arena) const {
-  PktRegisterServer* n = new PktRegisterServer;
+PktRegisterReq* PktRegisterReq::New(::google::protobuf::Arena* arena) const {
+  PktRegisterReq* n = new PktRegisterReq;
   if (arena != NULL) {
     arena->Own(n);
   }
   return n;
 }
 
-void PktRegisterServer::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2SPacket.PktRegisterServer)
-  server_info_ = 0;
+void PktRegisterReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:S2SPacket.PktRegisterReq)
 }
 
-bool PktRegisterServer::MergePartialFromCodedStream(
+bool PktRegisterReq::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(parse_start:S2SPacket.PktRegisterReq)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0 ||
+        ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:S2SPacket.PktRegisterReq)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:S2SPacket.PktRegisterReq)
+  return false;
+#undef DO_
+}
+
+void PktRegisterReq::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:S2SPacket.PktRegisterReq)
+  // @@protoc_insertion_point(serialize_end:S2SPacket.PktRegisterReq)
+}
+
+::google::protobuf::uint8* PktRegisterReq::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:S2SPacket.PktRegisterReq)
+  // @@protoc_insertion_point(serialize_to_array_end:S2SPacket.PktRegisterReq)
+  return target;
+}
+
+int PktRegisterReq::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:S2SPacket.PktRegisterReq)
+  int total_size = 0;
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PktRegisterReq::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:S2SPacket.PktRegisterReq)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const PktRegisterReq* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const PktRegisterReq>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:S2SPacket.PktRegisterReq)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:S2SPacket.PktRegisterReq)
+    MergeFrom(*source);
+  }
+}
+
+void PktRegisterReq::MergeFrom(const PktRegisterReq& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:S2SPacket.PktRegisterReq)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+}
+
+void PktRegisterReq::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:S2SPacket.PktRegisterReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PktRegisterReq::CopyFrom(const PktRegisterReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:S2SPacket.PktRegisterReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PktRegisterReq::IsInitialized() const {
+
+  return true;
+}
+
+void PktRegisterReq::Swap(PktRegisterReq* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void PktRegisterReq::InternalSwap(PktRegisterReq* other) {
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata PktRegisterReq::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = PktRegisterReq_descriptor_;
+  metadata.reflection = PktRegisterReq_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// PktRegisterReq
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int PktRegisterAck::kServerInfoFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+PktRegisterAck::PktRegisterAck()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:S2SPacket.PktRegisterAck)
+}
+
+void PktRegisterAck::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+PktRegisterAck::PktRegisterAck(const PktRegisterAck& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:S2SPacket.PktRegisterAck)
+}
+
+void PktRegisterAck::SharedCtor() {
+    _is_default_instance_ = false;
+  _cached_size_ = 0;
+  server_info_ = 0;
+}
+
+PktRegisterAck::~PktRegisterAck() {
+  // @@protoc_insertion_point(destructor:S2SPacket.PktRegisterAck)
+  SharedDtor();
+}
+
+void PktRegisterAck::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void PktRegisterAck::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* PktRegisterAck::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PktRegisterAck_descriptor_;
+}
+
+const PktRegisterAck& PktRegisterAck::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_server_5fserver_2eproto();
+  return *default_instance_;
+}
+
+PktRegisterAck* PktRegisterAck::default_instance_ = NULL;
+
+PktRegisterAck* PktRegisterAck::New(::google::protobuf::Arena* arena) const {
+  PktRegisterAck* n = new PktRegisterAck;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void PktRegisterAck::Clear() {
+// @@protoc_insertion_point(message_clear_start:S2SPacket.PktRegisterAck)
+  server_info_ = 0;
+}
+
+bool PktRegisterAck::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:S2SPacket.PktRegisterAck)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -236,39 +441,39 @@ bool PktRegisterServer::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(parse_success:S2SPacket.PktRegisterAck)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(parse_failure:S2SPacket.PktRegisterAck)
   return false;
 #undef DO_
 }
 
-void PktRegisterServer::SerializeWithCachedSizes(
+void PktRegisterAck::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(serialize_start:S2SPacket.PktRegisterAck)
   // optional int32 server_info = 1;
   if (this->server_info() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->server_info(), output);
   }
 
-  // @@protoc_insertion_point(serialize_end:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(serialize_end:S2SPacket.PktRegisterAck)
 }
 
-::google::protobuf::uint8* PktRegisterServer::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* PktRegisterAck::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(serialize_to_array_start:S2SPacket.PktRegisterAck)
   // optional int32 server_info = 1;
   if (this->server_info() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->server_info(), target);
   }
 
-  // @@protoc_insertion_point(serialize_to_array_end:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(serialize_to_array_end:S2SPacket.PktRegisterAck)
   return target;
 }
 
-int PktRegisterServer::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:S2SPacket.PktRegisterServer)
+int PktRegisterAck::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:S2SPacket.PktRegisterAck)
   int total_size = 0;
 
   // optional int32 server_info = 1;
@@ -284,25 +489,25 @@ int PktRegisterServer::ByteSize() const {
   return total_size;
 }
 
-void PktRegisterServer::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:S2SPacket.PktRegisterServer)
+void PktRegisterAck::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:S2SPacket.PktRegisterAck)
   if (GOOGLE_PREDICT_FALSE(&from == this)) {
     ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
   }
-  const PktRegisterServer* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const PktRegisterServer>(
+  const PktRegisterAck* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const PktRegisterAck>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:S2SPacket.PktRegisterAck)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:S2SPacket.PktRegisterAck)
     MergeFrom(*source);
   }
 }
 
-void PktRegisterServer::MergeFrom(const PktRegisterServer& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:S2SPacket.PktRegisterServer)
+void PktRegisterAck::MergeFrom(const PktRegisterAck& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:S2SPacket.PktRegisterAck)
   if (GOOGLE_PREDICT_FALSE(&from == this)) {
     ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
   }
@@ -311,58 +516,58 @@ void PktRegisterServer::MergeFrom(const PktRegisterServer& from) {
   }
 }
 
-void PktRegisterServer::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:S2SPacket.PktRegisterServer)
+void PktRegisterAck::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:S2SPacket.PktRegisterAck)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void PktRegisterServer::CopyFrom(const PktRegisterServer& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2SPacket.PktRegisterServer)
+void PktRegisterAck::CopyFrom(const PktRegisterAck& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:S2SPacket.PktRegisterAck)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool PktRegisterServer::IsInitialized() const {
+bool PktRegisterAck::IsInitialized() const {
 
   return true;
 }
 
-void PktRegisterServer::Swap(PktRegisterServer* other) {
+void PktRegisterAck::Swap(PktRegisterAck* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void PktRegisterServer::InternalSwap(PktRegisterServer* other) {
+void PktRegisterAck::InternalSwap(PktRegisterAck* other) {
   std::swap(server_info_, other->server_info_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata PktRegisterServer::GetMetadata() const {
+::google::protobuf::Metadata PktRegisterAck::GetMetadata() const {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::Metadata metadata;
-  metadata.descriptor = PktRegisterServer_descriptor_;
-  metadata.reflection = PktRegisterServer_reflection_;
+  metadata.descriptor = PktRegisterAck_descriptor_;
+  metadata.reflection = PktRegisterAck_reflection_;
   return metadata;
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
-// PktRegisterServer
+// PktRegisterAck
 
 // optional int32 server_info = 1;
-void PktRegisterServer::clear_server_info() {
+void PktRegisterAck::clear_server_info() {
   server_info_ = 0;
 }
- ::google::protobuf::int32 PktRegisterServer::server_info() const {
-  // @@protoc_insertion_point(field_get:S2SPacket.PktRegisterServer.server_info)
+ ::google::protobuf::int32 PktRegisterAck::server_info() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktRegisterAck.server_info)
   return server_info_;
 }
- void PktRegisterServer::set_server_info(::google::protobuf::int32 value) {
+ void PktRegisterAck::set_server_info(::google::protobuf::int32 value) {
   
   server_info_ = value;
-  // @@protoc_insertion_point(field_set:S2SPacket.PktRegisterServer.server_info)
+  // @@protoc_insertion_point(field_set:S2SPacket.PktRegisterAck.server_info)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

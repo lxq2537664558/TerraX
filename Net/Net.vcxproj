@@ -136,6 +136,7 @@
     <ClCompile Include="proto\server_server.pb.cc" />
     <ClCompile Include="src\NetChannel.cpp" />
     <ClCompile Include="src\NetServer.cpp" />
+    <ClCompile Include="src\Packet.cpp" />
     <ClCompile Include="src\PacketDispatcher.cpp" />
     <ClCompile Include="src\ProtobufCodecLite.cpp" />
   </ItemGroup>
@@ -144,6 +145,7 @@
     <ClInclude Include="include\NetChannel.h" />
     <ClInclude Include="include\NetDefine.h" />
     <ClInclude Include="include\NetServer.h" />
+    <ClInclude Include="include\Packet.h" />
     <ClInclude Include="include\PacketDispatcher.h" />
     <ClInclude Include="include\ProtobufCodecLite.h" />
     <ClInclude Include="include\SocketOpt-inl.h" />

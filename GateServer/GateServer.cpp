@@ -1,7 +1,7 @@
 #include "GateServer.h"
 #include "NetServer.h"
 #include "EventLoop.h"
-#include "NetManagerGate.h"
+#include "GatePacketProcessor.h"
 #include <chrono>
 #include <thread>
 using namespace TerraX;
@@ -12,8 +12,8 @@ GateServer::GateServer()
 
 bool GateServer::Init()
 {
-	NetManagerGate::GetInstance().Connect("127.0.0.1", 9995);
-	NetManagerGate::GetInstance().Accept(9991, MAX_CONNECTION);
+	GatePacketProcessor::GetInstance().Connect("127.0.0.1", 9995);
+	GatePacketProcessor::GetInstance().Accept(9991, MAX_CONNECTION);
 	return true;
 }
 
@@ -24,7 +24,7 @@ void GateServer::Run()
 
 		auto start = std::chrono::steady_clock::now();
 
-		NetManagerGate::GetInstance().Tick();
+		ProcessLogic();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		auto end = std::chrono::steady_clock::now();
@@ -35,4 +35,10 @@ void GateServer::Run()
 		}
 		//std::cout << std::this_thread::get_id() << ": " << costms << std::endl;
 	}
+}
+
+
+void GateServer::ProcessLogic()
+{
+	GatePacketProcessor::GetInstance().Tick();
 }

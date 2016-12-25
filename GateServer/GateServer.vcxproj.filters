@@ -21,7 +21,7 @@
     <ClCompile Include="GateServer.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="NetManagerGate.cpp">
+    <ClCompile Include="GatePacketProcessor.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClInclude Include="GuestManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NetManagerGate.h">
+    <ClInclude Include="GatePacketProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

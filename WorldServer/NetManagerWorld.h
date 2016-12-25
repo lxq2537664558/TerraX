@@ -34,7 +34,7 @@ namespace TerraX
 		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt);
 	private:
 		EventLoop m_loop;
-		NetChannelPtr m_pConnector;
+		NetChannelPtr m_pBackEnd;
 		ProtobufCodecLite m_Codec;
 	};
 

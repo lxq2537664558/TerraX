@@ -29,6 +29,14 @@ enum class ErrorCode_t
 	eNoMoreData,
 };
 
+enum class ParseError_t
+{
+	eReceivePacket,
+	eNeedForwad,
+	eInvalidDestion,
+	eCheckSumError,
+};
+
 class MsgHeader_NoHeader
 {
 public:
@@ -40,6 +48,7 @@ public:
 	void set_dest_peer_info(int32_t dest_peer){}
 	void set_from_peer_info(int32_t dest_peer) {}
 };
+
 
 class MsgHeader
 {
@@ -162,7 +171,7 @@ ErrorCode_t ProtobufCodecLite::ReadMessage_OneByOne(struct evbuffer* input, stru
 		}
 		else if (readable >= static_cast<std::size_t>(total_len))
 		{
-			const char* data = reinterpret_cast<char*>(evbuffer_pullup(input, total_len));
+			//const char* data = reinterpret_cast<char*>(evbuffer_pullup(input, total_len));
 			evbuffer_remove_buffer(input, output, total_len);
 			return ErrorCode_t::eNoError;
 		}

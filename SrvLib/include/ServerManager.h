@@ -5,12 +5,12 @@
 
 namespace TerraX
 {
-	class ServerAddrManager
+	class ServerManager
 	{
-		NOCOPY(ServerAddrManager);
+		NOCOPY(ServerManager);
 	public:
-		ServerAddrManager() = default;
-		~ServerAddrManager() = default;
+		ServerManager() = default;
+		~ServerManager() = default;
 		void AddServer(int32_t peer_info);
 		const std::set<int32_t>& GetServerAddrs() const { return m_ServerAddrs; }
 	private:

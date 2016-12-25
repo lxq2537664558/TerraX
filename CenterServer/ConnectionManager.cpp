@@ -1,13 +1,12 @@
 #include "ConnectionManager.h"
-#include "PacketDispatcher.h"
 #include "CenterServer.h"
-#include "NetManagerCenter.h"
+#include "CenterPacketProcessor.h"
 using namespace TerraX;
 
 ConnectionManager::ConnectionManager() {
-	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&ConnectionManager::OnMessage_Register, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
-
+	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterReq>(
+		new events_dynamic2(std::function<void(int32_t, int32_t, PktRegisterReq*)>(
+			std::bind(&ConnectionManager::OnMessage_ServerLogin, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3))));
 	for (uint8_t i = 1; i <= MAX_GATE_CONNECTION_COUNT; ++i) {
 		m_queue_gateconnIds.push(i);
 	}
@@ -52,34 +51,43 @@ uint8_t ConnectionManager::GetAvailableConnIdx(PeerType_t peer_type)
 	return 0;
 }
 
-void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, int32_t nFromPeerInfo, PktRegisterServer& pkt) {
-	int32_t server_info = pkt.server_info();
-	PeerInfo pi;
-	pi.parse(server_info);
-	assert(channel->GetChannelIndex() != 0 && pi.channel_index == 0);
-	assert(pi.peer_index == 0);
-	assert(pi.peer_type > PeerType_t::client && pi.peer_type < PeerType_t::peer_count);
-	uint8_t conn_id = GetAvailableConnIdx(pi.peer_type);
+void ConnectionManager::OnMessage_ServerLogin(int32_t nChannelInfo, int32_t nSrcPeerInfo, PktRegisterReq* pkt) {
+
+	PeerInfo pi_src(nSrcPeerInfo);
+	assert(nChannelInfo != 0 && pi_src.channel_index == 0);
+	assert(pi_src.peer_index == 0);
+	assert(pi_src.peer_type > PeerType_t::client && pi_src.peer_type < PeerType_t::peer_count);
+	uint8_t conn_id = GetAvailableConnIdx(pi_src.peer_type);
+
+	NetChannelPtr pChannel = CenterPacketProcessor::GetInstance().GetChannel_FrontEnd(nChannelInfo);
+	if (!pChannel)
+	{
+		//failed
+		return;
+	}
 	if (conn_id == 0) {
-		channel->ForceClose();
+		pChannel->ForceClose();
 	}
 	else {
-		pi.peer_index = conn_id;
-		pi.channel_index = channel->GetChannelIndex();
-		int32_t reg_peer_info = pi.serialize();
-		channel->SetPeerInfo(reg_peer_info);
-		std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index) <<
-			"\t ChannelIndex: " << pi.channel_index << std::endl;
-		pkt.set_server_info(channel->GetPeerInfo());
-		NetManagerCenter::GetInstance().SendPacket(channel, nFromPeerInfo, pkt);
+		PeerInfo pi_self(nChannelInfo);
+		pi_src.peer_index = conn_id;
+		pi_src.channel_index = pi_self.channel_index;
+		int32_t reg_peer_info = pi_src.serialize();
+		pChannel->SetPeerInfo(reg_peer_info);
+		std::cout << "Server: " << pi_src.server_name() << "\t PeerIndex: " << int32_t(pi_src.peer_index) <<
+			"\t ChannelIndex: " << pi_src.channel_index << std::endl;
 
+		PktRegisterAck pktAck;
+		pktAck.set_server_info(reg_peer_info);
+		CenterPacketProcessor::GetInstance().SendPacket(pChannel, nSrcPeerInfo, reg_peer_info, pktAck);
+		/*
 		PktUpdateServerInfo pktSync;
 		pktSync.set_type(PktUpdateServerInfo_UpdateType_sync);
 		pktSync.add_server_info(reg_peer_info);
 		auto allservers = m_SrvAddrManager.GetServerAddrs();
 		for (auto& peer : allservers)
 		{
-			NetManagerCenter::GetInstance().SendPacket(peer, peer, pkt);
+			CenterPacketProcessor::GetInstance().SendPacket(peer, peer, pkt);
 		}
 
 		PktUpdateServerInfo pktAdd;
@@ -88,8 +96,8 @@ void ConnectionManager::OnMessage_Register(NetChannelPtr& channel, int32_t nFrom
 		{
 			pktAdd.add_server_info(peer);
 		}
-		NetManagerCenter::GetInstance().SendPacket(channel, nFromPeerInfo, pktAdd);
-
+		CenterPacketProcessor::GetInstance().SendPacket(channel, nFromPeerInfo, pktAdd);
+		*/
 		//m_SrvAddrManager.AddServer(reg_peer_info);
 	}
 }

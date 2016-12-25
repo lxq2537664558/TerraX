@@ -15,12 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ServerAddrManager.h">
+    <ClInclude Include="include\PacketProcessor.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ServerManager.h">
       <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ServerAddrManager.cpp">
+    <ClCompile Include="src\PacketProcessor.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ServerManager.cpp">
       <Filter>Server</Filter>
     </ClCompile>
   </ItemGroup>

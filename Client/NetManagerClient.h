@@ -23,7 +23,7 @@ namespace TerraX
 		void OnLoginServer_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
 	private:
 		EventLoop m_loop;
-		NetChannelPtr m_pConnector;
+		NetChannelPtr m_pBackEnd;
 		//CODEC m_codec;
 		ProtobufCodecLite m_Codec;
 	};

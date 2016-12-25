@@ -30,8 +30,6 @@ NetServer::NetServer(EventLoop* loop, int port, uint16_t max_conns)
 	for (int i = 1; i < max_conns; ++i) {
 		m_freeindexes.push(i);
 	}
-	m_vecChannels.resize(max_conns);
-
 }
 
 NetServer::~NetServer()
@@ -66,17 +64,18 @@ void NetServer::SetThreadNum(int numThreads)
 
 NetChannelPtr NetServer::GetChannel(uint16_t nChannelIndex)
 {
-	if (nChannelIndex <= 0 || nChannelIndex >= m_vecChannels.size())
-	{
-		return nullptr;
+	auto it = m_mapChannels.find(nChannelIndex);
+	if (it != m_mapChannels.end()) {
+		return it->second;
 	}
-	return m_vecChannels[nChannelIndex];
+	return nullptr;
 }
 
 NetChannelPtr NetServer::GetChannel(PeerType_t peer_type, uint8_t peer_index)
 {
-	for (auto channel : m_vecChannels) {
-		if (channel && channel->GetPeerType() == peer_type && channel->GetPeerIndex() == peer_index) {
+	for (auto& var : m_mapChannels) {
+		auto& channel = var.second;
+		if (channel->GetPeerType() == peer_type && channel->GetPeerIndex() == peer_index) {
 			return channel;
 		}
 	}
@@ -90,8 +89,8 @@ void NetServer::ForceClose(NetChannelPtr& channel)
 
 void NetServer::ForceCloseAll()
 {
-	for (auto channel : m_vecChannels) {
-		channel->ForceClose();
+	for (auto& var : m_mapChannels) {
+		(var.second)->ForceClose();
 	}
 }
 
@@ -143,9 +142,9 @@ void NetServer::OnConnect(evutil_socket_t fd)
 	{
 		{
 			std::lock_guard<std::mutex> lock(m_mutex);
-			int nIndex = m_freeindexes.front();
+			auto nIndex = m_freeindexes.front();
 			m_freeindexes.pop();
-			m_vecChannels[nIndex] = pChannel;
+			m_mapChannels[nIndex] = pChannel;
 			pChannel->SetChannelIndex(nIndex);
 		}
 		if (m_NetEventCB) {
@@ -160,7 +159,7 @@ void NetServer::OnDisconnect(NetChannelPtr& pChannel)
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);
 		m_freeindexes.push(pChannel->GetChannelIndex());
-		m_vecChannels[pChannel->GetChannelIndex()] = nullptr;//.reset(); // both are correct.
+		m_mapChannels.erase(pChannel->GetChannelIndex());
 	}
 	if (m_NetEventCB) {
 		m_NetEventCB(pChannel, NetEvent_t::eDisconnected);

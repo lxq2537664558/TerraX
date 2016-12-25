@@ -15,4 +15,6 @@ public: \
 	classname(const classname&) = delete; \
 	classname& operator=(const classname &) = delete;
 
+#define TO_STRING(classname) #classname
+
 }

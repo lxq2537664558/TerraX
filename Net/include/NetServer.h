@@ -46,8 +46,8 @@ namespace TerraX
 		int m_currLoop{ 0 };
 		std::mutex m_mutex;
 	private:
-		std::vector<NetChannelPtr> m_vecChannels;
 		std::queue<uint16_t> m_freeindexes;
+		std::map<uint16_t, NetChannelPtr> m_mapChannels;
 		const uint16_t m_maxconnections;
 		NetEvent_CB m_NetEventCB;
 		OnMessage_CB m_OnMessageCB;

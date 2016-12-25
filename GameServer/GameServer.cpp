@@ -12,8 +12,8 @@ GameServer::GameServer()
 
 bool GameServer::Init()
 {
-	m_pConnector.reset(new Connector(PeerType_t::gameserver, &m_loop, "127.0.0.1", 9995));
-	m_pConnector->SetNetEventCB(std::bind(&GameServer::OnConnector_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
+	m_pBackEnd.reset(new BackEnd(PeerType_t::gameserver, &m_loop, "127.0.0.1", 9995));
+	m_pBackEnd->SetNetEventCB(std::bind(&GameServer::OnBackEnd_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
 
 	return true;
 }
@@ -30,7 +30,7 @@ void GameServer::Register(int32_t peer_info)
 {
 	PktRegisterServer pkt;
 	pkt.set_server_info(peer_info);
-	m_pConnector->SendPacket(pkt);
+	m_pBackEnd->SendPacket(pkt);
 }
 
 void GameServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt)
@@ -46,7 +46,7 @@ void GameServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterSer
 	channel->SetPeerInfo(server_info);
 }
 
-void GameServer::OnConnector_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
+void GameServer::OnBackEnd_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
 {
 	if (eEvent == NetEvent_t::eConnected) {
 		Register(channel->GetPeerInfo());

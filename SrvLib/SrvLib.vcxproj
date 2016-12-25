@@ -77,8 +77,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\Base\include;.\;.\include;..\Net;..\Net\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Base\include;.\;.\include;..\Net;..\Net\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include;..\ThirdParty\zlib\win32_include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -115,10 +116,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\ServerAddrManager.h" />
+    <ClInclude Include="include\PacketProcessor.h" />
+    <ClInclude Include="include\ServerManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ServerAddrManager.cpp" />
+    <ClCompile Include="src\PacketProcessor.cpp" />
+    <ClCompile Include="src\ServerManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

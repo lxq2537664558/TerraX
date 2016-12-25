@@ -26,6 +26,7 @@ namespace TerraX
 		void SetDisconnectCb(SrvDisconnect_CB cb) { m_SrvDisconnectCB = cb; };
 		
 		void SendMsg(struct evbuffer* buf);
+		void SendMsg(const char* buf, int len);
 		bool OnMessage(int32_t nFromPeerInfo,const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 
 		void SetPeerType(PeerType_t peer_type) { m_peer_info = (uint8_t(peer_type) << 24) + (m_peer_info & 0x00FFFFFF); }

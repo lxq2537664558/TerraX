@@ -24,7 +24,7 @@
     <ClCompile Include="ConnectionManager.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="NetManagerCenter.cpp">
+    <ClCompile Include="CenterPacketProcessor.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="ConnectionManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NetManagerCenter.h">
+    <ClInclude Include="CenterPacketProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

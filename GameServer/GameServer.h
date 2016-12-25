@@ -3,7 +3,6 @@
 #include "NetChannel.h"
 #include "proto/server_server.pb.h"
 #include "NetDefine.h"
-#include "Connector.h"
 #include "EventLoop.h"
 
 using namespace S2SPacket;
@@ -25,12 +24,12 @@ namespace TerraX
 		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt);
 
 
-		void OnConnector_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
+		void OnBackEnd_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
 
 	private:
 		bool m_bExit{ false };
 		EventLoop m_loop;
 
-		std::unique_ptr<Connector> m_pConnector;
+		std::unique_ptr<BackEnd> m_pBackEnd;
 	};
 }

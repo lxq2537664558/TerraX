@@ -1,5 +1,5 @@
-#include <iostream>
 #include <stdio.h>
+#include <iostream>
 #include "GateServer.h"
 
 using namespace S2SPacket;
@@ -14,8 +14,7 @@ int main(int argc, char* argv[])
 	WSAStartup(0x0201, &wsa_data);
 #endif
 
-	if (GateServer::GetInstance().Init())
-	{
+	if (GateServer::GetInstance().Init()) {
 		GateServer::GetInstance().Run();
 	}
 

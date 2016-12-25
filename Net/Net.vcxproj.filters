@@ -36,6 +36,9 @@
     <ClCompile Include="src\ProtobufCodecLite.cpp">
       <Filter>Net</Filter>
     </ClCompile>
+    <ClCompile Include="src\Packet.cpp">
+      <Filter>Net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\EventLoop.h">
@@ -50,9 +53,6 @@
     <ClInclude Include="include\PacketDispatcher.h">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="include\NetDefine.h">
-      <Filter>Net</Filter>
-    </ClInclude>
     <ClInclude Include="include\SocketOpt-inl.h">
       <Filter>Net</Filter>
     </ClInclude>
@@ -63,6 +63,12 @@
       <Filter>Proto</Filter>
     </ClInclude>
     <ClInclude Include="include\ProtobufCodecLite.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Packet.h">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NetDefine.h">
       <Filter>Net</Filter>
     </ClInclude>
   </ItemGroup>

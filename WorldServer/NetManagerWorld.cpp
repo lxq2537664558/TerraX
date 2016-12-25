@@ -8,10 +8,10 @@ NetManagerWorld::NetManagerWorld() {
 }
 
 void NetManagerWorld::Connect(const std::string& host, int port) {
-	m_pConnector = std::make_shared<NetChannel>(&m_loop, host, port);
-	m_pConnector->SetPeerInfo(uint8_t(PeerType_t::worldserver) << 24);
-	m_pConnector->RegNetEvent_Callback(std::bind(&NetManagerWorld::OnCenterServer_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
-	m_pConnector->RegOnMessage_Callback(std::bind(&NetManagerWorld::OnMessageCenterServer, this, std::placeholders::_1, std::placeholders::_2));
+	m_pBackEnd = std::make_shared<NetChannel>(&m_loop, host, port);
+	m_pBackEnd->SetPeerInfo(uint8_t(PeerType_t::worldserver) << 24);
+	m_pBackEnd->RegNetEvent_Callback(std::bind(&NetManagerWorld::OnCenterServer_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
+	m_pBackEnd->RegOnMessage_Callback(std::bind(&NetManagerWorld::OnMessageCenterServer, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void NetManagerWorld::OnMessageCenterServer(evbuffer* evbuf, NetChannelPtr& pChannel)
@@ -60,7 +60,7 @@ void NetManagerWorld::OnMessageCenterServer(evbuffer* evbuf, NetChannelPtr& pCha
 
 void NetManagerWorld::SendPacket(PeerType_t eDestPeer, google::protobuf::Message& packet) {
 	//PeerInfo pi(eDestPeer);
-	//m_Codec.SendMsg(m_pConnector, packet, pi.serialize());
+	//m_Codec.SendMsg(m_pBackEnd, packet, pi.serialize());
 }
 
 void NetManagerWorld::OnCenterServer_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
@@ -84,7 +84,7 @@ void NetManagerWorld::Register(int32_t peer_info)
 	PktRegisterServer pkt;
 	pkt.set_server_info(peer_info);
 	SendPacket(PeerType_t::centerserver, pkt);
-	//m_pConnector->SendPacket(PeerType_t::worldserver, pkt);
+	//m_pBackEnd->SendPacket(PeerType_t::worldserver, pkt);
 }
 
 void NetManagerWorld::SendPacket(NetChannelPtr& channel, google::protobuf::Message& packet)

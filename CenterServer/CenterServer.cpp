@@ -3,12 +3,12 @@
 #include "EventLoop.h"
 #include <chrono>
 #include <thread>
-#include "NetManagerCenter.h"
+#include "CenterPacketProcessor.h"
 using namespace TerraX;
 
 bool CenterServer::Init()
 {
-	NetManagerCenter::GetInstance().Accept(9995, MAX_CONNECTION);
+	CenterPacketProcessor::GetInstance().Accept(9995, MAX_CONNECTION);
 	ConnectionManager::GetInstance();
 	return true;
 }
@@ -20,7 +20,7 @@ void CenterServer::Run()
 
 		auto start = std::chrono::steady_clock::now();
 		
-		NetManagerCenter::GetInstance().Tick();
+		CenterPacketProcessor::GetInstance().Tick();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 

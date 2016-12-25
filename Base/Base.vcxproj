@@ -129,6 +129,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\ComDef.h" />
+    <ClInclude Include="include\event_dynamic.h" />
+    <ClInclude Include="include\event_dynamic2.h" />
+    <ClInclude Include="include\event_static.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

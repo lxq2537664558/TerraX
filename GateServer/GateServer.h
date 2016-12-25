@@ -21,8 +21,11 @@ namespace TerraX
 		void Run();
 		void Exit() { m_bExit = true; }
 
-		//Acceptor* GetAcceptor() { return m_pAcceptor.get(); }
-		//Connector* GetConnector(){ return m_pConnector.get(); }
+		//FrontEnd* GetFrontEnd() { return m_pFrontEnd.get(); }
+		//BackEnd* GetBackEnd(){ return m_pBackEnd.get(); }
+	private:
+		void ProcessLogic();
+
 	private:
 		bool m_bExit{ false };
 	};

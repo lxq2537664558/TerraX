@@ -127,24 +127,30 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 	else if (events & BEV_EVENT_EOF)
 	{
 		printf("disconnected\n");
-		self->Disconnected();
+		self->Disconnected(); //disconnect代表是正常断开
 	}
 	else if (events & BEV_EVENT_ERROR)
 	{
 		printf("connect error\n");
-		self->ConnectFailed();
+		self->ConnectFailed(); //突然断开连接
 	}
 }
 
-bool NetChannel::OnMessage(int32_t nFromPeerInfo, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+bool NetChannel::OnMessage(int32_t nMsgOwnerInfo, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
-	return PacketDispatcher::GetInstance().DeliverPacket(shared_from_this(), nFromPeerInfo, strMsgType, pBuffer, nBufferSize);
+	return PacketDispatcher::GetInstance().DeliverPacket(m_peer_info, nMsgOwnerInfo, strMsgType, pBuffer, nBufferSize);
 }
 
 void NetChannel::SendMsg(struct evbuffer* buf)
 {
-	if (m_eState == ConnState_t::eConnected) {
+	if (m_eState == ConnState_t::eConnected/* || m_eState == ConnState_t::eRun*/) {
 		bufferevent_write_buffer(m_evConn, buf);
 	}
 }
 
+void NetChannel::SendMsg(const char* buf, int len)
+{
+	if (m_eState == ConnState_t::eConnected) {
+		bufferevent_write(m_evConn, buf, len);
+	}
+}

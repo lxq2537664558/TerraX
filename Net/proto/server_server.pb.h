@@ -37,7 +37,8 @@ void protobuf_AddDesc_server_5fserver_2eproto();
 void protobuf_AssignDesc_server_5fserver_2eproto();
 void protobuf_ShutdownFile_server_5fserver_2eproto();
 
-class PktRegisterServer;
+class PktRegisterAck;
+class PktRegisterReq;
 class PktUpdateServerInfo;
 
 enum PktUpdateServerInfo_UpdateType {
@@ -64,32 +65,32 @@ inline bool PktUpdateServerInfo_UpdateType_Parse(
 }
 // ===================================================================
 
-class PktRegisterServer : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:S2SPacket.PktRegisterServer) */ {
+class PktRegisterReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:S2SPacket.PktRegisterReq) */ {
  public:
-  PktRegisterServer();
-  virtual ~PktRegisterServer();
+  PktRegisterReq();
+  virtual ~PktRegisterReq();
 
-  PktRegisterServer(const PktRegisterServer& from);
+  PktRegisterReq(const PktRegisterReq& from);
 
-  inline PktRegisterServer& operator=(const PktRegisterServer& from) {
+  inline PktRegisterReq& operator=(const PktRegisterReq& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const PktRegisterServer& default_instance();
+  static const PktRegisterReq& default_instance();
 
-  void Swap(PktRegisterServer* other);
+  void Swap(PktRegisterReq* other);
 
   // implements Message ----------------------------------------------
 
-  inline PktRegisterServer* New() const { return New(NULL); }
+  inline PktRegisterReq* New() const { return New(NULL); }
 
-  PktRegisterServer* New(::google::protobuf::Arena* arena) const;
+  PktRegisterReq* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const PktRegisterServer& from);
-  void MergeFrom(const PktRegisterServer& from);
+  void CopyFrom(const PktRegisterReq& from);
+  void MergeFrom(const PktRegisterReq& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -108,7 +109,82 @@ class PktRegisterServer : public ::google::protobuf::Message /* @@protoc_inserti
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(PktRegisterServer* other);
+  void InternalSwap(PktRegisterReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:S2SPacket.PktRegisterReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_server_5fserver_2eproto();
+  friend void protobuf_AssignDesc_server_5fserver_2eproto();
+  friend void protobuf_ShutdownFile_server_5fserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static PktRegisterReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PktRegisterAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:S2SPacket.PktRegisterAck) */ {
+ public:
+  PktRegisterAck();
+  virtual ~PktRegisterAck();
+
+  PktRegisterAck(const PktRegisterAck& from);
+
+  inline PktRegisterAck& operator=(const PktRegisterAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PktRegisterAck& default_instance();
+
+  void Swap(PktRegisterAck* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PktRegisterAck* New() const { return New(NULL); }
+
+  PktRegisterAck* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PktRegisterAck& from);
+  void MergeFrom(const PktRegisterAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PktRegisterAck* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -130,7 +206,7 @@ class PktRegisterServer : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::int32 server_info() const;
   void set_server_info(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:S2SPacket.PktRegisterServer)
+  // @@protoc_insertion_point(class_scope:S2SPacket.PktRegisterAck)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -142,7 +218,7 @@ class PktRegisterServer : public ::google::protobuf::Message /* @@protoc_inserti
   friend void protobuf_ShutdownFile_server_5fserver_2eproto();
 
   void InitAsDefaultInstance();
-  static PktRegisterServer* default_instance_;
+  static PktRegisterAck* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -274,20 +350,24 @@ class PktUpdateServerInfo : public ::google::protobuf::Message /* @@protoc_inser
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-// PktRegisterServer
+// PktRegisterReq
+
+// -------------------------------------------------------------------
+
+// PktRegisterAck
 
 // optional int32 server_info = 1;
-inline void PktRegisterServer::clear_server_info() {
+inline void PktRegisterAck::clear_server_info() {
   server_info_ = 0;
 }
-inline ::google::protobuf::int32 PktRegisterServer::server_info() const {
-  // @@protoc_insertion_point(field_get:S2SPacket.PktRegisterServer.server_info)
+inline ::google::protobuf::int32 PktRegisterAck::server_info() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktRegisterAck.server_info)
   return server_info_;
 }
-inline void PktRegisterServer::set_server_info(::google::protobuf::int32 value) {
+inline void PktRegisterAck::set_server_info(::google::protobuf::int32 value) {
   
   server_info_ = value;
-  // @@protoc_insertion_point(field_set:S2SPacket.PktRegisterServer.server_info)
+  // @@protoc_insertion_point(field_set:S2SPacket.PktRegisterAck.server_info)
 }
 
 // -------------------------------------------------------------------
@@ -339,6 +419,8 @@ PktUpdateServerInfo::mutable_server_info() {
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

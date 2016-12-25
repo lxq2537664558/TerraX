@@ -14,6 +14,15 @@
     <ClInclude Include="include\ComDef.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="include\event_static.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event_dynamic.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event_dynamic2.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
