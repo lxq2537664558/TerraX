@@ -12,7 +12,7 @@ namespace TerraX
         struct base {
             virtual ~base(){};
             virtual std::size_t args_size() { return 0; }
-
+			virtual std::size_t args_hashcode() { return 0; }
         };
         // have a derived type to wrap the
         //  actual functor object:
@@ -21,9 +21,10 @@ namespace TerraX
             typedef std::function<void(Args...)> func_type;
             func_type f;
             std::tuple<Args...> t;
-            wrapped(func_type aFunc) : f(aFunc){};
 
-			std::size_t args_size() override final { return std::tuple_size<decltype(t)>::value; }
+            wrapped(func_type aFunc) : f(aFunc){};
+            std::size_t args_hashcode() override final { return typeid(t).hash_code(); }
+            std::size_t args_size() override final { return std::tuple_size<decltype(t)>::value; }
         };
         // Hold a base-type pointer:
         std::unique_ptr<base> p_base;
@@ -45,11 +46,13 @@ namespace TerraX
         void operator()(Args... args) const
         {
             // boost::polymorphic_downcast
-			wrapped<Args...>* p_wrapped = static_cast<wrapped<Args...>*>(p_base.get());
-			if (p_wrapped)
-			{
-				p_wrapped->f(args...);
-			}
+			//arguments are not same becauseof (typeid(pkt*) != typeid(message*)); 
+			//assert(p_base->args_hashcode() == typeid(std::tuple<Args...>).hash_code());
+
+            wrapped<Args...>* p_wrapped = static_cast<wrapped<Args...>*>(p_base.get());
+            if (p_wrapped) {
+                p_wrapped->f(args...);
+            }
         };
 
         std::size_t args_size() { return p_base->args_size(); }
