@@ -23,6 +23,9 @@
     <ClInclude Include="include\event_dynamic2.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="include\RingBuffer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -132,6 +132,7 @@
     <ClInclude Include="include\event_dynamic.h" />
     <ClInclude Include="include\event_dynamic2.h" />
     <ClInclude Include="include\event_static.h" />
+    <ClInclude Include="include\RingBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
