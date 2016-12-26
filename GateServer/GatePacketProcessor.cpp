@@ -3,9 +3,12 @@
 using namespace TerraX;
 GatePacketProcessor::GatePacketProcessor() : PacketProcessor(PeerType_t::gateserver)
 {
-    PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterAck>(
-        new events_dynamic2(std::function<void(PktRegisterAck*)>(
-            std::bind(&GatePacketProcessor::OnMessage_LoginResult, this, std::placeholders::_1))));
+    // PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterAck>(
+    // new events_dynamic2(std::function<void(PktRegisterAck*)>(
+    // std::bind(&GatePacketProcessor::OnMessage_LoginResult, this, std::placeholders::_1))));
+
+    RegPacketHandler_Arg1(
+        PktRegisterAck, std::bind(&GatePacketProcessor::OnMessage_LoginResult, this, std::placeholders::_1));
 }
 
 void GatePacketProcessor::ForwardPacket_FrontEnd(Packet* pkt) {}

@@ -9,7 +9,7 @@
 namespace TerraX
 {
     namespace gpb = google::protobuf;
-	//learn how to use std::forward
+    // learn how to use std::forward
     class PacketDispatcher
     {
         MAKEINSTANCE(PacketDispatcher);
@@ -29,4 +29,22 @@ namespace TerraX
     private:
         std::map<const google::protobuf::Descriptor*, std::unique_ptr<events_dynamic2> > m_mapCallBacks;
     };
+
+#define RegPacketHandler_Arg1(packet_type, bind_function) \
+    \
+PacketDispatcher::GetInstance()                           \
+        .RegPacketHandler<packet_type>(                   \
+            new events_dynamic2(std::function<void(packet_type*)>(bind_function)));
+
+#define RegPacketHandler_Arg2(packet_type, bind_function) \
+    \
+PacketDispatcher::GetInstance()                           \
+        .RegPacketHandler<packet_type>(                   \
+            new events_dynamic2(std::function<void(int32_t, packet_type*)>(bind_function)));
+
+#define RegPacketHandler_Arg3(packet_type, bind_function) \
+    \
+PacketDispatcher::GetInstance()                           \
+        .RegPacketHandler<packet_type>(                   \
+            new events_dynamic2(std::function<void(int32_t, int32_t, packet_type*)>(bind_function)));
 }
