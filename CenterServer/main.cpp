@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stdio.h>
+#include <google/protobuf/message.h>
 #include "CenterServer.h"
 #include <thread>
 
-using namespace S2SPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 

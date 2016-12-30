@@ -33,9 +33,6 @@
     <ClCompile Include="proto\server_server.pb.cc">
       <Filter>Proto</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProtobufCodecLite.cpp">
-      <Filter>Net</Filter>
-    </ClCompile>
     <ClCompile Include="src\Packet.cpp">
       <Filter>Net</Filter>
     </ClCompile>
@@ -61,9 +58,6 @@
     </ClInclude>
     <ClInclude Include="proto\server_server.pb.h">
       <Filter>Proto</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ProtobufCodecLite.h">
-      <Filter>Net</Filter>
     </ClInclude>
     <ClInclude Include="include\Packet.h">
       <Filter>Net</Filter>

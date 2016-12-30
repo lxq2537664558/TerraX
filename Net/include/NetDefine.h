@@ -16,11 +16,15 @@ namespace TerraX
     };
     using NetEvent_CB = std::function<void(NetChannelPtr&, NetEvent_t)>;
 
+	//when we need to logout, we should first tell the gate server
+	enum class KickOutReason_t {
+		eNormalExit,
+	};
+
     enum class ConnState_t {
         eDisconnected,
         eConnecting,
         eConnected,  // register
-        eRun,        // ok, run
         eDisconnecting
     };
 

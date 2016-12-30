@@ -134,12 +134,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GatePacketProcessor.cpp" />
+    <ClCompile Include="PacketProcessor_Gate.cpp" />
     <ClCompile Include="GateServer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GatePacketProcessor.h" />
+    <ClInclude Include="GateAccount.h" />
+    <ClInclude Include="GateAvatar.h" />
+    <ClInclude Include="PacketProcessor_Gate.h" />
     <ClInclude Include="GateServer.h" />
     <ClInclude Include="GuestManager.h" />
   </ItemGroup>

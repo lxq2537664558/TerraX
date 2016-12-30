@@ -5,10 +5,6 @@
 #include "EventLoop.h"
 #include "ProtobufCodecLite.h"
 #include "NetServer.h"
-#include "proto/server_server.pb.h"
-#include "proto/client_server.pb.h"
-using namespace S2SPacket;
-
 namespace TerraX
 {
 	class NetManagerWorld

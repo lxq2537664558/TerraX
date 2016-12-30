@@ -94,11 +94,11 @@
       </AdditionalUsingDirectories>
       <PreprocessorDefinitions>WIN32;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\Base\include;..\Net;..\Net\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include\;..\ThirdParty\zlib\win32_include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Base\include;..\Net;..\Net\include;..\SrvLib\include;..\ThirdParty\libevent\win32_include;..\ThirdParty\protobuf\include\;..\ThirdParty\zlib\win32_include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\Lib;..\ThirdParty\Lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Net.lib;Base.lib;libevent.lib;libevent_core.lib;libevent_extras.lib;ws2_32.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Net.lib;Base.lib;SrvLib.lib;libevent.lib;libevent_core.lib;libevent_extras.lib;ws2_32.lib;libprotobuf.lib;libprotobuf-lite.lib;libprotoc.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

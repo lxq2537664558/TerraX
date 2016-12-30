@@ -3,13 +3,17 @@
 #include "EventLoop.h"
 #include <chrono>
 #include <thread>
-#include "CenterPacketProcessor.h"
+#include "PacketProcessor_Center.h"
 using namespace TerraX;
 
 bool CenterServer::Init()
 {
-	CenterPacketProcessor::GetInstance().Accept(9995, MAX_CONNECTION);
 	ConnectionManager::GetInstance();
+	ServerManager::GetInstance().InitPacketProcessor(&PacketProcessor_Center::GetInstance());
+	PeerInfo pi(PeerType_t::centerserver);
+	ServerManager::GetInstance().OnServerAdded(pi.serialize());
+
+	PacketProcessor_Center::GetInstance().Accept(9995, MAX_CONNECTION);
 	return true;
 }
 
@@ -20,7 +24,7 @@ void CenterServer::Run()
 
 		auto start = std::chrono::steady_clock::now();
 		
-		CenterPacketProcessor::GetInstance().Tick();
+		PacketProcessor_Center::GetInstance().Tick();
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 

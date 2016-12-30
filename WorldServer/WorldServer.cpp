@@ -21,7 +21,6 @@ void WorldServer::Run()
 
 		auto start = std::chrono::steady_clock::now();
 
-		NetManagerWorld::GetInstance().Tick();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		auto end = std::chrono::steady_clock::now();

@@ -21,6 +21,9 @@
     <ClInclude Include="include\ServerManager.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="include\IServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PacketProcessor.cpp">

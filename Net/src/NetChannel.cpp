@@ -15,7 +15,10 @@ NetChannel::NetChannel(EventLoop* loop, const string& host, int port)
 {
 	SetTcpNodelay(bufferevent_getfd(m_evConn));
 	bufferevent_setcb(m_evConn, ReadCallback, WriteCallback, EventCallback, this);
-	bufferevent_socket_connect_hostname(m_evConn, nullptr, AF_INET, host.c_str(), port);
+	int nErrCode = bufferevent_socket_connect_hostname(m_evConn, nullptr, AF_INET, host.c_str(), port);
+	if (nErrCode != 0) {
+		throw std::runtime_error("Socket Connection Error! ");
+	}
 }
 
 NetChannel::NetChannel(struct event_base* base, int fd)
@@ -139,13 +142,6 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 bool NetChannel::OnMessage(int32_t nMsgOwnerInfo, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
 	return PacketDispatcher::GetInstance().DeliverPacket(m_peer_info, nMsgOwnerInfo, strMsgType, pBuffer, nBufferSize);
-}
-
-void NetChannel::SendMsg(struct evbuffer* buf)
-{
-	if (m_eState == ConnState_t::eConnected/* || m_eState == ConnState_t::eRun*/) {
-		bufferevent_write_buffer(m_evConn, buf);
-	}
 }
 
 void NetChannel::SendMsg(const char* buf, int len)

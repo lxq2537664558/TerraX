@@ -1,12 +1,10 @@
 #pragma once
 
 #include <event2/listener.h>
-#include <vector>
-#include <set>
 #include <mutex>
 #include <string>
-#include <array>
 #include <queue>
+#include <unordered_map>
 #include "NetChannel.h"
 #include "ComDef.h"
 #include "NetDefine.h"
@@ -47,7 +45,7 @@ namespace TerraX
 		std::mutex m_mutex;
 	private:
 		std::queue<uint16_t> m_freeindexes;
-		std::map<uint16_t, NetChannelPtr> m_mapChannels;
+		std::unordered_map<uint16_t, NetChannelPtr> m_mapChannels;
 		const uint16_t m_maxconnections;
 		NetEvent_CB m_NetEventCB;
 		OnMessage_CB m_OnMessageCB;

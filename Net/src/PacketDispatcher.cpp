@@ -1,4 +1,5 @@
 #include "PacketDispatcher.h"
+#include <google/protobuf/message.h>
 
 using namespace TerraX;
 

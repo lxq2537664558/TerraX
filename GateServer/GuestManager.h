@@ -3,14 +3,17 @@
 #include <memory>
 #include "ComDef.h"
 #include <cassert>
+#include <map>
 #include <unordered_map>
 #include "NetDefine.h"
+#include "GateAccount.h"
 
 namespace TerraX
 {
-	enum class Guest_GameState_t
+	enum class GuestState_t
 	{
 		eGameState_NULL,
+		eWaitingAccountInfo,
 		eCheckingPermission,
 		eChosingAvatar,
 		eEnteringScene,
@@ -20,32 +23,25 @@ namespace TerraX
 	class Guest
 	{
 	public:
-		Guest(const char* szAccountName) : m_strAccountName(szAccountName),
-			m_eGameState(Guest_GameState_t::eCheckingPermission) {}
+		Guest(int GuestID) : m_nGuestID(GuestID), m_eGameState(GuestState_t::eWaitingAccountInfo){}
 		~Guest() {}
 
-		void PossessedAvatar(int32_t nAvatarID) { m_nPossessedAvatarID = nAvatarID; }
-		void SetGuestGameState(Guest_GameState_t eGameState) { m_eGameState = eGameState; }
+		void SetAccountInfo(std::unique_ptr<GateAccount>& pAccountInfo) { m_pAccountInfo = std::move(pAccountInfo); }
+		void AttachAvatar(int32_t nAvatarID) { m_nAttachAvatarID = nAvatarID; }
+		int32_t GetAttachAvatarID() { return m_nAttachAvatarID; }
+		void SetGuestGameState(GuestState_t eGameState) { m_eGameState = eGameState; }
+		GuestState_t GetGuestGameState() { return m_eGameState; }
 		int32_t GetGuestID() const { return m_nGuestID; }
 		int32_t GetDestPeerInfo(PeerType_t ePeerType) const {
-			if (ePeerType == PeerType_t::worldserver)
-			{
-				return m_nLinkWorldPeerInfo;
-			}
-			if (ePeerType == PeerType_t::gameserver)
-			{
-				return m_nLinkGamePeerInfo;
-			}
 			return 0;
 		}
 	private:
 		std::string m_strAccountName;
-		int32_t m_nGuestID;
-		int32_t m_nPossessedAvatarID{ 0 };
-		Guest_GameState_t m_eGameState{ Guest_GameState_t::eGameState_NULL };
-
-		int32_t m_nLinkWorldPeerInfo{ 0 };
-		int32_t m_nLinkGamePeerInfo{ 0 };
+		int32_t m_nGuestID{ 0 };
+		int32_t m_nAttachAvatarID{ 0 };
+		GuestState_t m_eGameState{ GuestState_t::eGameState_NULL };
+		std::map<PeerType_t, int> m_mapPeerInfos;
+		std::unique_ptr<GateAccount> m_pAccountInfo;
 	};
 
 
@@ -57,23 +53,12 @@ namespace TerraX
 		GuestManager() = default;
 		~GuestManager() = default;
 
-		void AddGuest(int32_t nGuestID, const char* szAccountName) {
-			m_mapGuests[nGuestID] = std::unique_ptr<Guest>(new Guest(szAccountName));
-		}
-		void SetGuestAvatarID(int32_t nGuestID, int32_t nAvatarID) {
-			auto it = m_mapGuests.find(nGuestID);
-			assert(it != m_mapGuests.end());
-			it->second->PossessedAvatar(nAvatarID);
-		}
-		void SetGuestGameState(int32_t nGuestID, Guest_GameState_t eGameState) {
-			auto it = m_mapGuests.find(nGuestID);
-			assert(it != m_mapGuests.end());
-			it->second->SetGuestGameState(eGameState);
-		}
-
-		Guest* FindGuest(int32_t nGuestID) {
+		Guest* GetGuest(int32_t nGuestID) {
 			auto it = m_mapGuests.find(nGuestID);
 			return it == m_mapGuests.end() ? nullptr : it->second.get();
+		}
+		void CreateGuest(int32_t nGuestID) {
+			m_mapGuests[nGuestID] = std::move(std::unique_ptr<Guest>(new Guest(nGuestID)));
 		}
 	private:
 		std::unordered_map<int32_t, std::unique_ptr<Guest> > m_mapGuests;

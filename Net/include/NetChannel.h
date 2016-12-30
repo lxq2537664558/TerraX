@@ -25,7 +25,6 @@ namespace TerraX
 		~NetChannel();
 		void SetDisconnectCb(SrvDisconnect_CB cb) { m_SrvDisconnectCB = cb; };
 		
-		void SendMsg(struct evbuffer* buf);
 		void SendMsg(const char* buf, int len);
 		bool OnMessage(int32_t nFromPeerInfo,const std::string& strMsgType, const char* pBuffer, const int nBufferSize);
 

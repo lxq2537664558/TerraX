@@ -116,6 +116,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\IServer.h" />
     <ClInclude Include="include\PacketProcessor.h" />
     <ClInclude Include="include\ServerManager.h" />
   </ItemGroup>

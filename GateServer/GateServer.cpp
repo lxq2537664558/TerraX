@@ -1,7 +1,8 @@
 #include "GateServer.h"
 #include "NetServer.h"
 #include "EventLoop.h"
-#include "GatePacketProcessor.h"
+#include "PacketProcessor_Gate.h"
+#include "ServerManager.h"
 #include <chrono>
 #include <thread>
 using namespace TerraX;
@@ -10,10 +11,26 @@ GateServer::GateServer()
 {
 }
 
+bool GateServer::InitStaticModule()
+{
+	PacketProcessor_Gate::GetInstance();
+	ServerManager::GetInstance().InitPacketProcessor(&PacketProcessor_Gate::GetInstance());
+
+	return true;
+}
+
+bool GateServer::InitNetModule()
+{
+	PacketProcessor_Gate::GetInstance().Connect("127.0.0.1", 9995);
+	PacketProcessor_Gate::GetInstance().Accept(9991, MAX_CONNECTION);
+
+	return true;
+}
+
 bool GateServer::Init()
 {
-	GatePacketProcessor::GetInstance().Connect("127.0.0.1", 9995);
-	GatePacketProcessor::GetInstance().Accept(9991, MAX_CONNECTION);
+	InitStaticModule();
+	InitNetModule();
 	return true;
 }
 
@@ -40,5 +57,5 @@ void GateServer::Run()
 
 void GateServer::ProcessLogic()
 {
-	GatePacketProcessor::GetInstance().Tick();
+	PacketProcessor_Gate::GetInstance().Tick();
 }

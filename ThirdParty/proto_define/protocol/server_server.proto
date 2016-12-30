@@ -17,14 +17,14 @@ message PktRegisterAck
 {
     int32 server_info = 1;
 }
-message PktUpdateServerInfo
+message PktServerSync
 {
-    enum UpdateType
+    enum SyncType
     {
         add = 0;
-        sync = 1;
+        update = 1;
         remove = 2;
     }
-    UpdateType type = 1;
+    SyncType type = 1;
     repeated int32 server_info = 2;
 }

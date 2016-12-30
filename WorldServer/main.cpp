@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stdio.h>
+#include <google/protobuf/message.h>
 #include "EventLoop.h"
 #include "WorldServer.h"
 
-//using namespace S2SPacket;
 using namespace google::protobuf;
 using namespace TerraX;
 
@@ -20,9 +20,6 @@ int main(int argc, char* argv[])
 		WorldServer::GetInstance().Run();
 	}
 
-	//EventLoop loop;
-	//WorldServer gameserver(&loop, "127.0.0.1", 9995);
-	//loop.loop();
 	google::protobuf::ShutdownProtobufLibrary();
 
 	getchar();

@@ -1,7 +1,10 @@
-#include "CenterPacketProcessor.h"
+#include "PacketProcessor_Center.h"
 #include "CenterServer.h"
 #include "ConnectionManager.h"
+#include "ServerManager.h"
+#include "proto/server_server.pb.h"
 using namespace TerraX;
+using namespace S2SPacket;
 
 ConnectionManager::ConnectionManager()
 {
@@ -65,7 +68,7 @@ void ConnectionManager::OnMessage_ServerLogin(int32_t nChannelInfo, int32_t nSrc
     assert(pi_src.peer_type > PeerType_t::client && pi_src.peer_type < PeerType_t::peer_count);
     uint8_t conn_id = GetAvailableConnIdx(pi_src.peer_type);
 
-    NetChannelPtr pChannel = CenterPacketProcessor::GetInstance().GetChannel_FrontEnd(nChannelInfo);
+    NetChannelPtr pChannel = PacketProcessor_Center::GetInstance().GetChannel_FrontEnd(nChannelInfo);
     if (!pChannel) {
         // failed
         return;
@@ -83,26 +86,9 @@ void ConnectionManager::OnMessage_ServerLogin(int32_t nChannelInfo, int32_t nSrc
 
         PktRegisterAck pktAck;
         pktAck.set_server_info(reg_peer_info);
-        CenterPacketProcessor::GetInstance().SendPacket(pChannel, nSrcPeerInfo, reg_peer_info, pktAck);
-        /*
-        PktUpdateServerInfo pktSync;
-        pktSync.set_type(PktUpdateServerInfo_UpdateType_sync);
-        pktSync.add_server_info(reg_peer_info);
-        auto allservers = m_SrvAddrManager.GetServerAddrs();
-        for (auto& peer : allservers)
-        {
-                CenterPacketProcessor::GetInstance().SendPacket(peer, peer, pkt);
-        }
-
-        PktUpdateServerInfo pktAdd;
-        pktSync.set_type(PktUpdateServerInfo_UpdateType_add);
-        for (auto& peer : allservers)
-        {
-                pktAdd.add_server_info(peer);
-        }
-        CenterPacketProcessor::GetInstance().SendPacket(channel, nFromPeerInfo, pktAdd);
-        */
-        // m_SrvAddrManager.AddServer(reg_peer_info);
+        PacketProcessor_Center::GetInstance().SendPacket2FrontEnd(nChannelInfo, nSrcPeerInfo, reg_peer_info, pktAck);
+        
+		ServerManager::GetInstance().OnServerAdded(reg_peer_info);
     }
 }
 

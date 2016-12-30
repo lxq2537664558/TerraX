@@ -1,7 +1,6 @@
 #pragma once
 #include "ComDef.h"
 #include "NetChannel.h"
-#include "proto/server_server.pb.h"
 #include "NetDefine.h"
 #include "EventLoop.h"
 

@@ -1,7 +1,7 @@
-#include "PacketProcessor.h"
-#include <functional>
-#include <event2/bufferevent.h>
 #include <event2/buffer.h>
+#include <event2/bufferevent.h>
+#include <functional>
+#include "PacketProcessor.h"
 
 using namespace TerraX;
 
@@ -14,56 +14,68 @@ void PacketProcessor::Connect(const std::string& host, int port)
     m_pBackEnd = std::make_shared<NetChannel>(&m_loop, host, port);
     m_pBackEnd->SetPeerInfo(uint8_t(m_peer_type) << 24);
     m_pBackEnd->RegOnMessage_Callback(
-		std::bind(&PacketProcessor::OnMessage_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
-	m_pBackEnd->RegNetEvent_Callback(
-		std::bind(&PacketProcessor::OnNetEvent_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
+        std::bind(&PacketProcessor::OnMessage_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
+    m_pBackEnd->RegNetEvent_Callback(
+        std::bind(&PacketProcessor::OnNetEvent_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void PacketProcessor::Accept(int port, uint16_t max_connections)
 {
     m_pFrontEnd.reset(new NetServer(&m_loop, port, max_connections));
     m_pFrontEnd->RegOnMessage_Callback(
-		std::bind(&PacketProcessor::OnMessage_FrontEnd, this, std::placeholders::_1, std::placeholders::_2));
-	m_pFrontEnd->RegNetEvent_Callback(
-		std::bind(&PacketProcessor::OnNetEvent_FrontEnd, this, std::placeholders::_1, std::placeholders::_2));
+        std::bind(&PacketProcessor::OnMessage_FrontEnd, this, std::placeholders::_1, std::placeholders::_2));
+    m_pFrontEnd->RegNetEvent_Callback(
+        std::bind(&PacketProcessor::OnNetEvent_FrontEnd, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
-                                     std::function<void(Packet*)> fn)
+
+void PacketProcessor::ForwardPacket2FrontEnd(Packet* pkt)
 {
-    MessageError_t errCode = ReadMessage(evbuf, pktQueue);
-    if (errCode == MessageError_t::eInvalidLength) {
-        // Log;
-        // close channel;
-    }
-    while (!pktQueue.IsEmpty()) {
-        std::unique_ptr<Packet> pkt(pktQueue.Pop());
-        if (!pkt->IsValid()) {
-            continue;
-        }
-        int peer_info = pkt->GetDesination();
-        PeerInfo pi(peer_info);
-        if (m_peer_type == pi.peer_type) {
-            std::string packet_name = pkt->GetPacketName();
-            pChannel->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
-        } else {
-            fn(pkt.get());
-        }
-    }
+
+}
+void PacketProcessor::ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Packet* pkt)
+{
 }
 
 void PacketProcessor::OnMessage_FrontEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
     ProcessMessage(evbuf, pChannel, m_pktQueueFrontEnd,
-                   std::bind(&PacketProcessor::ForwardPacket_BackEnd, this, std::placeholders::_1));
+                   std::bind(&PacketProcessor::ForwardPacket2BackEnd, this, std::placeholders::_1,
+                             std::placeholders::_2));
 }
 
 void PacketProcessor::OnMessage_BackEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
     ProcessMessage(evbuf, pChannel, m_pktQueueBackEnd,
-                   std::bind(&PacketProcessor::ForwardPacket_FrontEnd, this, std::placeholders::_1));
+                   std::bind(&PacketProcessor::ForwardPacket2FrontEnd, this, std::placeholders::_1));
 }
 
+void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
+	std::function<void(int, Packet*)> fn)
+{
+	MessageError_t errCode = ReadMessage(evbuf, pktQueue);
+	if (errCode == MessageError_t::eInvalidLength) {
+		// Log;
+		// close channel;
+	}
+	while (!pktQueue.IsEmpty()) {
+		std::unique_ptr<Packet> pkt(pktQueue.Pop());
+		if (!pkt->IsValid()) {
+			continue;
+		}
+		int peer_info = pkt->GetDesination();
+		PeerInfo pi(peer_info);
+		if (m_peer_type == pi.peer_type) {
+			std::string packet_name = pkt->GetPacketName();
+			int nOwnerInfo = (pChannel->GetPeerType() == PeerType_t::client) ? pChannel->GetPeerInfo()
+				: pkt->GetOwnerInfo();
+			pChannel->OnMessage(nOwnerInfo, packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
+		}
+		else {
+			fn(pChannel->GetPeerInfo(), pkt.get());
+		}
+	}
+}
 MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue)
 {
     std::size_t readable = evbuffer_get_length(evbuf);
@@ -91,8 +103,8 @@ MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, PacketQueue&
 
 NetChannelPtr PacketProcessor::GetChannel_FrontEnd(int32_t nChannelInfo)
 {
-	PeerInfo pi(nChannelInfo);
-	return m_pFrontEnd->GetChannel(pi.channel_index);
+    PeerInfo pi(nChannelInfo);
+    return m_pFrontEnd->GetChannel(pi.channel_index);
 }
 
 void PacketProcessor::SendPacket(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg)
@@ -103,8 +115,16 @@ void PacketProcessor::SendPacket(NetChannelPtr& pChannel, int dest_info, int own
     pChannel->SendMsg(pkt->GetBuffer(), pkt->Size());
 }
 
+void PacketProcessor::SendPacket2FrontEnd(int channel_info, int dest_info, int owner_info, gpb::Message& msg)
+{
+    NetChannelPtr pChannel = GetChannel_FrontEnd(channel_info);
+    if (!pChannel) {
+        return;
+    }
+    SendPacket(pChannel, dest_info, owner_info, msg);
+}
 
 void PacketProcessor::SendPacket2BackEnd(int dest_info, int owner_info, gpb::Message& msg)
 {
-	SendPacket(m_pBackEnd, dest_info, owner_info, msg);
+    SendPacket(m_pBackEnd, dest_info, owner_info, msg);
 }
