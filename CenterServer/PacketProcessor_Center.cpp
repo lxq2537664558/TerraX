@@ -1,27 +1,30 @@
-#include "PacketProcessor_Center.h"
-//#include "GuestManager.h"
 #include "ConnectionManager.h"
+#include "PacketProcessor_Center.h"
 using namespace TerraX;
 
-PacketProcessor_Center::PacketProcessor_Center() : PacketProcessor(PeerType_t::centerserver) {
-}
+PacketProcessor_Center::PacketProcessor_Center() : PacketProcessor(PeerType_t::centerserver) {}
 
-void PacketProcessor_Center::ForwardPacket2FrontEnd(Packet* pkt) {}
+void PacketProcessor_Center::ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt) {}
 
-void PacketProcessor_Center::ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Packet* pkt) {}
+void PacketProcessor_Center::ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt) {}
 
-void PacketProcessor_Center::OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent) {}
-
-void PacketProcessor_Center::OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)
+void PacketProcessor_Center::DoFrontEnd_Connected(NetChannelPtr& pChannel)
 {
-	switch (eEvent) {
-	case TerraX::NetEvent_t::eConnected:
-		break;
-	case TerraX::NetEvent_t::eConnectFailed:
-		break;
-	case TerraX::NetEvent_t::eDisconnected:
-		break;
-	default:
-		break;
-	}
+    // CreateGuest();
+}
+void PacketProcessor_Center::DoFrontEnd_Disconnected(NetChannelPtr& pChannel)
+{
+    // RemoveGuest();
+	ConnectionManager::GetInstance().OnChannel_DisConnect(pChannel);
+	ServerManager::GetInstance().OnServerRemoved(pChannel->GetPeerInfo());
+
+    m_pFrontEnd->RemoveChannel(pChannel);
+}
+void PacketProcessor_Center::DoFrontEnd_ConnBreak(NetChannelPtr& pChannel)
+{
+    // RemoveGuest();
+	ConnectionManager::GetInstance().OnChannel_DisConnect(pChannel);
+
+	ServerManager::GetInstance().OnServerRemoved(pChannel->GetPeerInfo());
+    m_pFrontEnd->RemoveChannel(pChannel);
 }

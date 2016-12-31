@@ -8,12 +8,8 @@ using namespace S2SPacket;
 
 ConnectionManager::ConnectionManager()
 {
-    // PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterReq>(
-    // new events_dynamic2(std::function<void(int32_t, int32_t, PktRegisterReq*)>(
-    // std::bind(&ConnectionManager::OnMessage_ServerLogin, this, std::placeholders::_1,
-    // std::placeholders::_2, std::placeholders::_3))));
     RegPacketHandler_Arg3(PktRegisterReq,
-                          std::bind(&ConnectionManager::OnMessage_ServerLogin, this, std::placeholders::_1,
+                          std::bind(&ConnectionManager::OnMessage_PktRegisterReq, this, std::placeholders::_1,
                                     std::placeholders::_2, std::placeholders::_3));
 
     for (uint8_t i = 1; i <= MAX_GATE_CONNECTION_COUNT; ++i) {
@@ -60,7 +56,7 @@ uint8_t ConnectionManager::GetAvailableConnIdx(PeerType_t peer_type)
     return 0;
 }
 
-void ConnectionManager::OnMessage_ServerLogin(int32_t nChannelInfo, int32_t nSrcPeerInfo, PktRegisterReq* pkt)
+void ConnectionManager::OnMessage_PktRegisterReq(int32_t nChannelInfo, int32_t nSrcPeerInfo, PktRegisterReq* pkt)
 {
     PeerInfo pi_src(nSrcPeerInfo);
     assert(nChannelInfo != 0 && pi_src.channel_index == 0);

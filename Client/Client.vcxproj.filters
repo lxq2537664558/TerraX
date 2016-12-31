@@ -44,5 +44,8 @@
     <ClInclude Include="NetManagerClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LocalGuest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

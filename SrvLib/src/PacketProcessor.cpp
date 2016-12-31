@@ -29,11 +29,11 @@ void PacketProcessor::Accept(int port, uint16_t max_connections)
 }
 
 
-void PacketProcessor::ForwardPacket2FrontEnd(Packet* pkt)
+void PacketProcessor::ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt)
 {
 
 }
-void PacketProcessor::ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Packet* pkt)
+void PacketProcessor::ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt)
 {
 }
 
@@ -47,11 +47,12 @@ void PacketProcessor::OnMessage_FrontEnd(evbuffer* evbuf, NetChannelPtr& pChanne
 void PacketProcessor::OnMessage_BackEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
     ProcessMessage(evbuf, pChannel, m_pktQueueBackEnd,
-                   std::bind(&PacketProcessor::ForwardPacket2FrontEnd, this, std::placeholders::_1));
+		std::bind(&PacketProcessor::ForwardPacket2FrontEnd, this, std::placeholders::_1,
+			std::placeholders::_2));
 }
 
 void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
-	std::function<void(int, Packet*)> fn)
+	std::function<void(NetChannelPtr&, Packet*)> fn)
 {
 	MessageError_t errCode = ReadMessage(evbuf, pktQueue);
 	if (errCode == MessageError_t::eInvalidLength) {
@@ -72,7 +73,9 @@ void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, P
 			pChannel->OnMessage(nOwnerInfo, packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
 		}
 		else {
-			fn(pChannel->GetPeerInfo(), pkt.get());
+			if (fn) {
+				fn(pChannel, pkt.get());
+			}
 		}
 	}
 }
@@ -127,4 +130,66 @@ void PacketProcessor::SendPacket2FrontEnd(int channel_info, int dest_info, int o
 void PacketProcessor::SendPacket2BackEnd(int dest_info, int owner_info, gpb::Message& msg)
 {
     SendPacket(m_pBackEnd, dest_info, owner_info, msg);
+}
+
+void PacketProcessor::OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)
+{
+	switch (eEvent) {
+	case TerraX::NetEvent_t::eConnected:
+		DoFrontEnd_Connected(pChannel);
+		break;
+	case TerraX::NetEvent_t::eConnectFailed:
+		DoFrontEnd_ConnBreak(pChannel);
+		break;
+	case TerraX::NetEvent_t::eDisconnected:
+		DoFrontEnd_Disconnected(pChannel);
+		break;
+	default:
+		break;
+	}
+}
+
+void PacketProcessor::OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)
+{
+	switch (eEvent) {
+	case TerraX::NetEvent_t::eConnected:
+		DoBackEnd_Connected(pChannel);
+		break;
+	case TerraX::NetEvent_t::eConnectFailed:
+		DoBackEnd_ConnBreak(pChannel);
+		break;
+	case TerraX::NetEvent_t::eDisconnected:
+		DoBackEnd_Disconnected(pChannel);
+		break;
+	default:
+		break;
+	}
+}
+
+void PacketProcessor::DoBackEnd_Connected(NetChannelPtr& pChannel)
+{
+
+}
+
+void PacketProcessor::DoBackEnd_Disconnected(NetChannelPtr& pChannel)
+{
+
+}
+
+void PacketProcessor::DoBackEnd_ConnBreak(NetChannelPtr& pChannel)
+{
+
+}
+
+void PacketProcessor::DoFrontEnd_Connected(NetChannelPtr& pChannel)
+{
+
+}
+void PacketProcessor::DoFrontEnd_Disconnected(NetChannelPtr& pChannel)
+{
+
+}
+void PacketProcessor::DoFrontEnd_ConnBreak(NetChannelPtr& pChannel)
+{
+
 }

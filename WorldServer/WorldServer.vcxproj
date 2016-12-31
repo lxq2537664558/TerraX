@@ -136,11 +136,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NetManagerWorld.cpp" />
+    <ClCompile Include="PacketProcessor_World.cpp" />
     <ClCompile Include="WorldServer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NetManagerWorld.h" />
+    <ClInclude Include="PacketProcessor_World.h" />
     <ClInclude Include="WorldServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -22,11 +22,10 @@ namespace TerraX
 	public:
 		void SetThreadNum(int numThreads);
 
-		void ForceClose(NetChannelPtr& channel);
-		void ForceCloseAll();
-
+		void CloseAll();
 		NetChannelPtr GetChannel(uint16_t nChannelIndex);
 		NetChannelPtr GetChannel(PeerType_t peer_type, uint8_t peer_index);
+		void RemoveChannel(NetChannelPtr& pChannel);
 
 		void RegNetEvent_Callback(NetEvent_CB cb) { m_NetEventCB = cb; }
 		void RegOnMessage_Callback(OnMessage_CB cb) { m_OnMessageCB = cb; }

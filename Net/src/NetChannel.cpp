@@ -15,10 +15,7 @@ NetChannel::NetChannel(EventLoop* loop, const string& host, int port)
 {
 	SetTcpNodelay(bufferevent_getfd(m_evConn));
 	bufferevent_setcb(m_evConn, ReadCallback, WriteCallback, EventCallback, this);
-	int nErrCode = bufferevent_socket_connect_hostname(m_evConn, nullptr, AF_INET, host.c_str(), port);
-	if (nErrCode != 0) {
-		throw std::runtime_error("Socket Connection Error! ");
-	}
+	bufferevent_socket_connect_hostname(m_evConn, nullptr, AF_INET, host.c_str(), port);
 }
 
 NetChannel::NetChannel(struct event_base* base, int fd)
@@ -35,11 +32,10 @@ NetChannel::~NetChannel()
 	// printf("~NetChannel()\n");
 }
 
-void NetChannel::ConnectFailed()
+void NetChannel::ConnectError()
 {
 	m_connectFailed = true;
-	Disconnected();
-
+	SetConnState(ConnState_t::eDisconnected);
 	if (m_NetEventCB) {
 		m_NetEventCB(shared_from_this(), NetEvent_t::eConnectFailed);
 	}
@@ -61,10 +57,6 @@ void NetChannel::Connected()
 void NetChannel::Disconnected()
 {
 	SetConnState(ConnState_t::eDisconnected);
-	if (m_SrvDisconnectCB) {
-		m_SrvDisconnectCB(shared_from_this());
-	}
-
 	if (m_NetEventCB) {
 		m_NetEventCB(shared_from_this(), NetEvent_t::eDisconnected);
 	}
@@ -135,7 +127,7 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 	else if (events & BEV_EVENT_ERROR)
 	{
 		printf("connect error\n");
-		self->ConnectFailed(); //突然断开连接
+		self->ConnectError(); //突然断开连接
 	}
 }
 

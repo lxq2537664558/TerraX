@@ -134,6 +134,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GateLoginManager.cpp" />
+    <ClCompile Include="Guest.cpp" />
     <ClCompile Include="PacketProcessor_Gate.cpp" />
     <ClCompile Include="GateServer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -141,6 +143,8 @@
   <ItemGroup>
     <ClInclude Include="GateAccount.h" />
     <ClInclude Include="GateAvatar.h" />
+    <ClInclude Include="GateLoginManager.h" />
+    <ClInclude Include="Guest.h" />
     <ClInclude Include="PacketProcessor_Gate.h" />
     <ClInclude Include="GateServer.h" />
     <ClInclude Include="GuestManager.h" />

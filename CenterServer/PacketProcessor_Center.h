@@ -9,21 +9,23 @@ namespace TerraX
 	{
 		NOCOPY(PacketProcessor_Center);
 		MAKEINSTANCE(PacketProcessor_Center);
+
 	public:
 		PacketProcessor_Center();
 		~PacketProcessor_Center() = default;
 
-		void ForwardPacket2FrontEnd(Packet* pkt) override final;
-		void ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Packet* pkt) override final;
-		void OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent) override final;
-		void OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent) override final;
+	private:
+		void ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt) override final;
+		void ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt) override final;
 
+		void DoFrontEnd_Connected(NetChannelPtr& pChannel) override final;
+		void DoFrontEnd_Disconnected(NetChannelPtr& pChannel) override final;
+		void DoFrontEnd_ConnBreak(NetChannelPtr& pChannel) override final;
 
 	private:
-		void OnMessage_Exit(){}
+		void OnMessage_Exit() {}
 		void OnMessage_KickOut() {};
 
-		void DoDisconnected(){}
+		void DoDisconnected() {}
 	};
-
 }

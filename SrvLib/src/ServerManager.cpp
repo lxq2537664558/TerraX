@@ -10,7 +10,7 @@ ServerManager::ServerManager() { RegPacketHanderFunction(); }
 void ServerManager::RegPacketHanderFunction()
 {
     RegPacketHandler_Arg1(PktServerSync,
-                          std::bind(&ServerManager::OnMessage_ServerSync, this, std::placeholders::_1));
+                          std::bind(&ServerManager::OnMessage_PktServerSync, this, std::placeholders::_1));
 }
 
 void ServerManager::InitPacketProcessor(class PacketProcessor* pPktProcessor)
@@ -77,46 +77,58 @@ void ServerManager::AddServerInfo2Pkt(PeerType_t peer_type, PktServerSync& pkt)
 
 void ServerManager::BroadCastGateServerChanged(PktServerSync& pkt)
 {
-    auto itGameServer = m_ServerInfos.find(PeerType_t::gameserver);
-    if (itGameServer != m_ServerInfos.end()) {
-        for (auto& var : itGameServer->second) {
-            m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+    {
+        auto itGameServer = m_ServerInfos.find(PeerType_t::gameserver);
+        if (itGameServer != m_ServerInfos.end()) {
+            for (auto& var : itGameServer->second) {
+                m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+            }
         }
     }
-    auto itWorldServer = m_ServerInfos.find(PeerType_t::worldserver);
-    if (itWorldServer != m_ServerInfos.end()) {
-        for (auto& var : itGameServer->second) {
-            m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+    {
+        auto itWorldServer = m_ServerInfos.find(PeerType_t::worldserver);
+        if (itWorldServer != m_ServerInfos.end()) {
+            for (auto& var : itWorldServer->second) {
+                m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+            }
         }
     }
 }
 void ServerManager::BroadCastWorldServerChanged(PktServerSync& pkt)
 {
-    auto itGameServer = m_ServerInfos.find(PeerType_t::gameserver);
-    if (itGameServer != m_ServerInfos.end()) {
-        for (auto& var : itGameServer->second) {
-            m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+    {
+        auto itGameServer = m_ServerInfos.find(PeerType_t::gameserver);
+        if (itGameServer != m_ServerInfos.end()) {
+            for (auto& var : itGameServer->second) {
+                m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+            }
         }
     }
-    auto itWorldServer = m_ServerInfos.find(PeerType_t::gateserver);
-    if (itWorldServer != m_ServerInfos.end()) {
-        for (auto& var : itGameServer->second) {
-            m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+    {
+        auto itWorldServer = m_ServerInfos.find(PeerType_t::gateserver);
+        if (itWorldServer != m_ServerInfos.end()) {
+            for (auto& var : itWorldServer->second) {
+                m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+            }
         }
     }
 }
 void ServerManager::BroadCastGameServerChanged(PktServerSync& pkt)
 {
-    auto itGameServer = m_ServerInfos.find(PeerType_t::gateserver);
-    if (itGameServer != m_ServerInfos.end()) {
-        for (auto& var : itGameServer->second) {
-            m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
-        }
-    }
-    auto itWorldServer = m_ServerInfos.find(PeerType_t::worldserver);
-    if (itWorldServer != m_ServerInfos.end()) {
-        for (auto& var : itGameServer->second) {
-            m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+	{
+		auto itGameServer = m_ServerInfos.find(PeerType_t::gateserver);
+		if (itGameServer != m_ServerInfos.end()) {
+			for (auto& var : itGameServer->second) {
+				m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+			}
+		}
+	}
+	{
+        auto itWorldServer = m_ServerInfos.find(PeerType_t::worldserver);
+        if (itWorldServer != m_ServerInfos.end()) {
+            for (auto& var : itWorldServer->second) {
+                m_pPktProcessor->SendPacket2FrontEnd(var, var, 0, pkt);
+            }
         }
     }
 }
@@ -197,14 +209,14 @@ void ServerManager::ProcessGameServerRemoved(int32_t peer_info)
     BroadCastServerInfoChanged(PeerType_t::gameserver, peer_info, PktServerSync_SyncType_remove);
 }
 
-void ServerManager::OnMessage_ServerSync(S2SPacket::PktServerSync* pkt)
+void ServerManager::OnMessage_PktServerSync(S2SPacket::PktServerSync* pkt)
 {
     if (pkt->type() == PktServerSync_SyncType_add || pkt->type() == PktServerSync_SyncType_update) {
         for (int i = 0; i < pkt->server_info_size(); ++i) {
             PeerInfo pi(pkt->server_info(i));
             m_ServerInfos[pi.peer_type].insert(pkt->server_info(i));
-            std::cout << "Add Server : \t" << pi.server_name() << std::ends << (int32_t)pi.peer_index << std::ends
-                      << pi.channel_index << std::endl;
+            std::cout << "Add Server : \t" << pi.server_name() << std::ends << (int32_t)pi.peer_index
+                      << std::ends << pi.channel_index << std::endl;
         }
     }
     if (pkt->type() == PktServerSync_SyncType_remove) {
@@ -214,7 +226,7 @@ void ServerManager::OnMessage_ServerSync(S2SPacket::PktServerSync* pkt)
             assert(it != m_ServerInfos.end());
             if (it != m_ServerInfos.end()) {
                 (it->second).erase(pkt->server_info(i));
-                std::cout << "Add Server : \t" << pi.server_name() << std::ends << pi.peer_index << std::ends
+                std::cout << "Remove Server : \t" << pi.server_name() << std::ends << (int32_t)pi.peer_index << std::ends
                           << pi.channel_index << std::endl;
             }
         }

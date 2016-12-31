@@ -33,7 +33,7 @@ namespace TerraX
 	private:
 		uint8_t GetAvailableConnIdx(PeerType_t peer_type);
 
-		void OnMessage_ServerLogin(int32_t nChannelInfo, int32_t nSrcPeerInfo, S2SPacket::PktRegisterReq* pkt);
+		void OnMessage_PktRegisterReq(int32_t nChannelInfo, int32_t nSrcPeerInfo, S2SPacket::PktRegisterReq* pkt);
 	private:
 		std::queue<uint8_t> m_queue_gateconnIds;
 		std::queue<uint8_t> m_queue_gameconnIds;

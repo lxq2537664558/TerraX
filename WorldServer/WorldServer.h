@@ -1,8 +1,5 @@
 #pragma once
 #include "ComDef.h"
-#include "NetChannel.h"
-#include "NetDefine.h"
-#include "EventLoop.h"
 #include "IServer.h"
 
 namespace TerraX
@@ -18,6 +15,11 @@ namespace TerraX
 		bool Init(/*Config Info*/) override;
 		void Run() override;
 		void Exit() override { m_bExit = true; }
+
+	protected:
+		bool InitStaticModule() override;
+		bool InitNetModule() override;
+		void ProcessLogic() override;
 
 	private:
 		bool m_bExit{ false };

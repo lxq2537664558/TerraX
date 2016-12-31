@@ -36,37 +36,37 @@ void protobuf_AddDesc_client_5fserver_2eproto();
 void protobuf_AssignDesc_client_5fserver_2eproto();
 void protobuf_ShutdownFile_client_5fserver_2eproto();
 
-class PktAccountRequestEnterWorld;
-class PktRegisterClient;
+class PktAccountLoginReq;
+class PktGameLoginReq;
 
 // ===================================================================
 
-class PktRegisterClient : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:C2SPacket.PktRegisterClient) */ {
+class PktAccountLoginReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:C2SPacket.PktAccountLoginReq) */ {
  public:
-  PktRegisterClient();
-  virtual ~PktRegisterClient();
+  PktAccountLoginReq();
+  virtual ~PktAccountLoginReq();
 
-  PktRegisterClient(const PktRegisterClient& from);
+  PktAccountLoginReq(const PktAccountLoginReq& from);
 
-  inline PktRegisterClient& operator=(const PktRegisterClient& from) {
+  inline PktAccountLoginReq& operator=(const PktAccountLoginReq& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const PktRegisterClient& default_instance();
+  static const PktAccountLoginReq& default_instance();
 
-  void Swap(PktRegisterClient* other);
+  void Swap(PktAccountLoginReq* other);
 
   // implements Message ----------------------------------------------
 
-  inline PktRegisterClient* New() const { return New(NULL); }
+  inline PktAccountLoginReq* New() const { return New(NULL); }
 
-  PktRegisterClient* New(::google::protobuf::Arena* arena) const;
+  PktAccountLoginReq* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const PktRegisterClient& from);
-  void MergeFrom(const PktRegisterClient& from);
+  void CopyFrom(const PktAccountLoginReq& from);
+  void MergeFrom(const PktAccountLoginReq& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -85,7 +85,7 @@ class PktRegisterClient : public ::google::protobuf::Message /* @@protoc_inserti
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(PktRegisterClient* other);
+  void InternalSwap(PktAccountLoginReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -101,54 +101,71 @@ class PktRegisterClient : public ::google::protobuf::Message /* @@protoc_inserti
 
   // accessors -------------------------------------------------------
 
-  // optional int32 client_info = 1;
-  void clear_client_info();
-  static const int kClientInfoFieldNumber = 1;
-  ::google::protobuf::int32 client_info() const;
-  void set_client_info(::google::protobuf::int32 value);
+  // optional string account_name = 1;
+  void clear_account_name();
+  static const int kAccountNameFieldNumber = 1;
+  const ::std::string& account_name() const;
+  void set_account_name(const ::std::string& value);
+  void set_account_name(const char* value);
+  void set_account_name(const char* value, size_t size);
+  ::std::string* mutable_account_name();
+  ::std::string* release_account_name();
+  void set_allocated_account_name(::std::string* account_name);
 
-  // @@protoc_insertion_point(class_scope:C2SPacket.PktRegisterClient)
+  // optional string password = 2;
+  void clear_password();
+  static const int kPasswordFieldNumber = 2;
+  const ::std::string& password() const;
+  void set_password(const ::std::string& value);
+  void set_password(const char* value);
+  void set_password(const char* value, size_t size);
+  ::std::string* mutable_password();
+  ::std::string* release_password();
+  void set_allocated_password(::std::string* password);
+
+  // @@protoc_insertion_point(class_scope:C2SPacket.PktAccountLoginReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::int32 client_info_;
+  ::google::protobuf::internal::ArenaStringPtr account_name_;
+  ::google::protobuf::internal::ArenaStringPtr password_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_client_5fserver_2eproto();
   friend void protobuf_AssignDesc_client_5fserver_2eproto();
   friend void protobuf_ShutdownFile_client_5fserver_2eproto();
 
   void InitAsDefaultInstance();
-  static PktRegisterClient* default_instance_;
+  static PktAccountLoginReq* default_instance_;
 };
 // -------------------------------------------------------------------
 
-class PktAccountRequestEnterWorld : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:C2SPacket.PktAccountRequestEnterWorld) */ {
+class PktGameLoginReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:C2SPacket.PktGameLoginReq) */ {
  public:
-  PktAccountRequestEnterWorld();
-  virtual ~PktAccountRequestEnterWorld();
+  PktGameLoginReq();
+  virtual ~PktGameLoginReq();
 
-  PktAccountRequestEnterWorld(const PktAccountRequestEnterWorld& from);
+  PktGameLoginReq(const PktGameLoginReq& from);
 
-  inline PktAccountRequestEnterWorld& operator=(const PktAccountRequestEnterWorld& from) {
+  inline PktGameLoginReq& operator=(const PktGameLoginReq& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const PktAccountRequestEnterWorld& default_instance();
+  static const PktGameLoginReq& default_instance();
 
-  void Swap(PktAccountRequestEnterWorld* other);
+  void Swap(PktGameLoginReq* other);
 
   // implements Message ----------------------------------------------
 
-  inline PktAccountRequestEnterWorld* New() const { return New(NULL); }
+  inline PktGameLoginReq* New() const { return New(NULL); }
 
-  PktAccountRequestEnterWorld* New(::google::protobuf::Arena* arena) const;
+  PktGameLoginReq* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const PktAccountRequestEnterWorld& from);
-  void MergeFrom(const PktAccountRequestEnterWorld& from);
+  void CopyFrom(const PktGameLoginReq& from);
+  void MergeFrom(const PktGameLoginReq& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -167,7 +184,7 @@ class PktAccountRequestEnterWorld : public ::google::protobuf::Message /* @@prot
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(PktAccountRequestEnterWorld* other);
+  void InternalSwap(PktGameLoginReq* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -183,42 +200,54 @@ class PktAccountRequestEnterWorld : public ::google::protobuf::Message /* @@prot
 
   // accessors -------------------------------------------------------
 
-  // optional string szAccountName = 1;
-  void clear_szaccountname();
-  static const int kSzAccountNameFieldNumber = 1;
-  const ::std::string& szaccountname() const;
-  void set_szaccountname(const ::std::string& value);
-  void set_szaccountname(const char* value);
-  void set_szaccountname(const char* value, size_t size);
-  ::std::string* mutable_szaccountname();
-  ::std::string* release_szaccountname();
-  void set_allocated_szaccountname(::std::string* szaccountname);
+  // optional string account_name = 1;
+  void clear_account_name();
+  static const int kAccountNameFieldNumber = 1;
+  const ::std::string& account_name() const;
+  void set_account_name(const ::std::string& value);
+  void set_account_name(const char* value);
+  void set_account_name(const char* value, size_t size);
+  ::std::string* mutable_account_name();
+  ::std::string* release_account_name();
+  void set_allocated_account_name(::std::string* account_name);
 
-  // optional string szSessionKey = 2;
-  void clear_szsessionkey();
-  static const int kSzSessionKeyFieldNumber = 2;
-  const ::std::string& szsessionkey() const;
-  void set_szsessionkey(const ::std::string& value);
-  void set_szsessionkey(const char* value);
-  void set_szsessionkey(const char* value, size_t size);
-  ::std::string* mutable_szsessionkey();
-  ::std::string* release_szsessionkey();
-  void set_allocated_szsessionkey(::std::string* szsessionkey);
+  // optional string session_key = 2;
+  void clear_session_key();
+  static const int kSessionKeyFieldNumber = 2;
+  const ::std::string& session_key() const;
+  void set_session_key(const ::std::string& value);
+  void set_session_key(const char* value);
+  void set_session_key(const char* value, size_t size);
+  ::std::string* mutable_session_key();
+  ::std::string* release_session_key();
+  void set_allocated_session_key(::std::string* session_key);
 
-  // @@protoc_insertion_point(class_scope:C2SPacket.PktAccountRequestEnterWorld)
+  // optional string ip_address = 3;
+  void clear_ip_address();
+  static const int kIpAddressFieldNumber = 3;
+  const ::std::string& ip_address() const;
+  void set_ip_address(const ::std::string& value);
+  void set_ip_address(const char* value);
+  void set_ip_address(const char* value, size_t size);
+  ::std::string* mutable_ip_address();
+  ::std::string* release_ip_address();
+  void set_allocated_ip_address(::std::string* ip_address);
+
+  // @@protoc_insertion_point(class_scope:C2SPacket.PktGameLoginReq)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr szaccountname_;
-  ::google::protobuf::internal::ArenaStringPtr szsessionkey_;
+  ::google::protobuf::internal::ArenaStringPtr account_name_;
+  ::google::protobuf::internal::ArenaStringPtr session_key_;
+  ::google::protobuf::internal::ArenaStringPtr ip_address_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_client_5fserver_2eproto();
   friend void protobuf_AssignDesc_client_5fserver_2eproto();
   friend void protobuf_ShutdownFile_client_5fserver_2eproto();
 
   void InitAsDefaultInstance();
-  static PktAccountRequestEnterWorld* default_instance_;
+  static PktGameLoginReq* default_instance_;
 };
 // ===================================================================
 
@@ -226,112 +255,230 @@ class PktAccountRequestEnterWorld : public ::google::protobuf::Message /* @@prot
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-// PktRegisterClient
+// PktAccountLoginReq
 
-// optional int32 client_info = 1;
-inline void PktRegisterClient::clear_client_info() {
-  client_info_ = 0;
+// optional string account_name = 1;
+inline void PktAccountLoginReq::clear_account_name() {
+  account_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::int32 PktRegisterClient::client_info() const {
-  // @@protoc_insertion_point(field_get:C2SPacket.PktRegisterClient.client_info)
-  return client_info_;
+inline const ::std::string& PktAccountLoginReq::account_name() const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktAccountLoginReq.account_name)
+  return account_name_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void PktRegisterClient::set_client_info(::google::protobuf::int32 value) {
+inline void PktAccountLoginReq::set_account_name(const ::std::string& value) {
   
-  client_info_ = value;
-  // @@protoc_insertion_point(field_set:C2SPacket.PktRegisterClient.client_info)
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:C2SPacket.PktAccountLoginReq.account_name)
+}
+inline void PktAccountLoginReq::set_account_name(const char* value) {
+  
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktAccountLoginReq.account_name)
+}
+inline void PktAccountLoginReq::set_account_name(const char* value, size_t size) {
+  
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktAccountLoginReq.account_name)
+}
+inline ::std::string* PktAccountLoginReq::mutable_account_name() {
+  
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktAccountLoginReq.account_name)
+  return account_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PktAccountLoginReq::release_account_name() {
+  // @@protoc_insertion_point(field_release:C2SPacket.PktAccountLoginReq.account_name)
+  
+  return account_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktAccountLoginReq::set_allocated_account_name(::std::string* account_name) {
+  if (account_name != NULL) {
+    
+  } else {
+    
+  }
+  account_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), account_name);
+  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktAccountLoginReq.account_name)
+}
+
+// optional string password = 2;
+inline void PktAccountLoginReq::clear_password() {
+  password_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PktAccountLoginReq::password() const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktAccountLoginReq.password)
+  return password_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktAccountLoginReq::set_password(const ::std::string& value) {
+  
+  password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:C2SPacket.PktAccountLoginReq.password)
+}
+inline void PktAccountLoginReq::set_password(const char* value) {
+  
+  password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktAccountLoginReq.password)
+}
+inline void PktAccountLoginReq::set_password(const char* value, size_t size) {
+  
+  password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktAccountLoginReq.password)
+}
+inline ::std::string* PktAccountLoginReq::mutable_password() {
+  
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktAccountLoginReq.password)
+  return password_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PktAccountLoginReq::release_password() {
+  // @@protoc_insertion_point(field_release:C2SPacket.PktAccountLoginReq.password)
+  
+  return password_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktAccountLoginReq::set_allocated_password(::std::string* password) {
+  if (password != NULL) {
+    
+  } else {
+    
+  }
+  password_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), password);
+  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktAccountLoginReq.password)
 }
 
 // -------------------------------------------------------------------
 
-// PktAccountRequestEnterWorld
+// PktGameLoginReq
 
-// optional string szAccountName = 1;
-inline void PktAccountRequestEnterWorld::clear_szaccountname() {
-  szaccountname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string account_name = 1;
+inline void PktGameLoginReq::clear_account_name() {
+  account_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& PktAccountRequestEnterWorld::szaccountname() const {
-  // @@protoc_insertion_point(field_get:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
-  return szaccountname_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& PktGameLoginReq::account_name() const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktGameLoginReq.account_name)
+  return account_name_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void PktAccountRequestEnterWorld::set_szaccountname(const ::std::string& value) {
+inline void PktGameLoginReq::set_account_name(const ::std::string& value) {
   
-  szaccountname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:C2SPacket.PktGameLoginReq.account_name)
 }
-inline void PktAccountRequestEnterWorld::set_szaccountname(const char* value) {
+inline void PktGameLoginReq::set_account_name(const char* value) {
   
-  szaccountname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktGameLoginReq.account_name)
 }
-inline void PktAccountRequestEnterWorld::set_szaccountname(const char* value, size_t size) {
+inline void PktGameLoginReq::set_account_name(const char* value, size_t size) {
   
-  szaccountname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktGameLoginReq.account_name)
 }
-inline ::std::string* PktAccountRequestEnterWorld::mutable_szaccountname() {
+inline ::std::string* PktGameLoginReq::mutable_account_name() {
   
-  // @@protoc_insertion_point(field_mutable:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
-  return szaccountname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktGameLoginReq.account_name)
+  return account_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* PktAccountRequestEnterWorld::release_szaccountname() {
-  // @@protoc_insertion_point(field_release:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+inline ::std::string* PktGameLoginReq::release_account_name() {
+  // @@protoc_insertion_point(field_release:C2SPacket.PktGameLoginReq.account_name)
   
-  return szaccountname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return account_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void PktAccountRequestEnterWorld::set_allocated_szaccountname(::std::string* szaccountname) {
-  if (szaccountname != NULL) {
+inline void PktGameLoginReq::set_allocated_account_name(::std::string* account_name) {
+  if (account_name != NULL) {
     
   } else {
     
   }
-  szaccountname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), szaccountname);
-  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktAccountRequestEnterWorld.szAccountName)
+  account_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), account_name);
+  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktGameLoginReq.account_name)
 }
 
-// optional string szSessionKey = 2;
-inline void PktAccountRequestEnterWorld::clear_szsessionkey() {
-  szsessionkey_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string session_key = 2;
+inline void PktGameLoginReq::clear_session_key() {
+  session_key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& PktAccountRequestEnterWorld::szsessionkey() const {
-  // @@protoc_insertion_point(field_get:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
-  return szsessionkey_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& PktGameLoginReq::session_key() const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktGameLoginReq.session_key)
+  return session_key_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void PktAccountRequestEnterWorld::set_szsessionkey(const ::std::string& value) {
+inline void PktGameLoginReq::set_session_key(const ::std::string& value) {
   
-  szsessionkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+  session_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:C2SPacket.PktGameLoginReq.session_key)
 }
-inline void PktAccountRequestEnterWorld::set_szsessionkey(const char* value) {
+inline void PktGameLoginReq::set_session_key(const char* value) {
   
-  szsessionkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+  session_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktGameLoginReq.session_key)
 }
-inline void PktAccountRequestEnterWorld::set_szsessionkey(const char* value, size_t size) {
+inline void PktGameLoginReq::set_session_key(const char* value, size_t size) {
   
-  szsessionkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  session_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktGameLoginReq.session_key)
 }
-inline ::std::string* PktAccountRequestEnterWorld::mutable_szsessionkey() {
+inline ::std::string* PktGameLoginReq::mutable_session_key() {
   
-  // @@protoc_insertion_point(field_mutable:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
-  return szsessionkey_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktGameLoginReq.session_key)
+  return session_key_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* PktAccountRequestEnterWorld::release_szsessionkey() {
-  // @@protoc_insertion_point(field_release:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+inline ::std::string* PktGameLoginReq::release_session_key() {
+  // @@protoc_insertion_point(field_release:C2SPacket.PktGameLoginReq.session_key)
   
-  return szsessionkey_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return session_key_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void PktAccountRequestEnterWorld::set_allocated_szsessionkey(::std::string* szsessionkey) {
-  if (szsessionkey != NULL) {
+inline void PktGameLoginReq::set_allocated_session_key(::std::string* session_key) {
+  if (session_key != NULL) {
     
   } else {
     
   }
-  szsessionkey_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), szsessionkey);
-  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktAccountRequestEnterWorld.szSessionKey)
+  session_key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), session_key);
+  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktGameLoginReq.session_key)
+}
+
+// optional string ip_address = 3;
+inline void PktGameLoginReq::clear_ip_address() {
+  ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PktGameLoginReq::ip_address() const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktGameLoginReq.ip_address)
+  return ip_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktGameLoginReq::set_ip_address(const ::std::string& value) {
+  
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:C2SPacket.PktGameLoginReq.ip_address)
+}
+inline void PktGameLoginReq::set_ip_address(const char* value) {
+  
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktGameLoginReq.ip_address)
+}
+inline void PktGameLoginReq::set_ip_address(const char* value, size_t size) {
+  
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktGameLoginReq.ip_address)
+}
+inline ::std::string* PktGameLoginReq::mutable_ip_address() {
+  
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktGameLoginReq.ip_address)
+  return ip_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PktGameLoginReq::release_ip_address() {
+  // @@protoc_insertion_point(field_release:C2SPacket.PktGameLoginReq.ip_address)
+  
+  return ip_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktGameLoginReq::set_allocated_ip_address(::std::string* ip_address) {
+  if (ip_address != NULL) {
+    
+  } else {
+    
+  }
+  ip_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ip_address);
+  // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktGameLoginReq.ip_address)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

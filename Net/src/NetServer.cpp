@@ -82,12 +82,17 @@ NetChannelPtr NetServer::GetChannel(PeerType_t peer_type, uint8_t peer_index)
 	return nullptr;
 }
 
-void NetServer::ForceClose(NetChannelPtr& channel)
+void NetServer::RemoveChannel(NetChannelPtr& pChannel)
 {
-	channel->ForceClose();
+	assert(pChannel->GetConnState() == ConnState_t::eDisconnected);
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		m_freeindexes.push(pChannel->GetChannelIndex());
+		m_mapChannels.erase(pChannel->GetChannelIndex());
+	}
 }
 
-void NetServer::ForceCloseAll()
+void NetServer::CloseAll()
 {
 	for (auto& var : m_mapChannels) {
 		(var.second)->ForceClose();
@@ -130,9 +135,8 @@ void NetServer::OnConnect(evutil_socket_t fd)
 	}
 
 	NetChannelPtr pChannel = std::make_shared<NetChannel>(base, static_cast<int>(fd));
-	pChannel->SetDisconnectCb(std::bind(&NetServer::DisconnectCallback, this, std::placeholders::_1));
+	pChannel->RegNetEvent_Callback(m_NetEventCB);
 	pChannel->RegOnMessage_Callback(m_OnMessageCB);
-	
 	if (m_freeindexes.empty())
 	{
 		printf("No Enough Connection Index! \n");
@@ -155,16 +159,6 @@ void NetServer::OnConnect(evutil_socket_t fd)
 
 void NetServer::OnDisconnect(NetChannelPtr& pChannel)
 {
-	assert(pChannel);
-	{
-		std::lock_guard<std::mutex> lock(m_mutex);
-		m_freeindexes.push(pChannel->GetChannelIndex());
-		m_mapChannels.erase(pChannel->GetChannelIndex());
-	}
-	if (m_NetEventCB) {
-		m_NetEventCB(pChannel, NetEvent_t::eDisconnected);
-	}
-	pChannel.reset();
 }
 
 void NetServer::NewConnectionCallback(struct evconnlistener* listener,

@@ -1,14 +1,15 @@
 syntax = "proto3";
 package C2SPacket;
 
-message PktRegisterClient
+message PktAccountLoginReq
 {
-    int32 client_info = 1;
+    string account_name = 1;
+    string password = 2;
 }
 
-
-message PktAccountRequestEnterWorld
+message PktGameLoginReq
 {
-    string szAccountName = 1;
-    string szSessionKey = 2;
+    string account_name = 1;
+    string session_key = 2;
+    string ip_address = 3;
 }

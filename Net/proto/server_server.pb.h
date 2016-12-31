@@ -37,6 +37,7 @@ void protobuf_AddDesc_server_5fserver_2eproto();
 void protobuf_AssignDesc_server_5fserver_2eproto();
 void protobuf_ShutdownFile_server_5fserver_2eproto();
 
+class PktEnterPermissionReq;
 class PktRegisterAck;
 class PktRegisterReq;
 class PktServerSync;
@@ -344,6 +345,105 @@ class PktServerSync : public ::google::protobuf::Message /* @@protoc_insertion_p
   void InitAsDefaultInstance();
   static PktServerSync* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class PktEnterPermissionReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:S2SPacket.PktEnterPermissionReq) */ {
+ public:
+  PktEnterPermissionReq();
+  virtual ~PktEnterPermissionReq();
+
+  PktEnterPermissionReq(const PktEnterPermissionReq& from);
+
+  inline PktEnterPermissionReq& operator=(const PktEnterPermissionReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PktEnterPermissionReq& default_instance();
+
+  void Swap(PktEnterPermissionReq* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PktEnterPermissionReq* New() const { return New(NULL); }
+
+  PktEnterPermissionReq* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PktEnterPermissionReq& from);
+  void MergeFrom(const PktEnterPermissionReq& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PktEnterPermissionReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string account_name = 1;
+  void clear_account_name();
+  static const int kAccountNameFieldNumber = 1;
+  const ::std::string& account_name() const;
+  void set_account_name(const ::std::string& value);
+  void set_account_name(const char* value);
+  void set_account_name(const char* value, size_t size);
+  ::std::string* mutable_account_name();
+  ::std::string* release_account_name();
+  void set_allocated_account_name(::std::string* account_name);
+
+  // optional string session_key = 2;
+  void clear_session_key();
+  static const int kSessionKeyFieldNumber = 2;
+  const ::std::string& session_key() const;
+  void set_session_key(const ::std::string& value);
+  void set_session_key(const char* value);
+  void set_session_key(const char* value, size_t size);
+  ::std::string* mutable_session_key();
+  ::std::string* release_session_key();
+  void set_allocated_session_key(::std::string* session_key);
+
+  // @@protoc_insertion_point(class_scope:S2SPacket.PktEnterPermissionReq)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr account_name_;
+  ::google::protobuf::internal::ArenaStringPtr session_key_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_server_5fserver_2eproto();
+  friend void protobuf_AssignDesc_server_5fserver_2eproto();
+  friend void protobuf_ShutdownFile_server_5fserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static PktEnterPermissionReq* default_instance_;
+};
 // ===================================================================
 
 
@@ -418,7 +518,101 @@ PktServerSync::mutable_server_info() {
   return &server_info_;
 }
 
+// -------------------------------------------------------------------
+
+// PktEnterPermissionReq
+
+// optional string account_name = 1;
+inline void PktEnterPermissionReq::clear_account_name() {
+  account_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PktEnterPermissionReq::account_name() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktEnterPermissionReq.account_name)
+  return account_name_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktEnterPermissionReq::set_account_name(const ::std::string& value) {
+  
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:S2SPacket.PktEnterPermissionReq.account_name)
+}
+inline void PktEnterPermissionReq::set_account_name(const char* value) {
+  
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:S2SPacket.PktEnterPermissionReq.account_name)
+}
+inline void PktEnterPermissionReq::set_account_name(const char* value, size_t size) {
+  
+  account_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:S2SPacket.PktEnterPermissionReq.account_name)
+}
+inline ::std::string* PktEnterPermissionReq::mutable_account_name() {
+  
+  // @@protoc_insertion_point(field_mutable:S2SPacket.PktEnterPermissionReq.account_name)
+  return account_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PktEnterPermissionReq::release_account_name() {
+  // @@protoc_insertion_point(field_release:S2SPacket.PktEnterPermissionReq.account_name)
+  
+  return account_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktEnterPermissionReq::set_allocated_account_name(::std::string* account_name) {
+  if (account_name != NULL) {
+    
+  } else {
+    
+  }
+  account_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), account_name);
+  // @@protoc_insertion_point(field_set_allocated:S2SPacket.PktEnterPermissionReq.account_name)
+}
+
+// optional string session_key = 2;
+inline void PktEnterPermissionReq::clear_session_key() {
+  session_key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& PktEnterPermissionReq::session_key() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktEnterPermissionReq.session_key)
+  return session_key_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktEnterPermissionReq::set_session_key(const ::std::string& value) {
+  
+  session_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:S2SPacket.PktEnterPermissionReq.session_key)
+}
+inline void PktEnterPermissionReq::set_session_key(const char* value) {
+  
+  session_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:S2SPacket.PktEnterPermissionReq.session_key)
+}
+inline void PktEnterPermissionReq::set_session_key(const char* value, size_t size) {
+  
+  session_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:S2SPacket.PktEnterPermissionReq.session_key)
+}
+inline ::std::string* PktEnterPermissionReq::mutable_session_key() {
+  
+  // @@protoc_insertion_point(field_mutable:S2SPacket.PktEnterPermissionReq.session_key)
+  return session_key_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* PktEnterPermissionReq::release_session_key() {
+  // @@protoc_insertion_point(field_release:S2SPacket.PktEnterPermissionReq.session_key)
+  
+  return session_key_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void PktEnterPermissionReq::set_allocated_session_key(::std::string* session_key) {
+  if (session_key != NULL) {
+    
+  } else {
+    
+  }
+  session_key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), session_key);
+  // @@protoc_insertion_point(field_set_allocated:S2SPacket.PktEnterPermissionReq.session_key)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

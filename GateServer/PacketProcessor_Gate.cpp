@@ -8,15 +8,11 @@ using namespace S2SPacket;
 using namespace TerraX;
 PacketProcessor_Gate::PacketProcessor_Gate() : PacketProcessor(PeerType_t::gateserver)
 {
-    // PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterAck>(
-    // new events_dynamic2(std::function<void(PktRegisterAck*)>(
-    // std::bind(&GatePacketProcessor::OnMessage_LoginResult, this, std::placeholders::_1))));
-
     RegPacketHandler_Arg1(
-        PktRegisterAck, std::bind(&PacketProcessor_Gate::OnMessage_LoginResult, this, std::placeholders::_1));
+        PktRegisterAck, std::bind(&PacketProcessor_Gate::OnMessage_PktRegisterAck, this, std::placeholders::_1));
 }
 
-void PacketProcessor_Gate::ForwardPacket2FrontEnd(Packet* pkt)
+void PacketProcessor_Gate::ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt)
 {
 	assert(pkt);
 	PeerInfo pi(pkt->GetDesination());
@@ -28,7 +24,7 @@ void PacketProcessor_Gate::ForwardPacket2FrontEnd(Packet* pkt)
 	}
 }
 
-void PacketProcessor_Gate::ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Packet* pkt) {
+void PacketProcessor_Gate::ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt) {
 	assert(pkt);
 	PeerInfo pi(pkt->GetDesination());
 	Guest* pGuest = GuestManager::GetInstance().GetGuest(pFrontChannel->GetPeerInfo());
@@ -40,6 +36,7 @@ void PacketProcessor_Gate::ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Pa
 	{
 		pkt->SetOwner(pGuest->GetAttachAvatarID());
 	}
+	pkt->SetDestination(pGuest->GetDestPeerInfo(pi.peer_type));
 	//ServerManager::GetInstance().
 	assert(m_pBackEnd);
 	if (m_pBackEnd)
@@ -48,35 +45,43 @@ void PacketProcessor_Gate::ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Pa
 	}
 }
 
-void PacketProcessor_Gate::OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent) 
+void PacketProcessor_Gate::DoBackEnd_Connected(NetChannelPtr& pChannel)
 {
-	switch (eEvent) {
-	case NetEvent_t::eConnected:
-		//CreateGuest();
-		break;
-	case NetEvent_t::eDisconnected:
-		//RemoveGuest();
-		break;
-	default:
-		break;
-	}
+	Login2Center();
 }
 
-void PacketProcessor_Gate::OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)
+void PacketProcessor_Gate::DoBackEnd_Disconnected(NetChannelPtr& pChannel)
 {
-    switch (eEvent) {
-        case NetEvent_t::eConnected:
-            Login2Center();
-            break;
-        case NetEvent_t::eConnectFailed:
-			m_pBackEnd.reset();
-            break;
-		case NetEvent_t::eDisconnected:
-			m_pBackEnd.reset();
-            break;
-        default:
-            break;
-    }
+	m_pBackEnd.reset();
+}
+
+void PacketProcessor_Gate::DoBackEnd_ConnBreak(NetChannelPtr& pChannel)
+{
+	m_pBackEnd.reset();
+}
+
+void PacketProcessor_Gate::DoFrontEnd_Connected(NetChannelPtr& pChannel)
+{
+	if (!m_pBackEnd)
+	{
+		//kick out client
+		return;
+	}
+	pChannel->SetPeerType(PeerType_t::client);
+	pChannel->SetPeerIndex(m_pBackEnd->GetPeerIndex());
+	GuestManager::GetInstance().CreateGuest(pChannel->GetPeerInfo());
+	//CreateGuest();
+}
+void PacketProcessor_Gate::DoFrontEnd_Disconnected(NetChannelPtr& pChannel)
+{
+	//RemoveGuest();
+
+	m_pFrontEnd->RemoveChannel(pChannel);
+}
+void PacketProcessor_Gate::DoFrontEnd_ConnBreak(NetChannelPtr& pChannel)
+{
+	//RemoveGuest();
+	m_pFrontEnd->RemoveChannel(pChannel);
 }
 
 void PacketProcessor_Gate::Login2Center()
@@ -87,7 +92,7 @@ void PacketProcessor_Gate::Login2Center()
     SendPacket2BackEnd(pi_dest.serialize(), pi_src.serialize(), pkt);
 }
 
-void PacketProcessor_Gate::OnMessage_LoginResult(PktRegisterAck* pkt)
+void PacketProcessor_Gate::OnMessage_PktRegisterAck(PktRegisterAck* pkt)
 {
     PeerInfo pi(pkt->server_info());
     assert(pi.peer_type == PeerType_t::gateserver);
@@ -96,4 +101,6 @@ void PacketProcessor_Gate::OnMessage_LoginResult(PktRegisterAck* pkt)
     std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index)
               << "\t ChannelIndex: " << pi.channel_index << std::endl;
     m_pBackEnd->SetPeerInfo(pkt->server_info());
+
+	//m_pBackEnd.reset();
 }

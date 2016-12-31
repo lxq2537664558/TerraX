@@ -1,62 +1,128 @@
+#include <event2/buffer.h>
+#include <event2/bufferevent.h>
+#include <functional>
 #include "NetManagerClient.h"
-#include "proto/client_server.pb.h"
-
+#include "GameStateManager.h"
 using namespace TerraX;
-using namespace C2SPacket;
 
-void NetManagerClient::Connect(const std::string& host, int port, bool bGate) {
-	m_pBackEnd = std::make_shared<NetChannel>(&m_loop, host/*"127.0.0.1"*/, port/*9991*/);
-	m_pBackEnd->SetPeerInfo(uint8_t(PeerType_t::client) << 24);
-	if (bGate) {
-		m_pBackEnd->RegNetEvent_Callback(std::bind(&NetManagerClient::OnGateServer_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
-	}
-	else {
-		m_pBackEnd->RegNetEvent_Callback(std::bind(&NetManagerClient::OnLoginServer_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
-	}
-};
+NetManagerClient::NetManagerClient() : m_peer_type(PeerType_t::client) {}
 
-void NetManagerClient::SendPacket(PeerType_t eDestPeer, google::protobuf::Message& packet) {
-	MsgHeader msgHeader(eDestPeer);
-	struct evbuffer* buf = evbuffer_new();
-	m_Codec.Serialize(buf, msgHeader, packet);
-	m_pBackEnd->SendMsg(buf);
-	evbuffer_free(buf);
+void NetManagerClient::Tick() { m_loop.loop(); }
+
+void NetManagerClient::Connect(const std::string& host, int port)
+{
+	m_pBackEnd = std::make_shared<NetChannel>(&m_loop, host, port);
+	m_pBackEnd->SetPeerInfo(uint8_t(m_peer_type) << 24);
+	m_pBackEnd->RegOnMessage_Callback(
+		std::bind(&NetManagerClient::OnMessage_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
+	m_pBackEnd->RegNetEvent_Callback(
+		std::bind(&NetManagerClient::OnNetEvent_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-void NetManagerClient::OnGateServer_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
+
+void NetManagerClient::ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt)
 {
-	if (eEvent == NetEvent_t::eConnected) {
+}
 
-		PktAccountRequestEnterWorld pkt;
-		pkt.set_szaccountname("ghost");
-		pkt.set_szsessionkey("key session");
+void NetManagerClient::OnMessage_BackEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
+{
+	ProcessMessage(evbuf, pChannel, m_pktQueueBackEnd, nullptr);
+}
 
-		SendPacket(PeerType_t::worldserver, pkt);
+void NetManagerClient::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
+	std::function<void(NetChannelPtr&, Packet*)> fn)
+{
+	MessageError_t errCode = ReadMessage(evbuf, pktQueue);
+	if (errCode == MessageError_t::eInvalidLength) {
+		// Log;
+		// close channel;
+	}
+	while (!pktQueue.IsEmpty()) {
+		std::unique_ptr<Packet> pkt(pktQueue.Pop());
+		if (!pkt->IsValid()) {
+			continue;
+		}
+		int peer_info = pkt->GetDesination();
+		PeerInfo pi(peer_info);
+		if (m_peer_type == pi.peer_type) {
+			std::string packet_name = pkt->GetPacketName();
+			int nOwnerInfo = (pChannel->GetPeerType() == PeerType_t::client) ? pChannel->GetPeerInfo()
+				: pkt->GetOwnerInfo();
+			pChannel->OnMessage(nOwnerInfo, packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
+		}
+		else {
+			if (fn)
+			{
+				fn(pChannel, pkt.get());
+			}
+		}
+	}
+}
+MessageError_t NetManagerClient::ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue)
+{
+	std::size_t readable = evbuffer_get_length(evbuf);
+	int32_t min_msg_length = Packet::HEADER_SIZE;
+	MessageError_t err = MessageError_t::eNoError;
+	while (readable >= static_cast<std::size_t>(min_msg_length)) {
+		int be32 = 0;
+		evbuffer_copyout(evbuf, &be32, sizeof(be32));
+		int total_len = ntohl(be32);
+		if (total_len > MAX_MESSAGE_SIZE || total_len < min_msg_length) {
+			err = MessageError_t::eInvalidLength;
+			break;
+		}
+		else if (readable >= static_cast<std::size_t>(total_len)) {
+			Packet* pkt = new Packet(total_len);
+			evbuffer_remove(evbuf, pkt->GetBuffer(), total_len);
+			pktQueue.Push(pkt);
+			readable = evbuffer_get_length(evbuf);
+			continue;
+		}
+		else {
+			break;
+		}
+	}
+	return err;
+}
 
-	}
-	else if (eEvent == NetEvent_t::eConnectFailed) {
-		// do exit...
-	}
-	else if (eEvent == NetEvent_t::eDisconnected) {
-		// do disconnect...
-	}
-	else {
-		// unknown event
+void NetManagerClient::SendPacket(PeerType_t peer_type, gpb::Message& msg)
+{
+	PeerInfo pi(peer_type);
+	std::unique_ptr<Packet> pkt(new Packet(msg));
+	pkt->SetDestination(pi.serialize());
+	m_pBackEnd->SendMsg(pkt->GetBuffer(), pkt->Size());
+}
+
+
+
+void NetManagerClient::OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)
+{
+	switch (eEvent) {
+	case TerraX::NetEvent_t::eConnected:
+		DoBackEnd_Connected(pChannel);
+		break;
+	case TerraX::NetEvent_t::eConnectFailed:
+		DoBackEnd_ConnBreak(pChannel);
+		break;
+	case TerraX::NetEvent_t::eDisconnected:
+		DoBackEnd_Disconnected(pChannel);
+		break;
+	default:
+		break;
 	}
 }
 
-void NetManagerClient::OnLoginServer_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
+void NetManagerClient::DoBackEnd_Connected(NetChannelPtr& pChannel)
 {
-	if (eEvent == NetEvent_t::eConnected) {
+	GameStateManager::GetInstance().NextState(GameState_t::eAccountEnteringWorld);
+}
 
-	}
-	else if (eEvent == NetEvent_t::eConnectFailed) {
-		// do exit...
-	}
-	else if (eEvent == NetEvent_t::eDisconnected) {
-		// do disconnect...
-	}
-	else {
-		// unknown event
-	}
+void NetManagerClient::DoBackEnd_Disconnected(NetChannelPtr& pChannel)
+{
+	std::cout << "connection exit normally!" << std::endl;
+}
+
+void NetManagerClient::DoBackEnd_ConnBreak(NetChannelPtr& pChannel)
+{
+	std::cout << "connection break!" << std::endl;
 }

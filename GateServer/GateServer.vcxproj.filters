@@ -24,6 +24,12 @@
     <ClCompile Include="PacketProcessor_Gate.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="GateLoginManager.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Guest.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GateServer.h">
@@ -39,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GateAvatar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GateLoginManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Guest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

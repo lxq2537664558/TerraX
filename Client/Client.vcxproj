@@ -144,6 +144,7 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="LocalGuest.h" />
     <ClInclude Include="NetManagerClient.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

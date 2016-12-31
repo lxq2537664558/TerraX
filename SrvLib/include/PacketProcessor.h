@@ -40,15 +40,25 @@ namespace TerraX
 
 		MessageError_t ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue);
 		void ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
-			std::function<void(int, Packet*)> fn);
+			std::function<void(NetChannelPtr&, Packet*)> fn);
 
 		void OnMessage_FrontEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
 		void OnMessage_BackEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
 
-		virtual void OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent) {};
-		virtual void OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent) {};
-		virtual void ForwardPacket2FrontEnd(Packet* pkt);
-		virtual void ForwardPacket2BackEnd(NetChannelPtr pFrontChannel, Packet* pkt);
+		virtual void ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt);
+		virtual void ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt);
+
+		void OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);
+		void OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);
+
+	protected:
+		virtual void DoBackEnd_Connected(NetChannelPtr& pChannel);
+		virtual void DoBackEnd_Disconnected(NetChannelPtr& pChannel);
+		virtual void DoBackEnd_ConnBreak(NetChannelPtr& pChannel);
+
+		virtual void DoFrontEnd_Connected(NetChannelPtr& pChannel);
+		virtual void DoFrontEnd_Disconnected(NetChannelPtr& pChannel);
+		virtual void DoFrontEnd_ConnBreak(NetChannelPtr& pChannel);
 
 	protected:
 		const PeerType_t m_peer_type{ PeerType_t::undefine };

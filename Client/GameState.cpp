@@ -3,12 +3,16 @@
 #include <stdio.h>
 #include "GameStateManager.h"
 #include "NetManagerClient.h"
+#include "LocalGuest.h"
+#include "proto/client_server.pb.h"
+
+using namespace C2SPacket;
 using namespace TerraX;
 
 void GameState_Press2Start::Enter()
 {
-	//std::cout << "Press any key to continue..." << std::endl;
-	//getchar();
+	std::cout << "Press Enter to continue...";
+	getchar();
 	GameStateManager::GetInstance().NextState(GameState_t::eLoginForm);
 }
 
@@ -16,17 +20,26 @@ void GameState_Press2Start::Enter()
 void GameState_eLoginForm::Enter()
 {
 	std::cout << "Please input you account:\t " << std::endl;
-	char szAccountName[32] = { 0 };
-	std::cin >> szAccountName;
-	//std::cout << "Please input you password:\t " << std::endl;
-	//char szPassword[32] = { 0 };
-	//std::cin >> szPassword;
+	std::string strAccountName;
+	std::getline(std::cin, strAccountName);
+	std::cout << "Please input you password:\t " << std::endl;
+	std::string strPassword;
+	std::getline(std::cin, strPassword);
+	LocalGuest::GetInstance().InitLoginInfo(strAccountName, strPassword);
 	//GameStateManager::GetInstance().NextState(GameState_t::eConnecting2Login);
 
-	GameStateManager::GetInstance().NextState(GameState_t::eAccountEnteringWorld);
+	GameStateManager::GetInstance().NextState(GameState_t::eAcc);
+}
+
+void GameState_Connecting2GateEnter()
+{
+	NetManagerClient::GetInstance().Connect("127.0.0.1", 9991);
 }
 
 void GameState_AccountEnteringWorld::Enter()
 {
-	NetManagerClient::GetInstance().Connect("127.0.0.1", 9991, true);
+	PktGameLoginReq pkt;
+	pkt.set_account_name(LocalGuest::GetInstance().GetAccountName());
+	pkt.set_session_key(LocalGuest::GetInstance().GetSessionKey());
+	NetManagerClient::GetInstance().SendPacket(PeerType_t::gateserver, pkt);
 }

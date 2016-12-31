@@ -44,7 +44,7 @@ namespace TerraX
 		void BroadCastGameServerChanged(S2SPacket::PktServerSync& pkt);
 
 
-		void OnMessage_ServerSync(S2SPacket::PktServerSync* pkt);
+		void OnMessage_PktServerSync(S2SPacket::PktServerSync* pkt);
 	private:
 		PacketProcessor* m_pPktProcessor{ nullptr };
 		std::map<PeerType_t,std::set<int32_t>> m_ServerInfos;
