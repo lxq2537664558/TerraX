@@ -19,6 +19,7 @@ namespace TerraX
 		PacketProcessor_World();
 		~PacketProcessor_World() = default;
 
+		void SendPacket(int dest_info, int owner_info, gpb::Message& msg);
 	private:
 		void Login2Center();
 		void OnMessage_PktRegisterAck(S2SPacket::PktRegisterAck* pkt);

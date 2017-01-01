@@ -6,15 +6,14 @@ using namespace S2SPacket;
 using namespace TerraX;
 PacketProcessor_World::PacketProcessor_World() : PacketProcessor(PeerType_t::worldserver)
 {
-	// PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterAck>(
-	// new events_dynamic2(std::function<void(PktRegisterAck*)>(
-	// std::bind(&GatePacketProcessor::OnMessage_LoginResult, this, std::placeholders::_1))));
-
 	RegPacketHandler_Arg1(
 		PktRegisterAck, std::bind(&PacketProcessor_World::OnMessage_PktRegisterAck, this, std::placeholders::_1));
 }
 
-
+void PacketProcessor_World::SendPacket(int dest_info, int owner_info, gpb::Message& msg)
+{
+	SendPacket2BackEnd(dest_info, owner_info, msg);
+}
 
 void PacketProcessor_World::DoBackEnd_Connected(NetChannelPtr& pChannel)
 {
@@ -36,7 +35,7 @@ void PacketProcessor_World::Login2Center()
 	PeerInfo pi_dest(PeerType_t::centerserver);
 	PeerInfo pi_src(PeerType_t::worldserver);
 	PktRegisterReq pkt;
-	SendPacket2BackEnd(pi_dest.serialize(), pi_src.serialize(), pkt);
+	SendPacket(pi_dest.serialize(), pi_src.serialize(), pkt);
 }
 
 void PacketProcessor_World::OnMessage_PktRegisterAck(PktRegisterAck* pkt)

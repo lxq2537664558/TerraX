@@ -56,7 +56,8 @@ void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, P
 {
 	MessageError_t errCode = ReadMessage(evbuf, pktQueue);
 	if (errCode == MessageError_t::eInvalidLength) {
-		// Log;
+		// Log; // it would never happened. if it happened, 
+		// we think we should add '$' as the end of message.
 		// close channel;
 	}
 	while (!pktQueue.IsEmpty()) {
@@ -68,9 +69,9 @@ void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, P
 		PeerInfo pi(peer_info);
 		if (m_peer_type == pi.peer_type) {
 			std::string packet_name = pkt->GetPacketName();
-			int nOwnerInfo = (pChannel->GetPeerType() == PeerType_t::client) ? pChannel->GetPeerInfo()
-				: pkt->GetOwnerInfo();
-			pChannel->OnMessage(nOwnerInfo, packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
+			//int nOwnerInfo = (pChannel->GetPeerType() == PeerType_t::client) ? pChannel->GetPeerInfo()
+				//: pkt->GetOwnerInfo();
+			pChannel->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
 		}
 		else {
 			if (fn) {
@@ -110,7 +111,15 @@ NetChannelPtr PacketProcessor::GetChannel_FrontEnd(int32_t nChannelInfo)
     return m_pFrontEnd->GetChannel(pi.channel_index);
 }
 
-void PacketProcessor::SendPacket(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg)
+
+void PacketProcessor::SendPacket2Client(int channel_info, int dest_info, int owner_info, gpb::Message& msg)
+{
+	PeerInfo pi(dest_info);
+	pi.peer_type = PeerType_t::client;
+	SendPacket2FrontEnd(channel_info, pi.serialize(), owner_info, msg);
+}
+
+void PacketProcessor::SendPacketByChannel(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg)
 {
     std::unique_ptr<Packet> pkt(new Packet(msg));
     pkt->SetDestination(dest_info);
@@ -124,12 +133,12 @@ void PacketProcessor::SendPacket2FrontEnd(int channel_info, int dest_info, int o
     if (!pChannel) {
         return;
     }
-    SendPacket(pChannel, dest_info, owner_info, msg);
+    SendPacketByChannel(pChannel, dest_info, owner_info, msg);
 }
 
 void PacketProcessor::SendPacket2BackEnd(int dest_info, int owner_info, gpb::Message& msg)
 {
-    SendPacket(m_pBackEnd, dest_info, owner_info, msg);
+    SendPacketByChannel(m_pBackEnd, dest_info, owner_info, msg);
 }
 
 void PacketProcessor::OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)

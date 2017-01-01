@@ -19,6 +19,8 @@ namespace TerraX
 		PacketProcessor_Gate();
 		~PacketProcessor_Gate() = default;
 
+		void SendPacket2Server(int dest_info, int owner_info, gpb::Message& msg);
+
 	private:
 		void Login2Center();
 		void OnMessage_PktRegisterAck(S2SPacket::PktRegisterAck* pkt);

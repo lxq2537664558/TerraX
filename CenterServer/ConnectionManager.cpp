@@ -82,7 +82,7 @@ void ConnectionManager::OnMessage_PktRegisterReq(int32_t nChannelInfo, int32_t n
 
         PktRegisterAck pktAck;
         pktAck.set_server_info(reg_peer_info);
-        PacketProcessor_Center::GetInstance().SendPacket2FrontEnd(nChannelInfo, nSrcPeerInfo, reg_peer_info, pktAck);
+        PacketProcessor_Center::GetInstance().SendPacket(nChannelInfo, nSrcPeerInfo, reg_peer_info, pktAck);
         
 		ServerManager::GetInstance().OnServerAdded(reg_peer_info);
     }

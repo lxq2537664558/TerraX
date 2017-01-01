@@ -4,6 +4,12 @@ using namespace TerraX;
 
 PacketProcessor_Center::PacketProcessor_Center() : PacketProcessor(PeerType_t::centerserver) {}
 
+
+void PacketProcessor_Center::SendPacket(int channel_info, int dest_info, int owner_info, gpb::Message& msg)
+{
+	SendPacket2FrontEnd(channel_info, dest_info, owner_info, msg);
+}
+
 void PacketProcessor_Center::ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt) {}
 
 void PacketProcessor_Center::ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt) {}

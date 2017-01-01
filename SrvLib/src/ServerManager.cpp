@@ -18,6 +18,33 @@ void ServerManager::InitPacketProcessor(class PacketProcessor* pPktProcessor)
     m_pPktProcessor = pPktProcessor;
 }
 
+int ServerManager::GetCenterPeerInfo()
+{
+	auto it = m_ServerInfos.find(PeerType_t::centerserver);
+	if (it != m_ServerInfos.end())
+	{
+		auto var = it->second;
+		if (!var.empty())
+		{
+			return *(var.begin());
+		}
+	}
+	return 0;
+}
+int ServerManager::GetWorldPeerInfo()
+{
+	auto it = m_ServerInfos.find(PeerType_t::worldserver);
+	if (it != m_ServerInfos.end())
+	{
+		auto var = it->second;
+		if (!var.empty())
+		{
+			return *(var.begin());
+		}
+	}
+	return 0;
+}
+
 void ServerManager::OnServerAdded(int32_t peer_info)
 {
     PeerInfo pi(peer_info);

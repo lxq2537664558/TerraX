@@ -34,6 +34,10 @@ const ::google::protobuf::EnumDescriptor* PktServerSync_SyncType_descriptor_ = N
 const ::google::protobuf::Descriptor* PktEnterPermissionReq_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   PktEnterPermissionReq_reflection_ = NULL;
+const ::google::protobuf::Descriptor* PktEnterPermissionAck_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  PktEnterPermissionAck_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* PktEnterPermissionAck_Result_descriptor_ = NULL;
 
 }  // namespace
 
@@ -107,6 +111,22 @@ void protobuf_AssignDesc_server_5fserver_2eproto() {
       sizeof(PktEnterPermissionReq),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktEnterPermissionReq, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktEnterPermissionReq, _is_default_instance_));
+  PktEnterPermissionAck_descriptor_ = file->message_type(4);
+  static const int PktEnterPermissionAck_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktEnterPermissionAck, check_result_),
+  };
+  PktEnterPermissionAck_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      PktEnterPermissionAck_descriptor_,
+      PktEnterPermissionAck::default_instance_,
+      PktEnterPermissionAck_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(PktEnterPermissionAck),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktEnterPermissionAck, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PktEnterPermissionAck, _is_default_instance_));
+  PktEnterPermissionAck_Result_descriptor_ = PktEnterPermissionAck_descriptor_->enum_type(0);
 }
 
 namespace {
@@ -128,6 +148,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
       PktServerSync_descriptor_, &PktServerSync::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       PktEnterPermissionReq_descriptor_, &PktEnterPermissionReq::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      PktEnterPermissionAck_descriptor_, &PktEnterPermissionAck::default_instance());
 }
 
 }  // namespace
@@ -141,6 +163,8 @@ void protobuf_ShutdownFile_server_5fserver_2eproto() {
   delete PktServerSync_reflection_;
   delete PktEnterPermissionReq::default_instance_;
   delete PktEnterPermissionReq_reflection_;
+  delete PktEnterPermissionAck::default_instance_;
+  delete PktEnterPermissionAck_reflection_;
 }
 
 void protobuf_AddDesc_server_5fserver_2eproto() GOOGLE_ATTRIBUTE_COLD;
@@ -158,17 +182,22 @@ void protobuf_AddDesc_server_5fserver_2eproto() {
     "server_info\030\002 \003(\005\"+\n\010SyncType\022\007\n\003add\020\000\022\n"
     "\n\006update\020\001\022\n\n\006remove\020\002\"B\n\025PktEnterPermis"
     "sionReq\022\024\n\014account_name\030\001 \001(\t\022\023\n\013session"
-    "_key\030\002 \001(\tb\006proto3", 298);
+    "_key\030\002 \001(\t\"y\n\025PktEnterPermissionAck\022=\n\014c"
+    "heck_result\030\001 \001(\0162\'.S2SPacket.PktEnterPe"
+    "rmissionAck.Result\"!\n\006Result\022\006\n\002ok\020\000\022\017\n\013"
+    "key_invalid\020\001b\006proto3", 421);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "server_server.proto", &protobuf_RegisterTypes);
   PktRegisterReq::default_instance_ = new PktRegisterReq();
   PktRegisterAck::default_instance_ = new PktRegisterAck();
   PktServerSync::default_instance_ = new PktServerSync();
   PktEnterPermissionReq::default_instance_ = new PktEnterPermissionReq();
+  PktEnterPermissionAck::default_instance_ = new PktEnterPermissionAck();
   PktRegisterReq::default_instance_->InitAsDefaultInstance();
   PktRegisterAck::default_instance_->InitAsDefaultInstance();
   PktServerSync::default_instance_->InitAsDefaultInstance();
   PktEnterPermissionReq::default_instance_->InitAsDefaultInstance();
+  PktEnterPermissionAck::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_server_5fserver_2eproto);
 }
 
@@ -1332,6 +1361,267 @@ void PktEnterPermissionReq::clear_session_key() {
   }
   session_key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), session_key);
   // @@protoc_insertion_point(field_set_allocated:S2SPacket.PktEnterPermissionReq.session_key)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+const ::google::protobuf::EnumDescriptor* PktEnterPermissionAck_Result_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PktEnterPermissionAck_Result_descriptor_;
+}
+bool PktEnterPermissionAck_Result_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const PktEnterPermissionAck_Result PktEnterPermissionAck::ok;
+const PktEnterPermissionAck_Result PktEnterPermissionAck::key_invalid;
+const PktEnterPermissionAck_Result PktEnterPermissionAck::Result_MIN;
+const PktEnterPermissionAck_Result PktEnterPermissionAck::Result_MAX;
+const int PktEnterPermissionAck::Result_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int PktEnterPermissionAck::kCheckResultFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+PktEnterPermissionAck::PktEnterPermissionAck()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:S2SPacket.PktEnterPermissionAck)
+}
+
+void PktEnterPermissionAck::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+PktEnterPermissionAck::PktEnterPermissionAck(const PktEnterPermissionAck& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:S2SPacket.PktEnterPermissionAck)
+}
+
+void PktEnterPermissionAck::SharedCtor() {
+    _is_default_instance_ = false;
+  _cached_size_ = 0;
+  check_result_ = 0;
+}
+
+PktEnterPermissionAck::~PktEnterPermissionAck() {
+  // @@protoc_insertion_point(destructor:S2SPacket.PktEnterPermissionAck)
+  SharedDtor();
+}
+
+void PktEnterPermissionAck::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void PktEnterPermissionAck::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* PktEnterPermissionAck::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PktEnterPermissionAck_descriptor_;
+}
+
+const PktEnterPermissionAck& PktEnterPermissionAck::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_server_5fserver_2eproto();
+  return *default_instance_;
+}
+
+PktEnterPermissionAck* PktEnterPermissionAck::default_instance_ = NULL;
+
+PktEnterPermissionAck* PktEnterPermissionAck::New(::google::protobuf::Arena* arena) const {
+  PktEnterPermissionAck* n = new PktEnterPermissionAck;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void PktEnterPermissionAck::Clear() {
+// @@protoc_insertion_point(message_clear_start:S2SPacket.PktEnterPermissionAck)
+  check_result_ = 0;
+}
+
+bool PktEnterPermissionAck::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:S2SPacket.PktEnterPermissionAck)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional .S2SPacket.PktEnterPermissionAck.Result check_result = 1;
+      case 1: {
+        if (tag == 8) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_check_result(static_cast< ::S2SPacket::PktEnterPermissionAck_Result >(value));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:S2SPacket.PktEnterPermissionAck)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:S2SPacket.PktEnterPermissionAck)
+  return false;
+#undef DO_
+}
+
+void PktEnterPermissionAck::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:S2SPacket.PktEnterPermissionAck)
+  // optional .S2SPacket.PktEnterPermissionAck.Result check_result = 1;
+  if (this->check_result() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      1, this->check_result(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:S2SPacket.PktEnterPermissionAck)
+}
+
+::google::protobuf::uint8* PktEnterPermissionAck::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:S2SPacket.PktEnterPermissionAck)
+  // optional .S2SPacket.PktEnterPermissionAck.Result check_result = 1;
+  if (this->check_result() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      1, this->check_result(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:S2SPacket.PktEnterPermissionAck)
+  return target;
+}
+
+int PktEnterPermissionAck::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:S2SPacket.PktEnterPermissionAck)
+  int total_size = 0;
+
+  // optional .S2SPacket.PktEnterPermissionAck.Result check_result = 1;
+  if (this->check_result() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->check_result());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PktEnterPermissionAck::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:S2SPacket.PktEnterPermissionAck)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const PktEnterPermissionAck* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const PktEnterPermissionAck>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:S2SPacket.PktEnterPermissionAck)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:S2SPacket.PktEnterPermissionAck)
+    MergeFrom(*source);
+  }
+}
+
+void PktEnterPermissionAck::MergeFrom(const PktEnterPermissionAck& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:S2SPacket.PktEnterPermissionAck)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  if (from.check_result() != 0) {
+    set_check_result(from.check_result());
+  }
+}
+
+void PktEnterPermissionAck::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:S2SPacket.PktEnterPermissionAck)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PktEnterPermissionAck::CopyFrom(const PktEnterPermissionAck& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:S2SPacket.PktEnterPermissionAck)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PktEnterPermissionAck::IsInitialized() const {
+
+  return true;
+}
+
+void PktEnterPermissionAck::Swap(PktEnterPermissionAck* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void PktEnterPermissionAck::InternalSwap(PktEnterPermissionAck* other) {
+  std::swap(check_result_, other->check_result_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata PktEnterPermissionAck::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = PktEnterPermissionAck_descriptor_;
+  metadata.reflection = PktEnterPermissionAck_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// PktEnterPermissionAck
+
+// optional .S2SPacket.PktEnterPermissionAck.Result check_result = 1;
+void PktEnterPermissionAck::clear_check_result() {
+  check_result_ = 0;
+}
+ ::S2SPacket::PktEnterPermissionAck_Result PktEnterPermissionAck::check_result() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktEnterPermissionAck.check_result)
+  return static_cast< ::S2SPacket::PktEnterPermissionAck_Result >(check_result_);
+}
+ void PktEnterPermissionAck::set_check_result(::S2SPacket::PktEnterPermissionAck_Result value) {
+  
+  check_result_ = value;
+  // @@protoc_insertion_point(field_set:S2SPacket.PktEnterPermissionAck.check_result)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

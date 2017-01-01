@@ -23,9 +23,10 @@ namespace TerraX
 			auto it = m_mapGuests.find(nGuestID);
 			return it == m_mapGuests.end() ? nullptr : it->second.get();
 		}
-		void CreateGuest(int32_t nGuestID)
+		Guest* CreateGuest(int32_t nGuestID)
 		{
-			m_mapGuests[nGuestID] = std::move(std::unique_ptr<Guest>(new Guest(nGuestID)));
+			m_mapGuests[nGuestID].reset(new Guest(nGuestID));
+			return m_mapGuests[nGuestID].get();
 		}
 
 	private:

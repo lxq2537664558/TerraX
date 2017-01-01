@@ -12,15 +12,23 @@ PacketProcessor_Gate::PacketProcessor_Gate() : PacketProcessor(PeerType_t::gates
         PktRegisterAck, std::bind(&PacketProcessor_Gate::OnMessage_PktRegisterAck, this, std::placeholders::_1));
 }
 
+
+void PacketProcessor_Gate::SendPacket2Server(int dest_info, int owner_info, gpb::Message& msg)
+{
+	SendPacket2BackEnd(dest_info, owner_info, msg);
+}
+
 void PacketProcessor_Gate::ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt)
 {
 	assert(pkt);
 	PeerInfo pi(pkt->GetDesination());
-	assert(pi.peer_type == PeerType_t::client);
-	auto pChannel = m_pFrontEnd->GetChannel(pi.channel_index);
-	if (pChannel)
+	if (pi.peer_type == PeerType_t::client)
 	{
-		pChannel->SendMsg(pkt->GetBuffer(), pkt->Size());
+		auto pChannel = m_pFrontEnd->GetChannel(pi.channel_index);
+		if (pChannel)
+		{
+			pChannel->SendMsg(pkt->GetBuffer(), pkt->Size());
+		}
 	}
 }
 
@@ -28,16 +36,15 @@ void PacketProcessor_Gate::ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, P
 	assert(pkt);
 	PeerInfo pi(pkt->GetDesination());
 	Guest* pGuest = GuestManager::GetInstance().GetGuest(pFrontChannel->GetPeerInfo());
-	if (pGuest->GetGuestGameState() < GuestState_t::eEnteringScene)
+	if (pGuest->GetAttachedAvatarID() == 0)
 	{
 		pkt->SetOwner(pGuest->GetGuestID());
 	}
 	else
 	{
-		pkt->SetOwner(pGuest->GetAttachAvatarID());
+		pkt->SetOwner(pGuest->GetAttachedAvatarID());
 	}
 	pkt->SetDestination(pGuest->GetDestPeerInfo(pi.peer_type));
-	//ServerManager::GetInstance().
 	assert(m_pBackEnd);
 	if (m_pBackEnd)
 	{
@@ -67,9 +74,8 @@ void PacketProcessor_Gate::DoFrontEnd_Connected(NetChannelPtr& pChannel)
 		//kick out client
 		return;
 	}
-	pChannel->SetPeerType(PeerType_t::client);
+	pChannel->SetPeerType(PeerType_t::gateserver);
 	pChannel->SetPeerIndex(m_pBackEnd->GetPeerIndex());
-	GuestManager::GetInstance().CreateGuest(pChannel->GetPeerInfo());
 	//CreateGuest();
 }
 void PacketProcessor_Gate::DoFrontEnd_Disconnected(NetChannelPtr& pChannel)
@@ -89,7 +95,7 @@ void PacketProcessor_Gate::Login2Center()
     PeerInfo pi_dest(PeerType_t::centerserver);
     PeerInfo pi_src(PeerType_t::gateserver);
     PktRegisterReq pkt;
-    SendPacket2BackEnd(pi_dest.serialize(), pi_src.serialize(), pkt);
+    SendPacket2Server(pi_dest.serialize(), pi_src.serialize(), pkt);
 }
 
 void PacketProcessor_Gate::OnMessage_PktRegisterAck(PktRegisterAck* pkt)

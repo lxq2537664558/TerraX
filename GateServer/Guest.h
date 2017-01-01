@@ -13,29 +13,32 @@ namespace TerraX
 		eEnteringScene,
 		eGaming,
 	};
-
+	class GateAccount;
 	class Guest
 	{
 	public:
-		Guest(int GuestID) : m_nGuestID(GuestID), m_eGameState(GuestState_t::eWaitingAccountInfo) {}
+		Guest(int GuestID);
 		~Guest() {}
 
-		void SetAccountInfo(std::unique_ptr<GateAccount>& pAccountInfo) { m_pAccountInfo = std::move(pAccountInfo); }
-		void AttachAvatar(int32_t nAvatarID) { m_nAttachAvatarID = nAvatarID; }
-		int32_t GetAttachAvatarID() { return m_nAttachAvatarID; }
+		void InitAccountInfo(GateAccount* pAccount) { m_pCurrentAccount.reset(pAccount); }
+
+		void AttachAvatar(int32_t nAvatarID) { m_nCurrentAvatarID = nAvatarID; }
+		int32_t GetAttachedAvatarID() { return m_nCurrentAvatarID; }
+
 		void SetGuestGameState(GuestState_t eGameState) { m_eGameState = eGameState; }
 		GuestState_t GetGuestGameState() { return m_eGameState; }
+
 		int32_t GetGuestID() const { return m_nGuestID; }
-		int32_t GetDestPeerInfo(PeerType_t ePeerType) const {
-			return 0;
-		}
+		int32_t GetDestPeerInfo(PeerType_t ePeerType);
 	private:
-		std::string m_strAccountName;
+		void InitCenterConnection();
+
+	private:
 		int32_t m_nGuestID{ 0 };
-		int32_t m_nAttachAvatarID{ 0 };
+		int32_t m_nCurrentAvatarID{ 0 };
 		GuestState_t m_eGameState{ GuestState_t::eGameState_NULL };
 		std::map<PeerType_t, int> m_mapPeerInfos;
-		std::unique_ptr<GateAccount> m_pAccountInfo;
+		std::unique_ptr<GateAccount> m_pCurrentAccount;
 	};
 
 

@@ -27,6 +27,9 @@
     <ClCompile Include="PacketProcessor_Center.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="LoginManager.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterServer.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PacketProcessor_Center.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

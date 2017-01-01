@@ -22,17 +22,16 @@ void GateLoginManager::RegPacketHandlerFunction()
 
 void GateLoginManager::OnMessage_PktGameLoginReq(int guest_id, PktGameLoginReq* pkt)
 {
-	Guest* pGuest = GuestManager::GetInstance().GetGuest(guest_id);
+	Guest* pGuest = GuestManager::GetInstance().CreateGuest(guest_id);
 	if (!pGuest)
 	{
 		assert(false);
 		return;
 	}
-	//pGuest->
+	pGuest->InitAccountInfo(new GateAccount(pkt->account_name()));
 
 	PktEnterPermissionReq pktReq;
 	pktReq.set_account_name(pkt->account_name());
 	pktReq.set_session_key(pkt->session_key());
-	int nDestInfo = pGuest->GetDestPeerInfo(PeerType_t::centerserver);
-	PacketProcessor_Gate::GetInstance().SendPacket2BackEnd(nDestInfo, guest_id, pktReq);
+	PacketProcessor_Gate::GetInstance().SendPacket2Server(pGuest->GetDestPeerInfo(PeerType_t::centerserver), guest_id, pktReq);
 }

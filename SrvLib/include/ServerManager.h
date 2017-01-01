@@ -22,6 +22,10 @@ namespace TerraX
 
 		void OnServerAdded(int32_t peer_info);
 		void OnServerRemoved(int32_t peer_info);
+
+		int GetCenterPeerInfo();
+		int GetWorldPeerInfo();
+
 	private:
 		void RegPacketHanderFunction();
 

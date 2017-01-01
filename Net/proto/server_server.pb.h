@@ -37,6 +37,7 @@ void protobuf_AddDesc_server_5fserver_2eproto();
 void protobuf_AssignDesc_server_5fserver_2eproto();
 void protobuf_ShutdownFile_server_5fserver_2eproto();
 
+class PktEnterPermissionAck;
 class PktEnterPermissionReq;
 class PktRegisterAck;
 class PktRegisterReq;
@@ -63,6 +64,27 @@ inline bool PktServerSync_SyncType_Parse(
     const ::std::string& name, PktServerSync_SyncType* value) {
   return ::google::protobuf::internal::ParseNamedEnum<PktServerSync_SyncType>(
     PktServerSync_SyncType_descriptor(), name, value);
+}
+enum PktEnterPermissionAck_Result {
+  PktEnterPermissionAck_Result_ok = 0,
+  PktEnterPermissionAck_Result_key_invalid = 1,
+  PktEnterPermissionAck_Result_PktEnterPermissionAck_Result_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  PktEnterPermissionAck_Result_PktEnterPermissionAck_Result_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool PktEnterPermissionAck_Result_IsValid(int value);
+const PktEnterPermissionAck_Result PktEnterPermissionAck_Result_Result_MIN = PktEnterPermissionAck_Result_ok;
+const PktEnterPermissionAck_Result PktEnterPermissionAck_Result_Result_MAX = PktEnterPermissionAck_Result_key_invalid;
+const int PktEnterPermissionAck_Result_Result_ARRAYSIZE = PktEnterPermissionAck_Result_Result_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* PktEnterPermissionAck_Result_descriptor();
+inline const ::std::string& PktEnterPermissionAck_Result_Name(PktEnterPermissionAck_Result value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    PktEnterPermissionAck_Result_descriptor(), value);
+}
+inline bool PktEnterPermissionAck_Result_Parse(
+    const ::std::string& name, PktEnterPermissionAck_Result* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<PktEnterPermissionAck_Result>(
+    PktEnterPermissionAck_Result_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -444,6 +466,114 @@ class PktEnterPermissionReq : public ::google::protobuf::Message /* @@protoc_ins
   void InitAsDefaultInstance();
   static PktEnterPermissionReq* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class PktEnterPermissionAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:S2SPacket.PktEnterPermissionAck) */ {
+ public:
+  PktEnterPermissionAck();
+  virtual ~PktEnterPermissionAck();
+
+  PktEnterPermissionAck(const PktEnterPermissionAck& from);
+
+  inline PktEnterPermissionAck& operator=(const PktEnterPermissionAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PktEnterPermissionAck& default_instance();
+
+  void Swap(PktEnterPermissionAck* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PktEnterPermissionAck* New() const { return New(NULL); }
+
+  PktEnterPermissionAck* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PktEnterPermissionAck& from);
+  void MergeFrom(const PktEnterPermissionAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PktEnterPermissionAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef PktEnterPermissionAck_Result Result;
+  static const Result ok =
+    PktEnterPermissionAck_Result_ok;
+  static const Result key_invalid =
+    PktEnterPermissionAck_Result_key_invalid;
+  static inline bool Result_IsValid(int value) {
+    return PktEnterPermissionAck_Result_IsValid(value);
+  }
+  static const Result Result_MIN =
+    PktEnterPermissionAck_Result_Result_MIN;
+  static const Result Result_MAX =
+    PktEnterPermissionAck_Result_Result_MAX;
+  static const int Result_ARRAYSIZE =
+    PktEnterPermissionAck_Result_Result_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Result_descriptor() {
+    return PktEnterPermissionAck_Result_descriptor();
+  }
+  static inline const ::std::string& Result_Name(Result value) {
+    return PktEnterPermissionAck_Result_Name(value);
+  }
+  static inline bool Result_Parse(const ::std::string& name,
+      Result* value) {
+    return PktEnterPermissionAck_Result_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .S2SPacket.PktEnterPermissionAck.Result check_result = 1;
+  void clear_check_result();
+  static const int kCheckResultFieldNumber = 1;
+  ::S2SPacket::PktEnterPermissionAck_Result check_result() const;
+  void set_check_result(::S2SPacket::PktEnterPermissionAck_Result value);
+
+  // @@protoc_insertion_point(class_scope:S2SPacket.PktEnterPermissionAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  int check_result_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_server_5fserver_2eproto();
+  friend void protobuf_AssignDesc_server_5fserver_2eproto();
+  friend void protobuf_ShutdownFile_server_5fserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static PktEnterPermissionAck* default_instance_;
+};
 // ===================================================================
 
 
@@ -610,7 +740,27 @@ inline void PktEnterPermissionReq::set_allocated_session_key(::std::string* sess
   // @@protoc_insertion_point(field_set_allocated:S2SPacket.PktEnterPermissionReq.session_key)
 }
 
+// -------------------------------------------------------------------
+
+// PktEnterPermissionAck
+
+// optional .S2SPacket.PktEnterPermissionAck.Result check_result = 1;
+inline void PktEnterPermissionAck::clear_check_result() {
+  check_result_ = 0;
+}
+inline ::S2SPacket::PktEnterPermissionAck_Result PktEnterPermissionAck::check_result() const {
+  // @@protoc_insertion_point(field_get:S2SPacket.PktEnterPermissionAck.check_result)
+  return static_cast< ::S2SPacket::PktEnterPermissionAck_Result >(check_result_);
+}
+inline void PktEnterPermissionAck::set_check_result(::S2SPacket::PktEnterPermissionAck_Result value) {
+  
+  check_result_ = value;
+  // @@protoc_insertion_point(field_set:S2SPacket.PktEnterPermissionAck.check_result)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -630,6 +780,11 @@ template <> struct is_proto_enum< ::S2SPacket::PktServerSync_SyncType> : ::googl
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::S2SPacket::PktServerSync_SyncType>() {
   return ::S2SPacket::PktServerSync_SyncType_descriptor();
+}
+template <> struct is_proto_enum< ::S2SPacket::PktEnterPermissionAck_Result> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::S2SPacket::PktEnterPermissionAck_Result>() {
+  return ::S2SPacket::PktEnterPermissionAck_Result_descriptor();
 }
 
 }  // namespace protobuf

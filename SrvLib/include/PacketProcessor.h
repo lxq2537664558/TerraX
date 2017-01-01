@@ -33,10 +33,12 @@ namespace TerraX
 		NetChannelPtr GetChannel_FrontEnd(int32_t nChannelInfo);
 		NetChannelPtr GetChannel_BackEnd() { return m_pBackEnd; }
 
+		void SendPacket2Client(int channel_info, int dest_info, int owner_info, gpb::Message& msg);
+	protected:
 		void SendPacket2BackEnd(int dest_info, int owner_info, gpb::Message& msg);
 		void SendPacket2FrontEnd(int channel_info, int dest_info, int owner_info, gpb::Message& msg);
 	private:
-		void SendPacket(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg);
+		void SendPacketByChannel(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg);
 
 		MessageError_t ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue);
 		void ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
