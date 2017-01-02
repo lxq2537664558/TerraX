@@ -5,7 +5,6 @@
 #include <queue>
 #include <map>
 #include <cassert>
-#include "ServerManager.h"
 
 namespace S2SPacket
 {

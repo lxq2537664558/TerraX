@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <map>
+#include "NetDefine.h"
 namespace TerraX
 {
 	enum class GuestState_t

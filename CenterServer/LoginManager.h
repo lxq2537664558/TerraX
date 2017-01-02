@@ -1,6 +1,7 @@
 #pragma once
 #include "ComDef.h"
 #include <unordered_map>
+#include <memory>
 namespace S2SPacket
 {
 	class PktEnterPermissionReq;

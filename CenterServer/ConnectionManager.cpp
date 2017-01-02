@@ -1,7 +1,7 @@
 #include "PacketProcessor_Center.h"
 #include "CenterServer.h"
 #include "ConnectionManager.h"
-#include "ServerManager.h"
+#include "ServerManager_Center.h"
 #include "proto/server_server.pb.h"
 using namespace TerraX;
 using namespace S2SPacket;
@@ -64,7 +64,7 @@ void ConnectionManager::OnMessage_PktRegisterReq(int32_t nChannelInfo, int32_t n
     assert(pi_src.peer_type > PeerType_t::client && pi_src.peer_type < PeerType_t::peer_count);
     uint8_t conn_id = GetAvailableConnIdx(pi_src.peer_type);
 
-    NetChannelPtr pChannel = PacketProcessor_Center::GetInstance().GetChannel_FrontEnd(nChannelInfo);
+    NetChannelPtr pChannel = PacketProcessor_Center::GetInstance().GetChannel_FrontEndbyChannelIndex(nChannelInfo);
     if (!pChannel) {
         // failed
         return;
@@ -72,19 +72,19 @@ void ConnectionManager::OnMessage_PktRegisterReq(int32_t nChannelInfo, int32_t n
     if (conn_id == 0) {
         pChannel->ForceClose();
     } else {
-        PeerInfo pi_self(nChannelInfo);
         pi_src.peer_index = conn_id;
-        pi_src.channel_index = pi_self.channel_index;
+        pi_src.channel_index = 0;
         int32_t reg_peer_info = pi_src.serialize();
-        pChannel->SetPeerInfo(reg_peer_info);
+		pChannel->SetPeerType(pi_src.peer_type);
+		pChannel->SetPeerIndex(conn_id);
         std::cout << "Server: " << pi_src.server_name() << "\t PeerIndex: " << int32_t(pi_src.peer_index)
                   << "\t ChannelIndex: " << pi_src.channel_index << std::endl;
 
         PktRegisterAck pktAck;
         pktAck.set_server_info(reg_peer_info);
-        PacketProcessor_Center::GetInstance().SendPacket(nChannelInfo, nSrcPeerInfo, reg_peer_info, pktAck);
+        PacketProcessor_Center::GetInstance().SendPacket(reg_peer_info, nSrcPeerInfo, reg_peer_info, pktAck);
         
-		ServerManager::GetInstance().OnServerAdded(reg_peer_info);
+		ServerManager_Center::GetInstance().OnServerAdded(reg_peer_info);
     }
 }
 

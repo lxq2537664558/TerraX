@@ -38,6 +38,7 @@ void protobuf_ShutdownFile_client_5fserver_2eproto();
 
 class PktAccountLoginReq;
 class PktGameLoginReq;
+class PktRoleListAck;
 
 // ===================================================================
 
@@ -248,6 +249,98 @@ class PktGameLoginReq : public ::google::protobuf::Message /* @@protoc_insertion
 
   void InitAsDefaultInstance();
   static PktGameLoginReq* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PktRoleListAck : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:C2SPacket.PktRoleListAck) */ {
+ public:
+  PktRoleListAck();
+  virtual ~PktRoleListAck();
+
+  PktRoleListAck(const PktRoleListAck& from);
+
+  inline PktRoleListAck& operator=(const PktRoleListAck& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PktRoleListAck& default_instance();
+
+  void Swap(PktRoleListAck* other);
+
+  // implements Message ----------------------------------------------
+
+  inline PktRoleListAck* New() const { return New(NULL); }
+
+  PktRoleListAck* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PktRoleListAck& from);
+  void MergeFrom(const PktRoleListAck& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(PktRoleListAck* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated string role_name_list = 1;
+  int role_name_list_size() const;
+  void clear_role_name_list();
+  static const int kRoleNameListFieldNumber = 1;
+  const ::std::string& role_name_list(int index) const;
+  ::std::string* mutable_role_name_list(int index);
+  void set_role_name_list(int index, const ::std::string& value);
+  void set_role_name_list(int index, const char* value);
+  void set_role_name_list(int index, const char* value, size_t size);
+  ::std::string* add_role_name_list();
+  void add_role_name_list(const ::std::string& value);
+  void add_role_name_list(const char* value);
+  void add_role_name_list(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& role_name_list() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_role_name_list();
+
+  // @@protoc_insertion_point(class_scope:C2SPacket.PktRoleListAck)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> role_name_list_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_client_5fserver_2eproto();
+  friend void protobuf_AssignDesc_client_5fserver_2eproto();
+  friend void protobuf_ShutdownFile_client_5fserver_2eproto();
+
+  void InitAsDefaultInstance();
+  static PktRoleListAck* default_instance_;
 };
 // ===================================================================
 
@@ -481,7 +574,68 @@ inline void PktGameLoginReq::set_allocated_ip_address(::std::string* ip_address)
   // @@protoc_insertion_point(field_set_allocated:C2SPacket.PktGameLoginReq.ip_address)
 }
 
+// -------------------------------------------------------------------
+
+// PktRoleListAck
+
+// repeated string role_name_list = 1;
+inline int PktRoleListAck::role_name_list_size() const {
+  return role_name_list_.size();
+}
+inline void PktRoleListAck::clear_role_name_list() {
+  role_name_list_.Clear();
+}
+inline const ::std::string& PktRoleListAck::role_name_list(int index) const {
+  // @@protoc_insertion_point(field_get:C2SPacket.PktRoleListAck.role_name_list)
+  return role_name_list_.Get(index);
+}
+inline ::std::string* PktRoleListAck::mutable_role_name_list(int index) {
+  // @@protoc_insertion_point(field_mutable:C2SPacket.PktRoleListAck.role_name_list)
+  return role_name_list_.Mutable(index);
+}
+inline void PktRoleListAck::set_role_name_list(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:C2SPacket.PktRoleListAck.role_name_list)
+  role_name_list_.Mutable(index)->assign(value);
+}
+inline void PktRoleListAck::set_role_name_list(int index, const char* value) {
+  role_name_list_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:C2SPacket.PktRoleListAck.role_name_list)
+}
+inline void PktRoleListAck::set_role_name_list(int index, const char* value, size_t size) {
+  role_name_list_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:C2SPacket.PktRoleListAck.role_name_list)
+}
+inline ::std::string* PktRoleListAck::add_role_name_list() {
+  // @@protoc_insertion_point(field_add_mutable:C2SPacket.PktRoleListAck.role_name_list)
+  return role_name_list_.Add();
+}
+inline void PktRoleListAck::add_role_name_list(const ::std::string& value) {
+  role_name_list_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:C2SPacket.PktRoleListAck.role_name_list)
+}
+inline void PktRoleListAck::add_role_name_list(const char* value) {
+  role_name_list_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:C2SPacket.PktRoleListAck.role_name_list)
+}
+inline void PktRoleListAck::add_role_name_list(const char* value, size_t size) {
+  role_name_list_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:C2SPacket.PktRoleListAck.role_name_list)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+PktRoleListAck::role_name_list() const {
+  // @@protoc_insertion_point(field_list:C2SPacket.PktRoleListAck.role_name_list)
+  return role_name_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+PktRoleListAck::mutable_role_name_list() {
+  // @@protoc_insertion_point(field_mutable_list:C2SPacket.PktRoleListAck.role_name_list)
+  return &role_name_list_;
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

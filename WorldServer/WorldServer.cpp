@@ -24,14 +24,11 @@ bool WorldServer::Init()
 bool WorldServer::InitStaticModule()
 {
 	PacketProcessor_World::GetInstance();
-	ServerManager::GetInstance().InitPacketProcessor(&PacketProcessor_World::GetInstance());
+	ServerManager::GetInstance();
 	return true;
 }
 bool WorldServer::InitNetModule()
 {
-	PeerInfo pi(PeerType_t::centerserver);
-	ServerManager::GetInstance().OnServerAdded(pi.serialize());
-
 	PacketProcessor_World::GetInstance().Connect("127.0.0.1", 9995);
 	return true;
 }

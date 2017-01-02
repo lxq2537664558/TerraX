@@ -18,11 +18,12 @@ GateLoginManager::GateLoginManager()
 void GateLoginManager::RegPacketHandlerFunction()
 {
 	RegPacketHandler_Arg2(PktGameLoginReq, std::bind(&GateLoginManager::OnMessage_PktGameLoginReq, this, std::placeholders::_1, std::placeholders::_2));
+	RegPacketHandler_Arg2(PktEnterPermissionAck, std::bind(&GateLoginManager::OnMessage_PktEnterPermissionAck, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void GateLoginManager::OnMessage_PktGameLoginReq(int guest_id, PktGameLoginReq* pkt)
 {
-	Guest* pGuest = GuestManager::GetInstance().CreateGuest(guest_id);
+	auto pGuest = GuestManager::GetInstance().GetGuest(guest_id);
 	if (!pGuest)
 	{
 		assert(false);
@@ -34,4 +35,24 @@ void GateLoginManager::OnMessage_PktGameLoginReq(int guest_id, PktGameLoginReq* 
 	pktReq.set_account_name(pkt->account_name());
 	pktReq.set_session_key(pkt->session_key());
 	PacketProcessor_Gate::GetInstance().SendPacket2Server(pGuest->GetDestPeerInfo(PeerType_t::centerserver), guest_id, pktReq);
+}
+
+
+void GateLoginManager::OnMessage_PktEnterPermissionAck(int guest_id, PktEnterPermissionAck* pkt)
+{
+	auto pGuest = GuestManager::GetInstance().GetGuest(guest_id);
+	if (!pGuest)
+	{
+		assert(false);
+		return;
+	}
+	//request avatar details on redis db
+	PktRoleListAck pktAck;
+	auto p1 = pktAck.add_role_name_list();
+	*p1 = "Dolores";
+	auto p2 = pktAck.add_role_name_list();
+	*p2 = "Teddy";
+	auto p3 = pktAck.add_role_name_list();
+	*p3 = "Arnold";
+	PacketProcessor_Gate::GetInstance().SendPacket2Client(guest_id, 0, guest_id, pktAck);
 }

@@ -36,7 +36,7 @@ namespace TerraX
 			std::function<void(NetChannelPtr&, Packet*)> fn);
 		void OnMessage_BackEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
 
-		virtual void ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt);
+		virtual void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt);
 
 		void OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);
 

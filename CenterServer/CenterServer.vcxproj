@@ -139,12 +139,14 @@
     <ClCompile Include="LoginManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PacketProcessor_Center.cpp" />
+    <ClCompile Include="ServerManager_Center.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CenterServer.h" />
     <ClInclude Include="ConnectionManager.h" />
     <ClInclude Include="LoginManager.h" />
     <ClInclude Include="PacketProcessor_Center.h" />
+    <ClInclude Include="ServerManager_Center.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

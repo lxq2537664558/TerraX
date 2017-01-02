@@ -3,7 +3,8 @@
 #include "CenterServer.h"
 #include "ConnectionManager.h"
 #include "PacketProcessor_Center.h"
-#include "ServerManager.h"
+#include "ServerManager_Center.h"
+#include "LoginManager.h"
 using namespace TerraX;
 
 bool CenterServer::Init()
@@ -21,13 +22,14 @@ bool CenterServer::InitStaticModule()
 {
 	PacketProcessor_Center::GetInstance();
     ConnectionManager::GetInstance();
-    ServerManager::GetInstance().InitPacketProcessor(&PacketProcessor_Center::GetInstance());
+	LoginManager::GetInstance();
+    ServerManager_Center::GetInstance().InitPacketProcessor(&PacketProcessor_Center::GetInstance());
     return true;
 }
 bool CenterServer::InitNetModule()
 {
     PeerInfo pi(PeerType_t::centerserver);
-    ServerManager::GetInstance().OnServerAdded(pi.serialize());
+	ServerManager_Center::GetInstance().OnServerAdded(pi.serialize());
 
     PacketProcessor_Center::GetInstance().Accept(9995, MAX_CONNECTION);
     return true;

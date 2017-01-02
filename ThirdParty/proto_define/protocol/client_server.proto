@@ -13,3 +13,8 @@ message PktGameLoginReq
     string session_key = 2;
     string ip_address = 3;
 }
+
+message PktRoleListAck
+{
+    repeated string role_name_list = 1;
+}

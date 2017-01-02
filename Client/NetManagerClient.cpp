@@ -12,7 +12,7 @@ void NetManagerClient::Tick() { m_loop.loop(); }
 void NetManagerClient::Connect(const std::string& host, int port)
 {
 	m_pBackEnd = std::make_shared<NetChannel>(&m_loop, host, port);
-	m_pBackEnd->SetPeerInfo(uint8_t(m_peer_type) << 24);
+	m_pBackEnd->SetPeerType(PeerType_t(m_peer_type));
 	m_pBackEnd->RegOnMessage_Callback(
 		std::bind(&NetManagerClient::OnMessage_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
 	m_pBackEnd->RegNetEvent_Callback(
@@ -20,7 +20,7 @@ void NetManagerClient::Connect(const std::string& host, int port)
 }
 
 
-void NetManagerClient::ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt)
+void NetManagerClient::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt)
 {
 }
 
@@ -42,20 +42,8 @@ void NetManagerClient::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, 
 		if (!pkt->IsValid()) {
 			continue;
 		}
-		int peer_info = pkt->GetDesination();
-		PeerInfo pi(peer_info);
-		if (m_peer_type == pi.peer_type) {
-			std::string packet_name = pkt->GetPacketName();
-			int nOwnerInfo = (pChannel->GetPeerType() == PeerType_t::client) ? pChannel->GetPeerInfo()
-				: pkt->GetOwnerInfo();
-			pChannel->OnMessage(nOwnerInfo, packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
-		}
-		else {
-			if (fn)
-			{
-				fn(pChannel, pkt.get());
-			}
-		}
+		std::string packet_name = pkt->GetPacketName();
+		pChannel->OnMessage(0, pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
 	}
 }
 MessageError_t NetManagerClient::ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue)
@@ -114,7 +102,7 @@ void NetManagerClient::OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eE
 
 void NetManagerClient::DoBackEnd_Connected(NetChannelPtr& pChannel)
 {
-	GameStateManager::GetInstance().NextState(GameState_t::eAccountEnteringWorld);
+	GameStateManager::GetInstance().NextState(GameState_t::eAccountCheckingPermission);
 }
 
 void NetManagerClient::DoBackEnd_Disconnected(NetChannelPtr& pChannel)

@@ -3,6 +3,7 @@
 #include "GateServer.h"
 #include "PacketProcessor_Gate.h"
 #include "ServerManager.h"
+#include "GateLoginManager.h"
 using namespace TerraX;
 
 GateServer::GateServer() {}
@@ -10,8 +11,8 @@ GateServer::GateServer() {}
 bool GateServer::InitStaticModule()
 {
     PacketProcessor_Gate::GetInstance();
-    ServerManager::GetInstance().InitPacketProcessor(&PacketProcessor_Gate::GetInstance());
-
+	ServerManager::GetInstance();
+	GateLoginManager::GetInstance();
     return true;
 }
 

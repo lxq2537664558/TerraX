@@ -30,10 +30,13 @@ namespace TerraX
 
 		void Tick();
 
-		NetChannelPtr GetChannel_FrontEnd(int32_t nChannelInfo);
+		NetChannelPtr GetChannel_FrontEndbyChannelIndex(int32_t nChannelInfo);
+		NetChannelPtr GetChannel_FrontEndbyPeerIndex(int32_t nChannelInfo);
 		NetChannelPtr GetChannel_BackEnd() { return m_pBackEnd; }
 
 		void SendPacket2Client(int channel_info, int dest_info, int owner_info, gpb::Message& msg);
+
+		PeerType_t GetPeerType() const { return m_peer_type; }
 	protected:
 		void SendPacket2BackEnd(int dest_info, int owner_info, gpb::Message& msg);
 		void SendPacket2FrontEnd(int channel_info, int dest_info, int owner_info, gpb::Message& msg);
@@ -47,8 +50,8 @@ namespace TerraX
 		void OnMessage_FrontEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
 		void OnMessage_BackEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
 
-		virtual void ForwardPacket2FrontEnd(NetChannelPtr& pBackChannel, Packet* pkt);
-		virtual void ForwardPacket2BackEnd(NetChannelPtr& pFrontChannel, Packet* pkt);
+		virtual void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt);
+		virtual void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt);
 
 		void OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);
 		void OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);

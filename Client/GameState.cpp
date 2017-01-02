@@ -28,18 +28,22 @@ void GameState_eLoginForm::Enter()
 	LocalGuest::GetInstance().InitLoginInfo(strAccountName, strPassword);
 	//GameStateManager::GetInstance().NextState(GameState_t::eConnecting2Login);
 
-	GameStateManager::GetInstance().NextState(GameState_t::eAcc);
+	GameStateManager::GetInstance().NextState(GameState_t::eConnecting2Gate);
 }
 
-void GameState_Connecting2GateEnter()
+void GameState_Connecting2Gate::Enter()
 {
 	NetManagerClient::GetInstance().Connect("127.0.0.1", 9991);
 }
 
-void GameState_AccountEnteringWorld::Enter()
+void GameState_CheckingPermission::Enter()
 {
 	PktGameLoginReq pkt;
 	pkt.set_account_name(LocalGuest::GetInstance().GetAccountName());
 	pkt.set_session_key(LocalGuest::GetInstance().GetSessionKey());
 	NetManagerClient::GetInstance().SendPacket(PeerType_t::gateserver, pkt);
+}
+
+void GameState_AccountEnteringWorld::Enter()
+{
 }

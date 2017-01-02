@@ -1,5 +1,6 @@
 #include "Guest.h"
 #include "ServerManager.h"
+#include "GateAccount.h"
 using namespace TerraX;
 
 

@@ -86,6 +86,7 @@ void NetServer::RemoveChannel(NetChannelPtr& pChannel)
 {
 	assert(pChannel->GetConnState() == ConnState_t::eDisconnected);
 	{
+		assert(m_mapChannels.find(pChannel->GetChannelIndex()) != m_mapChannels.end());
 		std::lock_guard<std::mutex> lock(m_mutex);
 		m_freeindexes.push(pChannel->GetChannelIndex());
 		m_mapChannels.erase(pChannel->GetChannelIndex());
@@ -155,6 +156,7 @@ void NetServer::OnConnect(evutil_socket_t fd)
 			m_NetEventCB(pChannel, NetEvent_t::eConnected);
 		}
 	}
+
 }
 
 void NetServer::OnDisconnect(NetChannelPtr& pChannel)
