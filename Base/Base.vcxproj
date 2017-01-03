@@ -133,6 +133,8 @@
     <ClInclude Include="include\event_dynamic2.h" />
     <ClInclude Include="include\event_static.h" />
     <ClInclude Include="include\RingBuffer.h" />
+    <ClInclude Include="include\TaskManager.h" />
+    <ClInclude Include="include\TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

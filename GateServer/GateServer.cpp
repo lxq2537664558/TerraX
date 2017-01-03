@@ -4,6 +4,7 @@
 #include "PacketProcessor_Gate.h"
 #include "ServerManager.h"
 #include "GateLoginManager.h"
+#include "TimeManager.h"
 using namespace TerraX;
 
 GateServer::GateServer() {}
@@ -13,6 +14,7 @@ bool GateServer::InitStaticModule()
     PacketProcessor_Gate::GetInstance();
 	ServerManager::GetInstance();
 	GateLoginManager::GetInstance();
+	TimeManager::GetInstance();
     return true;
 }
 
@@ -34,13 +36,12 @@ bool GateServer::Init()
 void GateServer::Run()
 {
     while (!m_bExit) {
-        auto start = std::chrono::steady_clock::now();
+		TimeManager::GetInstance().Start();
 
         ProcessLogic();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-        auto end = std::chrono::steady_clock::now();
-        auto costms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+		auto costms = TimeManager::GetInstance().FrameTimePoint();
         if (costms < 50) {
             std::this_thread::sleep_for(std::chrono::milliseconds(50 - costms));
         }
