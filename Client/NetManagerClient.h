@@ -17,8 +17,8 @@ namespace TerraX
 	namespace gpb = google::protobuf;
 	class NetManagerClient
 	{
-		NOCOPY(NetManagerClient);
-		MAKEINSTANCE(NetManagerClient);
+		DISABLE_COPY(NetManagerClient);
+		MAKE_INSTANCE(NetManagerClient);
 
 	protected:
 		NetManagerClient();

@@ -12,8 +12,8 @@ namespace TerraX
 	class CenterAccount{};
 	class LoginManager
 	{
-		NOCOPY(LoginManager);
-		MAKEINSTANCE(LoginManager);
+		DISABLE_COPY(LoginManager);
+		MAKE_INSTANCE(LoginManager);
 	public:
 		LoginManager();
 		~LoginManager() = default;

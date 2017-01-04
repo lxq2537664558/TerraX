@@ -2,7 +2,7 @@
 
 namespace TerraX
 {
-#define MAKEINSTANCE(classname) \
+#define MAKE_INSTANCE(classname) \
 public: \
 	static classname& GetInstance() \
 	{ \
@@ -10,7 +10,7 @@ public: \
 		return T; \
 	}
 
-#define NOCOPY(classname) \
+#define DISABLE_COPY(classname) \
 public: \
 	classname(const classname&) = delete; \
 	classname& operator=(const classname &) = delete;

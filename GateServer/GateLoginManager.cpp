@@ -17,8 +17,8 @@ GateLoginManager::GateLoginManager()
 
 void GateLoginManager::RegPacketHandlerFunction()
 {
-	RegPacketHandler_Arg2(PktGameLoginReq, std::bind(&GateLoginManager::OnMessage_PktGameLoginReq, this, std::placeholders::_1, std::placeholders::_2));
-	RegPacketHandler_Arg2(PktEnterPermissionAck, std::bind(&GateLoginManager::OnMessage_PktEnterPermissionAck, this, std::placeholders::_1, std::placeholders::_2));
+	REG_PACKET_HANDLER_ARG2(PktGameLoginReq, std::bind(&GateLoginManager::OnMessage_PktGameLoginReq, this, std::placeholders::_1, std::placeholders::_2));
+	REG_PACKET_HANDLER_ARG2(PktEnterPermissionAck, std::bind(&GateLoginManager::OnMessage_PktEnterPermissionAck, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void GateLoginManager::OnMessage_PktGameLoginReq(int guest_id, PktGameLoginReq* pkt)

@@ -13,8 +13,8 @@ namespace TerraX
 	using GameStateArray = std::array<std::unique_ptr<IGameState>, int32_t(GameState_t::eGameState_Count)>;
 	class GameStateManager final
 	{
-		NOCOPY(GameStateManager);
-		MAKEINSTANCE(GameStateManager);
+		DISABLE_COPY(GameStateManager);
+		MAKE_INSTANCE(GameStateManager);
 	public:
 		GameStateManager();
 		~GameStateManager() = default;

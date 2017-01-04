@@ -16,7 +16,7 @@ namespace TerraX
     // typedef std::shared_ptr<google::protobuf::Message> MessagePtr;
     class NetChannel final : public std::enable_shared_from_this<NetChannel>
     {
-        NOCOPY(NetChannel);
+        DISABLE_COPY(NetChannel);
 
     public:
         explicit NetChannel(struct event_base* base, int fd);

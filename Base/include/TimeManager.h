@@ -8,8 +8,8 @@ namespace TerraX
 {
 	class TimeManager
 	{
-		NOCOPY(TimeManager);
-		MAKEINSTANCE(TimeManager);
+		DISABLE_COPY(TimeManager);
+		MAKE_INSTANCE(TimeManager);
 
 	public:
 		TimeManager() = default;
@@ -29,15 +29,15 @@ namespace TerraX
 				duration_cast<milliseconds>(steady_clock::now() - m_FrameStartTime).count());
 		}
 
-		int32_t TotalTime() const
+		int32_t TotalRunTime() const
 		{
-			return static_cast<int>(duration_cast<milliseconds>(steady_clock::now() - m_StartTime).count());
+			return static_cast<int>(duration_cast<milliseconds>(steady_clock::now() - m_BeginTime).count());
 		}
 
 		steady_clock::time_point Now() { return steady_clock::now(); }
 
 	private:
-		const steady_clock::time_point m_StartTime{ steady_clock::now() };
+		const steady_clock::time_point m_BeginTime{ steady_clock::now() };
 		steady_clock::time_point m_FrameStartTime{ steady_clock::now() };
 		int32_t m_FrameTime{ 0 };
 	};

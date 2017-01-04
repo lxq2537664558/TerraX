@@ -11,8 +11,8 @@ namespace TerraX
 {
 	class GuestManager
 	{
-		NOCOPY(GuestManager);
-		MAKEINSTANCE(GuestManager);
+		DISABLE_COPY(GuestManager);
+		MAKE_INSTANCE(GuestManager);
 
 	public:
 		GuestManager() = default;

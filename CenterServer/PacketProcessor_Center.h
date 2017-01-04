@@ -7,8 +7,8 @@ namespace TerraX
 {
 	class PacketProcessor_Center : public PacketProcessor
 	{
-		NOCOPY(PacketProcessor_Center);
-		MAKEINSTANCE(PacketProcessor_Center);
+		DISABLE_COPY(PacketProcessor_Center);
+		MAKE_INSTANCE(PacketProcessor_Center);
 
 	public:
 		PacketProcessor_Center();

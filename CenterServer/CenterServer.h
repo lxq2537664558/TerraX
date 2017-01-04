@@ -7,8 +7,8 @@ namespace TerraX
     const int MAX_CONNECTION = 64;
     class CenterServer final : public IServer
     {
-        NOCOPY(CenterServer);
-        MAKEINSTANCE(CenterServer);
+        DISABLE_COPY(CenterServer);
+        MAKE_INSTANCE(CenterServer);
 
     public:
         CenterServer() = default;

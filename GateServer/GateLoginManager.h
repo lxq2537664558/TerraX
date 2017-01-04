@@ -13,8 +13,8 @@ namespace TerraX
 {
 	class GateLoginManager
 	{
-		NOCOPY(GateLoginManager);
-		MAKEINSTANCE(GateLoginManager);
+		DISABLE_COPY(GateLoginManager);
+		MAKE_INSTANCE(GateLoginManager);
 	public:
 		GateLoginManager();
 		~GateLoginManager() = default;

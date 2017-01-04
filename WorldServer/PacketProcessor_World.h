@@ -12,8 +12,8 @@ namespace TerraX
 	class Packet;
 	class PacketProcessor_World : public PacketProcessor
 	{
-		NOCOPY(PacketProcessor_World);
-		MAKEINSTANCE(PacketProcessor_World);
+		DISABLE_COPY(PacketProcessor_World);
+		MAKE_INSTANCE(PacketProcessor_World);
 
 	public:
 		PacketProcessor_World();

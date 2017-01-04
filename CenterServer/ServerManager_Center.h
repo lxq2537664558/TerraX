@@ -16,8 +16,8 @@ namespace TerraX
 	class PacketProcessor_Center;
 	class ServerManager_Center : public ServerManager
 	{
-		NOCOPY(ServerManager_Center);
-		MAKEINSTANCE(ServerManager_Center);
+		DISABLE_COPY(ServerManager_Center);
+		MAKE_INSTANCE(ServerManager_Center);
 
 	public:
 		ServerManager_Center() = default;

@@ -15,7 +15,7 @@ namespace TerraX
 	class NetChannel;
 	class NetServer final
 	{
-		NOCOPY(NetServer);
+		DISABLE_COPY(NetServer);
 	public:
 		NetServer(EventLoop* loop, int port, uint16_t max_conns);
 		~NetServer();

@@ -12,8 +12,8 @@ namespace TerraX
 	class Packet;
 	class PacketProcessor_Gate : public PacketProcessor
 	{
-		NOCOPY(PacketProcessor_Gate);
-		MAKEINSTANCE(PacketProcessor_Gate);
+		DISABLE_COPY(PacketProcessor_Gate);
+		MAKE_INSTANCE(PacketProcessor_Gate);
 
 	public:
 		PacketProcessor_Gate();

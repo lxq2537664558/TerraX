@@ -6,8 +6,8 @@ namespace TerraX
 {
 	class WorldServer final : public IServer
 	{
-		NOCOPY(WorldServer);
-		MAKEINSTANCE(WorldServer);
+		DISABLE_COPY(WorldServer);
+		MAKE_INSTANCE(WorldServer);
 	public:
 		WorldServer();
 		~WorldServer() = default;

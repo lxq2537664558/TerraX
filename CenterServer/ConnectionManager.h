@@ -22,8 +22,8 @@ namespace TerraX
 
 	class ConnectionManager
 	{
-		NOCOPY(ConnectionManager);
-		MAKEINSTANCE(ConnectionManager);
+		DISABLE_COPY(ConnectionManager);
+		MAKE_INSTANCE(ConnectionManager);
 	public:
 		ConnectionManager(); 
 

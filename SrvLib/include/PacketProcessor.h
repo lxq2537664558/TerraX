@@ -17,7 +17,7 @@ namespace TerraX
 	namespace gpb = google::protobuf;
 	class PacketProcessor
 	{
-		NOCOPY(PacketProcessor);
+		DISABLE_COPY(PacketProcessor);
 
 	protected:
 		PacketProcessor(PeerType_t peer);

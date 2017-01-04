@@ -9,7 +9,7 @@ using namespace TerraX;
 ServerManager::ServerManager() { RegPacketHanderFunction(); }
 void ServerManager::RegPacketHanderFunction()
 {
-    RegPacketHandler_Arg1(PktServerSync,
+    REG_PACKET_HANDLER_ARG1(PktServerSync,
                           std::bind(&ServerManager::OnMessage_PktServerSync, this, std::placeholders::_1));
 }
 

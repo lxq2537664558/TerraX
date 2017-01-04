@@ -6,8 +6,8 @@ namespace TerraX
 {
 	class LocalGuest
 	{
-		NOCOPY(LocalGuest);
-		MAKEINSTANCE(LocalGuest);
+		DISABLE_COPY(LocalGuest);
+		MAKE_INSTANCE(LocalGuest);
 
 	public:
 		LocalGuest() = default;

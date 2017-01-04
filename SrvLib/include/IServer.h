@@ -4,7 +4,7 @@ namespace TerraX
 {
 	class IServer
 	{
-		NOCOPY(IServer);
+		DISABLE_COPY(IServer);
 	protected:
 		IServer() = default;
 	public:

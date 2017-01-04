@@ -6,7 +6,7 @@ using namespace S2SPacket;
 using namespace TerraX;
 PacketProcessor_World::PacketProcessor_World() : PacketProcessor(PeerType_t::worldserver)
 {
-    RegPacketHandler_Arg1(PktRegisterAck, std::bind(&PacketProcessor_World::OnMessage_PktRegisterAck, this,
+    REG_PACKET_HANDLER_ARG1(PktRegisterAck, std::bind(&PacketProcessor_World::OnMessage_PktRegisterAck, this,
                                                     std::placeholders::_1));
 }
 

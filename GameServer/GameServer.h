@@ -9,8 +9,8 @@ namespace TerraX
 {
 	class GameServer
 	{
-		NOCOPY(GameServer);
-		MAKEINSTANCE(GameServer);
+		DISABLE_COPY(GameServer);
+		MAKE_INSTANCE(GameServer);
 	public:
 		GameServer();
 		~GameServer() = default;

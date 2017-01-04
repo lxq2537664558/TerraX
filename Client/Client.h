@@ -8,8 +8,8 @@ namespace TerraX
 {
 	class Client
 	{
-		NOCOPY(Client);
-		MAKEINSTANCE(Client);
+		DISABLE_COPY(Client);
+		MAKE_INSTANCE(Client);
 	public:
 		Client();
 		~Client() = default;

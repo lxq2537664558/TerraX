@@ -7,7 +7,7 @@ namespace TerraX
 {
     class TimerTask
     {
-        NOCOPY(TimerTask);
+        DISABLE_COPY(TimerTask);
 
     public:
         explicit TimerTask(int nTimePoint) : m_nActiveTimePoint(nTimePoint) {}
@@ -20,10 +20,9 @@ namespace TerraX
 
     class TaskManager
     {
-        NOCOPY(TaskManager);
-        MAKEINSTANCE(TaskManager);
+        DISABLE_COPY(TaskManager);
+        MAKE_INSTANCE(TaskManager);
         using TaskPtr = std::unique_ptr<TimerTask>;
-
     public:
         TaskManager()
             : m_taskqueue([](TaskPtr& t1, TaskPtr& t2) {
@@ -35,8 +34,8 @@ namespace TerraX
 
         void PushTask() {}
 
-    private:
-        std::priority_queue<TaskPtr, std::vector<TaskPtr>, std::function<bool(TaskPtr&, TaskPtr&)>>
-            m_taskqueue;
+	private:
+		using TaskComparator = std::function<bool(TaskPtr&, TaskPtr&)>;
+        std::priority_queue<TaskPtr, std::vector<TaskPtr>, TaskComparator> m_taskqueue;
     };
 }

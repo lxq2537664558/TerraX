@@ -19,7 +19,7 @@ GameStateManager::GameStateManager() : m_CurGameState(GameState_t::ePress2Start)
 	m_GameStates[int(GameState_t::ePlayerEnteringScene)].reset(new GameState_PlayerEnteringScene);
 	m_GameStates[int(GameState_t::eGaming)].reset(new GameState_Gaming);
 
-	RegPacketHandler_Arg1(PktRoleListAck, std::bind(&GameStateManager::OnMessage_PktRoleListAck, this,
+	REG_PACKET_HANDLER_ARG1(PktRoleListAck, std::bind(&GameStateManager::OnMessage_PktRoleListAck, this,
 		std::placeholders::_1));
 }
 

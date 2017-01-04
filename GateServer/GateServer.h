@@ -6,8 +6,8 @@ namespace TerraX
 	const int MAX_CONNECTION = 1024;
 	class GateServer final : public IServer
 	{
-		NOCOPY(GateServer);
-		MAKEINSTANCE(GateServer);
+		DISABLE_COPY(GateServer);
+		MAKE_INSTANCE(GateServer);
 	public:
 		GateServer();
 		~GateServer() = default;

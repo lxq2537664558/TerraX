@@ -8,7 +8,7 @@ using namespace S2SPacket;
 using namespace TerraX;
 PacketProcessor_Gate::PacketProcessor_Gate() : PacketProcessor(PeerType_t::gateserver)
 {
-    RegPacketHandler_Arg1(PktRegisterAck, std::bind(&PacketProcessor_Gate::OnMessage_PktRegisterAck, this,
+    REG_PACKET_HANDLER_ARG1(PktRegisterAck, std::bind(&PacketProcessor_Gate::OnMessage_PktRegisterAck, this,
                                                     std::placeholders::_1));
 }
 

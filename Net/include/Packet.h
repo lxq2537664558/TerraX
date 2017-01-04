@@ -13,7 +13,7 @@ namespace TerraX
 
     class Packet
     {
-        NOCOPY(Packet);
+        DISABLE_COPY(Packet);
 
 	public:
 		Packet(std::size_t len);
@@ -43,7 +43,7 @@ namespace TerraX
 
     class PacketQueue
     {
-        NOCOPY(PacketQueue);
+        DISABLE_COPY(PacketQueue);
 
     public:
         PacketQueue() = default;
