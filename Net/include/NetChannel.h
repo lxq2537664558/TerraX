@@ -24,7 +24,7 @@ namespace TerraX
         ~NetChannel();
 
         void SendMsg(const char* buf, int len);
-        bool OnMessage(int32_t nChannelInfo, int32_t nMsgOwnerInfo, const std::string& strMsgType, const char* pBuffer,
+        bool OnMessage(int32_t nMsgOwnerInfo, const std::string& strMsgType, const char* pBuffer,
                        const int nBufferSize);
 
         void SetPeerType(PeerType_t peer_type)

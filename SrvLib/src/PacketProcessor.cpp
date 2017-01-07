@@ -96,27 +96,9 @@ MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, PacketQueue&
     return err;
 }
 
-NetChannelPtr PacketProcessor::GetChannel_FrontEndbyChannelIndex(int32_t nChannelInfo)
+NetChannelPtr PacketProcessor::GetChannel_FrontEnd(int16_t channel_index)
 {
-    PeerInfo pi(nChannelInfo);
-    return m_pFrontEnd->GetChannel(pi.channel_index);
-}
-
-NetChannelPtr PacketProcessor::GetChannel_FrontEndbyPeerIndex(int32_t nChannelInfo)
-{
-	PeerInfo pi(nChannelInfo);
-	return m_pFrontEnd->GetChannel(pi.peer_type, pi.peer_index);
-}
-
-void PacketProcessor::SendPacket2Client(int channel_info, int dest_info, int owner_info, gpb::Message& msg)
-{
-	PeerInfo pi(dest_info);
-	pi.peer_type = PeerType_t::client;
-	NetChannelPtr pChannel = GetChannel_FrontEndbyChannelIndex(channel_info);
-	if (!pChannel) {
-		return;
-	}
-	SendPacketByChannel(pChannel, dest_info, owner_info, msg);
+	return m_pFrontEnd->GetChannel(channel_index);
 }
 
 void PacketProcessor::SendPacketByChannel(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg)
@@ -127,9 +109,9 @@ void PacketProcessor::SendPacketByChannel(NetChannelPtr& pChannel, int dest_info
     pChannel->SendMsg(pkt->GetBuffer(), pkt->Size());
 }
 
-void PacketProcessor::SendPacket2FrontEnd(int channel_info, int dest_info, int owner_info, gpb::Message& msg)
+void PacketProcessor::SendPacket2FrontEnd(uint16_t channel_index, int dest_info, int owner_info, gpb::Message& msg)
 {
-    NetChannelPtr pChannel = GetChannel_FrontEndbyPeerIndex(channel_info);
+    NetChannelPtr pChannel = GetChannel_FrontEnd(channel_index);
     if (!pChannel) {
         return;
     }

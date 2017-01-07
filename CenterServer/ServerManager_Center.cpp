@@ -90,7 +90,7 @@ void ServerManager_Center::SendPacket2Server(S2SPacket::PktServerSync& pkt, Peer
 	auto it = m_ServerInfos.find(ePeerType);
 	if (it != m_ServerInfos.end()) {
 		for (auto& var : it->second) {
-			m_pPktProcessor->SendPacket(var, var, 0, pkt);
+			m_pPktProcessor->SendPacket(PeerInfo::GetChannelIndex(var), var, 0, pkt);
 		}
 	}
 }
@@ -123,7 +123,7 @@ void ServerManager_Center::ProcessGateServerAdded(int32_t peer_info)
 	AddServerInfo2Pkt(PeerType_t::centerserver, pktAdd);
 	AddServerInfo2Pkt(PeerType_t::worldserver, pktAdd);
 	AddServerInfo2Pkt(PeerType_t::gameserver, pktAdd);
-	m_pPktProcessor->SendPacket(peer_info, peer_info, 0, pktAdd);
+	m_pPktProcessor->SendPacket(PeerInfo::GetChannelIndex(peer_info), peer_info, 0, pktAdd);
 
 	BroadCastServerInfoChanged(PeerType_t::gateserver, peer_info, PktServerSync_SyncType_add);
 }
@@ -138,7 +138,7 @@ void ServerManager_Center::ProcessWorldServerAdded(int32_t peer_info)
 	AddServerInfo2Pkt(PeerType_t::centerserver, pktAdd);
 	AddServerInfo2Pkt(PeerType_t::gateserver, pktAdd);
 	AddServerInfo2Pkt(PeerType_t::gameserver, pktAdd);
-	m_pPktProcessor->SendPacket(peer_info, peer_info, 0, pktAdd);
+	m_pPktProcessor->SendPacket(PeerInfo::GetChannelIndex(peer_info), peer_info, 0, pktAdd);
 
 	BroadCastServerInfoChanged(PeerType_t::worldserver, peer_info, PktServerSync_SyncType_add);
 }
@@ -149,7 +149,7 @@ void ServerManager_Center::ProcessGameServerAdded(int32_t peer_info)
 	AddServerInfo2Pkt(PeerType_t::centerserver, pktAdd);
 	AddServerInfo2Pkt(PeerType_t::gateserver, pktAdd);
 	AddServerInfo2Pkt(PeerType_t::worldserver, pktAdd);
-	m_pPktProcessor->SendPacket(peer_info, peer_info, 0, pktAdd);
+	m_pPktProcessor->SendPacket(PeerInfo::GetChannelIndex(peer_info), peer_info, 0, pktAdd);
 
 	BroadCastServerInfoChanged(PeerType_t::gameserver, peer_info, PktServerSync_SyncType_add);
 }

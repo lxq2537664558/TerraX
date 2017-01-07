@@ -14,7 +14,7 @@ namespace TerraX
 		PacketProcessor_Center();
 		~PacketProcessor_Center() = default;
 
-		void SendPacket(int channel_info, int dest_info, int owner_info, gpb::Message& msg);
+		void SendPacket(uint16_t channel_index, int dest_info, int owner_info, gpb::Message& msg);
 
 	private:
 		void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt) override final;

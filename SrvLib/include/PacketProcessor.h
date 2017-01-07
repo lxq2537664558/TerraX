@@ -30,16 +30,13 @@ namespace TerraX
 
 		void Tick();
 
-		NetChannelPtr GetChannel_FrontEndbyChannelIndex(int32_t nChannelInfo);
-		NetChannelPtr GetChannel_FrontEndbyPeerIndex(int32_t nChannelInfo);
+		NetChannelPtr GetChannel_FrontEnd(int16_t channel_index);
 		NetChannelPtr GetChannel_BackEnd() { return m_pBackEnd; }
-
-		void SendPacket2Client(int channel_info, int dest_info, int owner_info, gpb::Message& msg);
 
 		PeerType_t GetPeerType() const { return m_peer_type; }
 	protected:
 		void SendPacket2BackEnd(int dest_info, int owner_info, gpb::Message& msg);
-		void SendPacket2FrontEnd(int channel_info, int dest_info, int owner_info, gpb::Message& msg);
+		void SendPacket2FrontEnd(uint16_t channel_index, int dest_info, int owner_info, gpb::Message& msg);
 	private:
 		void SendPacketByChannel(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg);
 

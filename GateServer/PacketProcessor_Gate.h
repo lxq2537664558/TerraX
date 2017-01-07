@@ -20,6 +20,7 @@ namespace TerraX
 		~PacketProcessor_Gate() = default;
 
 		void SendPacket2Server(int dest_info, int owner_info, gpb::Message& msg);
+		void SendPacket2Client(uint16_t channel_index, int owner_info, gpb::Message& msg);
 
 	private:
 		void Login2Center();

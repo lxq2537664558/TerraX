@@ -16,10 +16,10 @@ namespace TerraX
     };
     using NetEvent_CB = std::function<void(NetChannelPtr&, NetEvent_t)>;
 
-	//when we need to logout, we should first tell the gate server
-	enum class KickOutReason_t {
-		eNormalExit,
-	};
+    // when we need to logout, we should first tell the gate server
+    enum class KickOutReason_t {
+        eNormalExit,
+    };
 
     enum class ConnState_t {
         eDisconnected,
@@ -63,11 +63,11 @@ namespace TerraX
         PeerInfo() = default;
         explicit PeerInfo(PeerType_t ePeerType) : peer_type(ePeerType) {}
         explicit PeerInfo(int32_t peer_info) { parse(peer_info); }
-        void parse(int32_t server_info)
+        void parse(int32_t peer_info)
         {
-            peer_type = PeerType_t((server_info & 0xFF000000) >> 24);
-            peer_index = (server_info & 0x00FF0000) >> 16;
-            channel_index = server_info & 0x0000FFFF;
+            peer_type = PeerType_t((peer_info & 0xFF000000) >> 24);
+            peer_index = (peer_info & 0x00FF0000) >> 16;
+            channel_index = peer_info & 0x0000FFFF;
         }
         int32_t serialize() { return (uint8_t(peer_type) << 24) + (peer_index << 16) + channel_index; }
         const char* server_name()
@@ -90,6 +90,10 @@ namespace TerraX
             }
             return "unknown host";
         }
+
+        static PeerType_t GetPeerType(int peer_info) { return PeerType_t((peer_info & 0xFF000000) >> 24); }
+        static uint8_t GetPeerIndex(int peer_info) { return static_cast<uint8_t>((peer_info & 0x00FF0000) >> 16); }
+        static uint16_t GetChannelIndex(int peer_info) { return static_cast<uint16_t>(peer_info & 0x0000FFFF); }
 
     public:
         PeerType_t peer_type{PeerType_t::undefine};

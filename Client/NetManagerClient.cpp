@@ -43,7 +43,7 @@ void NetManagerClient::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, 
 			continue;
 		}
 		std::string packet_name = pkt->GetPacketName();
-		pChannel->OnMessage(0, pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
+		pChannel->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
 	}
 }
 MessageError_t NetManagerClient::ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue)

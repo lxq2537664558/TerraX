@@ -36,7 +36,7 @@ bool GateServer::Init()
 void GateServer::Run()
 {
     while (!m_bExit) {
-		TimeManager::GetInstance().Start();
+		TimeManager::GetInstance().Tick();
 
         ProcessLogic();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));

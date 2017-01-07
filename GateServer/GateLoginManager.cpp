@@ -54,5 +54,5 @@ void GateLoginManager::OnMessage_PktEnterPermissionAck(int guest_id, PktEnterPer
 	*p2 = "Teddy";
 	auto p3 = pktAck.add_role_name_list();
 	*p3 = "Arnold";
-	PacketProcessor_Gate::GetInstance().SendPacket2Client(guest_id, 0, guest_id, pktAck);
+	PacketProcessor_Gate::GetInstance().SendPacket2Client(PeerInfo::GetChannelIndex(guest_id), guest_id, pktAck);
 }

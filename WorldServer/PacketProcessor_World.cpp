@@ -7,7 +7,7 @@ using namespace TerraX;
 PacketProcessor_World::PacketProcessor_World() : PacketProcessor(PeerType_t::worldserver)
 {
     REG_PACKET_HANDLER_ARG1(PktRegisterAck, std::bind(&PacketProcessor_World::OnMessage_PktRegisterAck, this,
-                                                    std::placeholders::_1));
+                                                      std::placeholders::_1));
 }
 
 void PacketProcessor_World::SendPacket(int dest_info, int owner_info, gpb::Message& msg)
@@ -22,10 +22,10 @@ void PacketProcessor_World::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, 
     if (pi.peer_type == m_peer_type) {
         std::string packet_name = pkt->GetPacketName();
         if (m_pBackEnd) {
-            m_pBackEnd->OnMessage(m_pBackEnd->GetPeerInfo(), pkt->GetOwnerInfo(), packet_name,
-                                  pkt->GetPacketMsg(), pkt->GetMsgSize());
+            m_pBackEnd->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
         }
     }
+	assert(0);
 }
 
 void PacketProcessor_World::DoBackEnd_Connected(NetChannelPtr& pChannel) { Login2Center(); }
@@ -45,12 +45,9 @@ void PacketProcessor_World::Login2Center()
 void PacketProcessor_World::OnMessage_PktRegisterAck(PktRegisterAck* pkt)
 {
     PeerInfo pi(pkt->server_info());
-    assert(pi.peer_type == PeerType_t::worldserver);
-    assert(pi.peer_index > 0);
-    assert(pi.channel_index == 0 && m_pBackEnd->GetChannelIndex() == 0);
     std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index)
               << "\t ChannelIndex: " << pi.channel_index << std::endl;
-    m_pBackEnd->SetPeerInfo(pkt->server_info());
 
+    m_pBackEnd->SetPeerInfo(pkt->server_info());
     // m_pBackEnd.reset();
 }

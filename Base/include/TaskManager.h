@@ -25,8 +25,8 @@ namespace TerraX
         using TaskPtr = std::unique_ptr<TimerTask>;
     public:
         TaskManager()
-            : m_taskqueue([](TaskPtr& t1, TaskPtr& t2) {
-                  return t1->GetActiveTimePoint() > t2->GetActiveTimePoint();
+            : m_taskqueue([](TaskPtr& lhs, TaskPtr& rhs) {
+                  return rhs->GetActiveTimePoint() < lhs->GetActiveTimePoint();
               })
         {
         }

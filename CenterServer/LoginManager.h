@@ -18,7 +18,7 @@ namespace TerraX
 		LoginManager();
 		~LoginManager() = default;
 	private:
-		void OnMessage_PktEnterPermissionReq(int32_t nChannelInfo, int32_t nGuestID, S2SPacket::PktEnterPermissionReq* pkt);
+		void OnMessage_PktEnterPermissionReq(uint16_t channel_index, int32_t nGuestID, S2SPacket::PktEnterPermissionReq* pkt);
 		void OnMessage_PktCreateAccountReq(){}
 
 	private:

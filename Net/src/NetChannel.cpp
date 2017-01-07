@@ -131,9 +131,9 @@ void NetChannel::EventCallback(struct bufferevent* bev, short events, void* ptr)
 	}
 }
 
-bool NetChannel::OnMessage(int32_t nChannelInfo, int32_t nMsgOwnerInfo, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
+bool NetChannel::OnMessage(int32_t nMsgOwnerInfo, const std::string& strMsgType, const char* pBuffer, const int nBufferSize)
 {
-	return PacketDispatcher::GetInstance().DeliverPacket(nChannelInfo, nMsgOwnerInfo, strMsgType, pBuffer, nBufferSize);
+	return PacketDispatcher::GetInstance().DeliverPacket(m_peer_info, nMsgOwnerInfo, strMsgType, pBuffer, nBufferSize);
 }
 
 void NetChannel::SendMsg(const char* buf, int len)

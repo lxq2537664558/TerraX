@@ -14,7 +14,7 @@ LoginManager::LoginManager()
 			std::placeholders::_2, std::placeholders::_3));
 }
 
-void LoginManager::OnMessage_PktEnterPermissionReq(int32_t nChannelInfo, int32_t nGuestID, PktEnterPermissionReq* pkt)
+void LoginManager::OnMessage_PktEnterPermissionReq(uint16_t channel_index, int32_t nGuestID, PktEnterPermissionReq* pkt)
 {
 	//check session key;
 
@@ -22,7 +22,7 @@ void LoginManager::OnMessage_PktEnterPermissionReq(int32_t nChannelInfo, int32_t
 
 	PktEnterPermissionAck pktAck;
 	pktAck.set_check_result(PktEnterPermissionAck_Result_ok);
-	PacketProcessor_Center::GetInstance().SendPacket(nChannelInfo, nGuestID, nGuestID, pktAck);
+	PacketProcessor_Center::GetInstance().SendPacket(channel_index, nGuestID, nGuestID, pktAck);
 
 }
 

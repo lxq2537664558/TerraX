@@ -29,8 +29,8 @@ namespace TerraX
             assert(m_mapCallBacks.find(Packet::descriptor()) == m_mapCallBacks.end());
             m_mapCallBacks[Packet::descriptor()] = std::move(pEvent);
         }
-        bool DeliverPacket(int32_t nChannelInfo, int32_t nMsgOwnerInfo, const std::string& strMsgType,
-                           const char* pBuffer, const int nBufferSize);
+        bool DeliverPacket(uint16_t channel_index, int32_t msg_owner_info, const std::string& msg_type_name,
+                           const char* buffer, const int buffer_size);
 
     private:
         std::map<const gpb::Descriptor*, std::unique_ptr<events_dynamic2> > m_mapCallBacks;
@@ -52,5 +52,5 @@ PacketDispatcher::GetInstance()                           \
     \
 PacketDispatcher::GetInstance()                           \
         .RegPacketHandler<packet_type>(                   \
-            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(int32_t, int32_t, packet_type*)>(bind_function))));
+            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(uint16_t, int32_t, packet_type*)>(bind_function))));
 }
