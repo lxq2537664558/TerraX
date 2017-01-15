@@ -37,7 +37,8 @@ void NetChannel::ConnectError()
 	m_connectFailed = true;
 	SetConnState(ConnState_t::eDisconnected);
 	if (m_NetEventCB) {
-		m_NetEventCB(shared_from_this(), NetEvent_t::eConnectFailed);
+		auto pchannel = shared_from_this();
+		m_NetEventCB(std::ref(pchannel), NetEvent_t::eConnectFailed);
 	}
 }
 
@@ -49,7 +50,8 @@ void NetChannel::Connected()
 		bufferevent_enable(m_evConn, EV_READ | EV_WRITE);
 
 		if (m_NetEventCB) {
-			m_NetEventCB(shared_from_this(), NetEvent_t::eConnected);
+			auto pchannel = shared_from_this();
+			m_NetEventCB(std::ref(pchannel), NetEvent_t::eConnected);
 		}
 	}
 }
@@ -58,7 +60,8 @@ void NetChannel::Disconnected()
 {
 	SetConnState(ConnState_t::eDisconnected);
 	if (m_NetEventCB) {
-		m_NetEventCB(shared_from_this(), NetEvent_t::eDisconnected);
+		auto pchannel = shared_from_this();
+		m_NetEventCB(std::ref(pchannel), NetEvent_t::eDisconnected);
 	}
 }
 
@@ -80,7 +83,8 @@ void NetChannel::OnRead()
 	//bufferevent_write_buffer(evConn_, input);
 
 	struct evbuffer* input = bufferevent_get_input(m_evConn);
-	m_OnMessageCB(input, shared_from_this());
+	auto pchannel = shared_from_this();
+	m_OnMessageCB(input, std::ref(pchannel));
 	//ParseErrorCode errorCode = read(input, this);
 	//if (errorCode != kNoError){ /*FIXME:*/ }
 }

@@ -24,7 +24,7 @@ namespace TerraX
         PacketDispatcher() = default;
 
         template <class Packet>
-        void RegPacketHandler(std::unique_ptr<events_dynamic2>& pEvent)
+        void RegPacketHandler(std::unique_ptr<events_dynamic2>&& pEvent)
         {
             assert(m_mapCallBacks.find(Packet::descriptor()) == m_mapCallBacks.end());
             m_mapCallBacks[Packet::descriptor()] = std::move(pEvent);

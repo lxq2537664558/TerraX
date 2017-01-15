@@ -35,6 +35,7 @@ namespace TerraX
         std::size_t capacity() { return size_; }
         virtual char* buffer() { return buffer_; }
         virtual bool is_valid() { return true; }
+
     protected:
         char* buffer_{nullptr};
         std::size_t size_;
@@ -63,73 +64,42 @@ namespace TerraX
         char* GetDataBuffer() { return buffer_ + sizeof(uint16_t); }
         std::size_t GetDataSize() { return m_DataSize; }
 
-	public:
-		static const int HEADER_SIZE = sizeof(uint16_t) + sizeof(uint16_t) + sizeof(int);
+    public:
+        static const int HEADER_SIZE = sizeof(uint16_t) + sizeof(uint16_t) + sizeof(int);
+
     private:
-        int m_DataSize{0};
-        int m_PacketSize{0};
+		std::size_t m_DataSize{0};
+		std::size_t m_PacketSize{0};
     };
 
     class PacketC : public PacketBase
     {
         DISABLE_COPY(PacketC);
 
-	public:
-		PacketC(std::size_t len);
-		PacketC(std::size_t data_size, std::size_t len);
-		PacketC(gpb::Message& msg);
-		int GetCltDestionation();
-		void SetOwner(int owner_info);
-		int GetOwnerInfo();
-		void AppendDestination(int dest_info);
+    public:
+        PacketC(std::size_t len);
+        PacketC(std::size_t data_size, std::size_t len);
+        PacketC(gpb::Message& msg);
+        int GetCltDestionation();
+        void SetOwner(int owner_info);
+        int GetOwnerInfo();
+        void AppendDestination(int dest_info);
 
-		std::string GetPacketName();
-		const char* GetPacketMsg();
-		int GetMsgSize();
-		char* buffer() override final { return buffer_ + off_set_; }
-		bool is_valid() override final;
-	public:
-		static const int EX_DATA_SIZE = sizeof(uint16_t) + sizeof(int);
-		static const int HEADER_SIZE = sizeof(uint16_t) + sizeof(int);
-	private:
-		const int off_set_{ 0 };
-		int m_DataSize{ 0 };
+        std::string GetPacketName();
+        const char* GetPacketMsg();
+        int GetMsgSize();
+        char* buffer() override final { return buffer_ + off_set_; }
+        bool is_valid() override final;
+
+    public:
+        static const int EX_DATA_SIZE = sizeof(uint16_t) + sizeof(int);
+        static const int HEADER_SIZE = sizeof(uint16_t) + sizeof(int);
+
+    private:
+        const int off_set_{0};
+        std::size_t m_DataSize{0};
     };
-    /*
-class Packet
-{
-    DISABLE_COPY(Packet);
-
-    public:
-            Packet(std::size_t len);
-            Packet(gpb::Message& msg, int nReceiverCount = 1);
-            ~Packet();
-            // Tag: total_len-Destination-Owner
-            bool AppendDestination(int dest_info);
-            void GetAllDesination(int*& arrDest, int& nCount);
-            void SetOwner(int owner_info);
-            int GetOwnerInfo();
-
-            bool CheckValid();
-
-            std::string GetPacketName();
-            const char* GetPacketMsg();
-            int GetMsgSize();
-
-            void Shrink();
-            char* GetBuffer() { return m_pBuffer; }
-            std::size_t Size() { return m_PacketSize; }
-            std::size_t Capacity() { return m_MaxSize; }
-    public:
-            static const int HEADER_SIZE = sizeof(uint16_t) + sizeof(uint16_t) + sizeof(int);
-private:
-    char* m_pBuffer{nullptr};
-    std::size_t m_MaxSize{0};
-            int m_DataSize{ 0 };
-            int m_PacketSize{ 0 };
-};
-    */
-
+   
     class PacketQueue
     {
         DISABLE_COPY(PacketQueue);

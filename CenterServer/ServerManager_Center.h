@@ -2,12 +2,7 @@
 #include "ComDef.h"
 #include "NetDefine.h"
 #include "ServerManager.h"
-
-namespace S2SPacket
-{
-	class PktServerSync;
-	enum PktServerSync_SyncType;
-}
+#include "proto/server_server.pb.h"
 
 namespace TerraX
 {

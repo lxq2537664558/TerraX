@@ -2,6 +2,7 @@
 #include "ConnectionManager.h"
 #include "PacketProcessor_Center.h"
 #include "ServerManager_Center.h"
+#include <algorithm>
 using namespace TerraX;
 
 PacketProcessor_Center::PacketProcessor_Center() : PacketProcessor(PeerType_t::centerserver) {}
@@ -23,7 +24,7 @@ void PacketProcessor_Center::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChanne
     if (nDestCount <= 0 || !pAllDest) {
         return;
     }
-    int arrChannels[MAX_CONNECTION];
+    uint16_t arrChannels[MAX_CONNECTION];
     int nChannelCount = 0;
     for (int i = 0; i < nDestCount; ++i) {
         PeerInfo pi(pAllDest[i]);

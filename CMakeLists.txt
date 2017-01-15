@@ -18,6 +18,7 @@ set(CXX_FLAGS
  #-Wconversion #http://stackoverflow.com/questions/21050620/suppress-wconversion-for-specific-lines-of-code
  -Wno-unused-parameter
  -Wno-error=old-style-cast
+ -Wno-reorder
  #-Woverloaded-virtual #http://stackoverflow.com/questions/16505092/confused-about-virtual-overloaded-functions
  #-Wpointer-arith
  #-Wshadow
@@ -63,8 +64,8 @@ set (zlib_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/zlib/include)
 
 add_subdirectory(Base)
 add_subdirectory(Net)
-#add_subdirectory(SrvLib)
-#add_subdirectory(Client)
-#add_subdirectory(GateServer)
-#add_subdirectory(CenterServer)
+add_subdirectory(SrvLib)
+add_subdirectory(Client)
+add_subdirectory(GateServer)
+add_subdirectory(CenterServer)
 #add_subdirectory(TestServer)

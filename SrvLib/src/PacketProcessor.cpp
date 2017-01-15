@@ -72,7 +72,7 @@ MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, bool bFromCl
     while (readable >= static_cast<std::size_t>(min_msg_length)) {
         uint16_t be16 = 0;
         evbuffer_copyout(evbuf, &be16, sizeof(be16));
-		uint16_t total_len = ntohs(be16);
+		int32_t total_len = static_cast<int32_t>(ntohs(be16));
         if (total_len > MAX_PACKET_SIZE || total_len < min_msg_length) {
             err = MessageError_t::eInvalidLength;
             break;

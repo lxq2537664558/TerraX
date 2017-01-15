@@ -3,7 +3,6 @@
 #include "PacketDispatcher.h"
 #include "PacketProcessor_Center.h"
 
-#include "proto/server_server.pb.h"
 using namespace S2SPacket;
 using namespace TerraX;
 
