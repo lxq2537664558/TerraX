@@ -35,6 +35,9 @@
     <ClInclude Include="include\TimeManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="include\TerraXConfig.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

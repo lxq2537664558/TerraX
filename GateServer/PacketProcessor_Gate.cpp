@@ -19,73 +19,94 @@ void PacketProcessor_Gate::SendPacket2Server(int dest_info, int owner_info, gpb:
 
 void PacketProcessor_Gate::SendPacket2Client(uint16_t channel_index, int owner_info, gpb::Message& msg)
 {
-    SendPacket2FrontEnd(channel_index, 0, owner_info, msg);
+	NetChannelPtr pChannel = GetChannel_FrontEnd(channel_index);
+	if (!pChannel) {
+		return;
+	}
+	PacketC pkt(msg);
+	pkt.SetOwner(owner_info);
+	pChannel->SendMsg(pkt.buffer(), pkt.capacity());
 }
 
-void PacketProcessor_Gate::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt)
+void PacketProcessor_Gate::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt)
 {
     assert(pkt);
-    PeerInfo pi(pkt->GetDesination());
-    if (pi.peer_type == m_peer_type) {
-        std::string packet_name = pkt->GetPacketName();
-        if (pi.peer_index == 0) {
-            if (m_pBackEnd) {
-                m_pBackEnd->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(),
-                                      pkt->GetMsgSize());
+    int* pAllDest = nullptr;
+    int nDestCount = 0;
+	PacketS* pktS = static_cast<PacketS*>(pkt);
+    pktS->GetAllDesination(pAllDest, nDestCount);
+    if (nDestCount <= 0 || !pAllDest) {
+        return;
+    }
+    for (int i = 0; i < nDestCount; ++i) {
+        int nDestInfo = pAllDest[i];
+        PeerInfo pi(nDestInfo);
+        if (pi.peer_type == m_peer_type) {
+            std::string packet_name = pktS->GetPacketName();
+            if (pBackChannel->GetPeerInfo() == nDestInfo) {
+                if (m_pBackEnd) {
+                    m_pBackEnd->OnMessage(pktS->GetOwnerInfo(), packet_name, pktS->GetPacketMsg(),
+                                          pktS->GetMsgSize());
+                }
+            } else if (pi.peer_index == pBackChannel->GetChannelIndex()) {
+                auto pChannel = m_pFrontEnd->GetChannel(pi.channel_index);
+                if (pChannel) {
+                    pChannel->OnMessage(pktS->GetOwnerInfo(), packet_name, pktS->GetPacketMsg(),
+                                        pktS->GetMsgSize());
+                }
+            } else {
+                // wrong data
             }
-        } else {
-            auto pChannel = m_pFrontEnd->GetChannel(pi.channel_index);
-            if (pChannel) {
-                pChannel->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
+        }
+        if (pi.peer_type == PeerType_t::client) {
+            if (pi.peer_index == pBackChannel->GetChannelIndex()) {
+                auto pChannel = m_pFrontEnd->GetChannel(pi.channel_index);
+                if (pChannel) {
+                    pChannel->SendMsg(pktS->GetDataBuffer(), pktS->GetDataSize());
+                }
             }
         }
     }
-    if (pi.peer_type == PeerType_t::client) {
-        auto pChannel = m_pFrontEnd->GetChannel(pi.channel_index);
-        if (pChannel) {
-            pChannel->SendMsg(pkt->GetBuffer(), pkt->Size());
-        }
-    }
 }
 
-void PacketProcessor_Gate::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt)
+void PacketProcessor_Gate::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, PacketBase* pkt)
 {
     assert(pkt);
-    PeerInfo pi(pkt->GetDesination());
+	//pktC可在new创建时就在tail后面加上4个字节，这样就不用转了
+	PacketC* pktC = static_cast<PacketC*>(pkt);
+	//转变成pktS
+    PeerInfo pi(pktC->GetCltDestionation());
     Guest* pGuest = GuestManager::GetInstance().GetGuest(pFrontChannel->GetPeerInfo());
     if (!pGuest) {
         assert(0);
         return;
     }
-    if (pGuest->GetAttachedAvatarID() == 0) {
-        pkt->SetOwner(pGuest->GetGuestID());
-    } else {
-        pkt->SetOwner(pGuest->GetAttachedAvatarID());
-    }
+	int owner_info = (pGuest->GetAttachedAvatarID() == 0) ? pGuest->GetGuestID() : pGuest->GetAttachedAvatarID();
+	pktC->SetOwner(owner_info);
     if (m_peer_type == pi.peer_type) {
-        std::string packet_name = pkt->GetPacketName();
-        pFrontChannel->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
+        std::string packet_name = pktC->GetPacketName();
+        pFrontChannel->OnMessage(owner_info, packet_name, pktC->GetPacketMsg(), pktC->GetMsgSize());
     } else {
-        pkt->SetDestination(pGuest->GetDestPeerInfo(pi.peer_type));
-        assert(m_pBackEnd);
-        if (m_pBackEnd) {
-            m_pBackEnd->SendMsg(pkt->GetBuffer(), pkt->Size());
-        }
+		//转发时才需要创建pktS
+		pktC->AppendDestination(pGuest->GetDestPeerInfo(pi.peer_type));
+		if (m_pBackEnd) {
+			m_pBackEnd->SendMsg(pktC->buffer(), pktC->capacity());
+		}
     }
 }
 
 void PacketProcessor_Gate::DoBackEnd_Connected(NetChannelPtr& pChannel) { Login2Center(); }
 
-void PacketProcessor_Gate::DoBackEnd_Disconnected(NetChannelPtr& pChannel) 
-{ 
-	//m_pFrontEnd->CloseAll();
-	m_pBackEnd.reset();
+void PacketProcessor_Gate::DoBackEnd_Disconnected(NetChannelPtr& pChannel)
+{
+    // m_pFrontEnd->CloseAll();
+    m_pBackEnd.reset();
 }
 
 void PacketProcessor_Gate::DoBackEnd_ConnBreak(NetChannelPtr& pChannel)
 {
-	//m_pFrontEnd->CloseAll();
-	m_pBackEnd.reset();
+    // m_pFrontEnd->CloseAll();
+    m_pBackEnd.reset();
 }
 
 void PacketProcessor_Gate::DoFrontEnd_Connected(NetChannelPtr& pChannel)

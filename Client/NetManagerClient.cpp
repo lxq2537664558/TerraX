@@ -19,18 +19,13 @@ void NetManagerClient::Connect(const std::string& host, int port)
 		std::bind(&NetManagerClient::OnNetEvent_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-
-void NetManagerClient::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt)
-{
-}
-
 void NetManagerClient::OnMessage_BackEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
 	ProcessMessage(evbuf, pChannel, m_pktQueueBackEnd, nullptr);
 }
 
 void NetManagerClient::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
-	std::function<void(NetChannelPtr&, Packet*)> fn)
+	std::function<void(NetChannelPtr&, PacketC*)> fn)
 {
 	MessageError_t errCode = ReadMessage(evbuf, pktQueue);
 	if (errCode == MessageError_t::eInvalidLength) {
@@ -38,8 +33,8 @@ void NetManagerClient::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, 
 		// close channel;
 	}
 	while (!pktQueue.IsEmpty()) {
-		std::unique_ptr<Packet> pkt(pktQueue.Pop());
-		if (!pkt->IsValid()) {
+		std::unique_ptr<PacketC> pkt(static_cast<PacketC*>(pktQueue.Pop()));
+		if (!pkt->is_valid()) {
 			continue;
 		}
 		std::string packet_name = pkt->GetPacketName();
@@ -49,19 +44,19 @@ void NetManagerClient::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, 
 MessageError_t NetManagerClient::ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue)
 {
 	std::size_t readable = evbuffer_get_length(evbuf);
-	int32_t min_msg_length = Packet::HEADER_SIZE;
+	int32_t min_msg_length = sizeof(uint16_t);
 	MessageError_t err = MessageError_t::eNoError;
 	while (readable >= static_cast<std::size_t>(min_msg_length)) {
-		int be32 = 0;
-		evbuffer_copyout(evbuf, &be32, sizeof(be32));
-		int total_len = ntohl(be32);
-		if (total_len > MAX_MESSAGE_SIZE || total_len < min_msg_length) {
+		uint16_t be16 = 0;
+		evbuffer_copyout(evbuf, &be16, sizeof(be16));
+		int total_len = ntohs(be16);
+		if (total_len > MAX_PACKET_SIZE || total_len < min_msg_length) {
 			err = MessageError_t::eInvalidLength;
 			break;
 		}
 		else if (readable >= static_cast<std::size_t>(total_len)) {
-			Packet* pkt = new Packet(total_len);
-			evbuffer_remove(evbuf, pkt->GetBuffer(), total_len);
+			PacketBase* pkt = new PacketC(total_len);
+			evbuffer_remove(evbuf, pkt->buffer(), total_len);
 			pktQueue.Push(pkt);
 			readable = evbuffer_get_length(evbuf);
 			continue;
@@ -76,9 +71,9 @@ MessageError_t NetManagerClient::ReadMessage(struct evbuffer* evbuf, PacketQueue
 void NetManagerClient::SendPacket(PeerType_t peer_type, gpb::Message& msg)
 {
 	PeerInfo pi(peer_type);
-	std::unique_ptr<Packet> pkt(new Packet(msg));
-	pkt->SetDestination(pi.serialize());
-	m_pBackEnd->SendMsg(pkt->GetBuffer(), pkt->Size());
+	std::unique_ptr<PacketC> pkt(new PacketC(msg));
+	pkt->SetOwner(pi.serialize());
+	m_pBackEnd->SendMsg(pkt->buffer(), pkt->capacity());
 }
 
 

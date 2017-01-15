@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include <map>
+#include <unordered_map>
 #include "ComDef.h"
 #include "NetDefine.h"
 #include "event_dynamic2.h"
@@ -33,7 +33,7 @@ namespace TerraX
                            const char* buffer, const int buffer_size);
 
     private:
-        std::map<const gpb::Descriptor*, std::unique_ptr<events_dynamic2> > m_mapCallBacks;
+        std::unordered_map<const gpb::Descriptor*, std::unique_ptr<events_dynamic2> > m_mapCallBacks;
     };
 
 #define REG_PACKET_HANDLER_ARG1(packet_type, bind_function) \

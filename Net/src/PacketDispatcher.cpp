@@ -15,6 +15,7 @@ bool PacketDispatcher::DeliverPacket(uint16_t channel_index, int32_t msg_owner_i
             std::unique_ptr<gpb::Message> pMsg(pProtoType->New());  // return a new object;
             assert(pMsg);
             if (!pMsg->ParseFromArray(buffer, buffer_size)) {
+				assert(0);
                 return false;  // parse error!
             }
             auto& pEvent = it.second;

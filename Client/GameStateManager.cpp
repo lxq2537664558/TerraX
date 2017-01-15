@@ -37,8 +37,9 @@ void GameStateManager::EnterDefaultState() { m_GameStates[int(GameState_t::ePres
 void GameStateManager::OnMessage_PktRoleListAck(PktRoleListAck* pkt)
 {
 	assert(pkt);
+	std::cout << "role-list:" << std::endl;
 	for (int i = 0; i < pkt->role_name_list_size(); ++i) {
-		std::cout << pkt->role_name_list(i).c_str() << std::endl;
+		std::cout << " - " << pkt->role_name_list(i).c_str() << std::endl;
 	}
 	GameStateManager::GetInstance().NextState(GameState_t::eAccountSelectingAvatar);
 }

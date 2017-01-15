@@ -32,5 +32,8 @@
     <ClCompile Include="src\ServerManager.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

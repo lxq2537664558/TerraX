@@ -26,8 +26,8 @@ namespace TerraX
 		void Login2Center();
 		void OnMessage_PktRegisterAck(S2SPacket::PktRegisterAck* pkt);
 
-		void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt) override final;
-		void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt) override final;
+		void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt) override final;
+		void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, PacketBase* pkt) override final;
 
 		void DoBackEnd_Connected(NetChannelPtr& pChannel) override final;
 		void DoBackEnd_Disconnected(NetChannelPtr& pChannel) override final;

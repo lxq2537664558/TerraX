@@ -134,6 +134,7 @@
     <ClInclude Include="include\event_static.h" />
     <ClInclude Include="include\RingBuffer.h" />
     <ClInclude Include="include\TaskManager.h" />
+    <ClInclude Include="include\TerraXConfig.h" />
     <ClInclude Include="include\TimeManager.h" />
   </ItemGroup>
   <ItemGroup>

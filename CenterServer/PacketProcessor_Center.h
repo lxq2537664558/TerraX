@@ -17,8 +17,8 @@ namespace TerraX
 		void SendPacket(uint16_t channel_index, int dest_info, int owner_info, gpb::Message& msg);
 
 	private:
-		void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt) override final;
-		void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt) override final;
+		void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt) override final;
+		void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, PacketBase* pkt) override final;
 
 		void DoFrontEnd_Connected(NetChannelPtr& pChannel) override final;
 		void DoFrontEnd_Disconnected(NetChannelPtr& pChannel) override final;

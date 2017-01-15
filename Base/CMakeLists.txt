@@ -1,7 +1,6 @@
 #project(ComLib C CXX)
 #SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Lib )
- 
-file(GLOB SRC_FILES src/*.cpp)
+ aux_source_directory(./src SRC_FILES)
 
 set(Base_Src 
 main.cpp

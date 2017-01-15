@@ -121,6 +121,7 @@
     <ClInclude Include="include\ServerManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\PacketProcessor.cpp" />
     <ClCompile Include="src\ServerManager.cpp" />
   </ItemGroup>

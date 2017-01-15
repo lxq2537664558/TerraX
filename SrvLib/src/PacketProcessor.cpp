@@ -28,65 +28,63 @@ void PacketProcessor::Accept(int port, uint16_t max_connections)
         std::bind(&PacketProcessor::OnNetEvent_FrontEnd, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-
-void PacketProcessor::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt)
-{
-
-}
-void PacketProcessor::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt)
-{
-}
+void PacketProcessor::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt) {}
+void PacketProcessor::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, PacketBase* pkt) {}
 
 void PacketProcessor::OnMessage_FrontEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
-    ProcessMessage(evbuf, pChannel, m_pktQueueFrontEnd,
+    ProcessMessage(evbuf, pChannel, (m_peer_type == PeerType_t::gateserver),
                    std::bind(&PacketProcessor::ForwardPacketOnFrontEnd, this, std::placeholders::_1,
                              std::placeholders::_2));
 }
 
 void PacketProcessor::OnMessage_BackEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
-    ProcessMessage(evbuf, pChannel, m_pktQueueBackEnd,
-		std::bind(&PacketProcessor::ForwardPacketOnBackEnd, this, std::placeholders::_1,
-			std::placeholders::_2));
+    ProcessMessage(evbuf, pChannel, false, std::bind(&PacketProcessor::ForwardPacketOnBackEnd, this,
+                                                     std::placeholders::_1, std::placeholders::_2));
 }
 
-void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
-	std::function<void(NetChannelPtr&, Packet*)> fn)
+void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, bool bFromClient,
+                                     std::function<void(NetChannelPtr&, PacketBase*)> fn)
 {
-	MessageError_t errCode = ReadMessage(evbuf, pktQueue);
-	if (errCode == MessageError_t::eInvalidLength) {
-		// Log; // it would never happened. if it happened, 
-		// we think we should add '$' as the end of message.
-		// close channel;
-	}
-	while (!pktQueue.IsEmpty()) {
-		std::unique_ptr<Packet> pkt(pktQueue.Pop());
-		if (!pkt->IsValid()) {
-			continue;
-		}
+    MessageError_t errCode = ReadMessage(evbuf, bFromClient);
+    if (errCode == MessageError_t::eInvalidLength) {
+        // Log; // it would never happened. if it happened,
+        // we think we should add '$' as the end of message.
+        // close channel;
+    }
+    while (!m_queueRead.IsEmpty()) {
+        std::unique_ptr<PacketBase> pkt(m_queueRead.Pop());
+        if (!pkt->is_valid()) {
+            continue;
+        }
 
-		if (fn) {
-			fn(pChannel, pkt.get());
-		}
-	}
+        if (fn) {
+            fn(pChannel, pkt.get());
+        }
+    }
 }
-MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue)
+MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, bool bFromClient)
 {
     std::size_t readable = evbuffer_get_length(evbuf);
-    int32_t min_msg_length = Packet::HEADER_SIZE;
+    int32_t min_msg_length = sizeof(uint16_t);  // checksum
     MessageError_t err = MessageError_t::eNoError;
     while (readable >= static_cast<std::size_t>(min_msg_length)) {
-        int be32 = 0;
-        evbuffer_copyout(evbuf, &be32, sizeof(be32));
-        int total_len = ntohl(be32);
-        if (total_len > MAX_MESSAGE_SIZE || total_len < min_msg_length) {
+        uint16_t be16 = 0;
+        evbuffer_copyout(evbuf, &be16, sizeof(be16));
+		uint16_t total_len = ntohs(be16);
+        if (total_len > MAX_PACKET_SIZE || total_len < min_msg_length) {
             err = MessageError_t::eInvalidLength;
             break;
         } else if (readable >= static_cast<std::size_t>(total_len)) {
-            Packet* pkt = new Packet(total_len);
-            evbuffer_remove(evbuf, pkt->GetBuffer(), total_len);
-            pktQueue.Push(pkt);
+			PacketBase* pkt;
+            if (bFromClient) {
+				pkt = new PacketC(total_len, PacketC::EX_DATA_SIZE);
+            } else {
+				pkt = new PacketS(total_len);
+			}
+			evbuffer_remove(evbuf, pkt->buffer(), total_len);
+			m_queueRead.Push(pkt);
             readable = evbuffer_get_length(evbuf);
             continue;
         } else {
@@ -98,18 +96,21 @@ MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, PacketQueue&
 
 NetChannelPtr PacketProcessor::GetChannel_FrontEnd(int16_t channel_index)
 {
-	return m_pFrontEnd->GetChannel(channel_index);
+    return m_pFrontEnd->GetChannel(channel_index);
 }
 
-void PacketProcessor::SendPacketByChannel(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg)
+void PacketProcessor::SendPacketByChannel(NetChannelPtr& pChannel, int dest_info, int owner_info,
+                                          gpb::Message& msg)
 {
-    std::unique_ptr<Packet> pkt(new Packet(msg));
-    pkt->SetDestination(dest_info);
-    pkt->SetOwner(owner_info);
-    pChannel->SendMsg(pkt->GetBuffer(), pkt->Size());
+    PacketS pkt(msg);
+    if (pkt.AppendDestination(dest_info)) {
+        pkt.SetOwner(owner_info);
+        pChannel->SendMsg(pkt.buffer(), pkt.GetPacketSize());
+    }
 }
 
-void PacketProcessor::SendPacket2FrontEnd(uint16_t channel_index, int dest_info, int owner_info, gpb::Message& msg)
+void PacketProcessor::SendPacket2FrontEnd(uint16_t channel_index, int dest_info, int owner_info,
+                                          gpb::Message& msg)
 {
     NetChannelPtr pChannel = GetChannel_FrontEnd(channel_index);
     if (!pChannel) {
@@ -125,62 +126,44 @@ void PacketProcessor::SendPacket2BackEnd(int dest_info, int owner_info, gpb::Mes
 
 void PacketProcessor::OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)
 {
-	switch (eEvent) {
-	case TerraX::NetEvent_t::eConnected:
-		DoFrontEnd_Connected(pChannel);
-		break;
-	case TerraX::NetEvent_t::eConnectFailed:
-		DoFrontEnd_ConnBreak(pChannel);
-		break;
-	case TerraX::NetEvent_t::eDisconnected:
-		DoFrontEnd_Disconnected(pChannel);
-		break;
-	default:
-		break;
-	}
+    switch (eEvent) {
+        case TerraX::NetEvent_t::eConnected:
+            DoFrontEnd_Connected(pChannel);
+            break;
+        case TerraX::NetEvent_t::eConnectFailed:
+            DoFrontEnd_ConnBreak(pChannel);
+            break;
+        case TerraX::NetEvent_t::eDisconnected:
+            DoFrontEnd_Disconnected(pChannel);
+            break;
+        default:
+            break;
+    }
 }
 
 void PacketProcessor::OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent)
 {
-	switch (eEvent) {
-	case TerraX::NetEvent_t::eConnected:
-		DoBackEnd_Connected(pChannel);
-		break;
-	case TerraX::NetEvent_t::eConnectFailed:
-		DoBackEnd_ConnBreak(pChannel);
-		break;
-	case TerraX::NetEvent_t::eDisconnected:
-		DoBackEnd_Disconnected(pChannel);
-		break;
-	default:
-		break;
-	}
+    switch (eEvent) {
+        case TerraX::NetEvent_t::eConnected:
+            DoBackEnd_Connected(pChannel);
+            break;
+        case TerraX::NetEvent_t::eConnectFailed:
+            DoBackEnd_ConnBreak(pChannel);
+            break;
+        case TerraX::NetEvent_t::eDisconnected:
+            DoBackEnd_Disconnected(pChannel);
+            break;
+        default:
+            break;
+    }
 }
 
-void PacketProcessor::DoBackEnd_Connected(NetChannelPtr& pChannel)
-{
+void PacketProcessor::DoBackEnd_Connected(NetChannelPtr& pChannel) {}
 
-}
+void PacketProcessor::DoBackEnd_Disconnected(NetChannelPtr& pChannel) {}
 
-void PacketProcessor::DoBackEnd_Disconnected(NetChannelPtr& pChannel)
-{
+void PacketProcessor::DoBackEnd_ConnBreak(NetChannelPtr& pChannel) {}
 
-}
-
-void PacketProcessor::DoBackEnd_ConnBreak(NetChannelPtr& pChannel)
-{
-
-}
-
-void PacketProcessor::DoFrontEnd_Connected(NetChannelPtr& pChannel)
-{
-
-}
-void PacketProcessor::DoFrontEnd_Disconnected(NetChannelPtr& pChannel)
-{
-
-}
-void PacketProcessor::DoFrontEnd_ConnBreak(NetChannelPtr& pChannel)
-{
-
-}
+void PacketProcessor::DoFrontEnd_Connected(NetChannelPtr& pChannel) {}
+void PacketProcessor::DoFrontEnd_Disconnected(NetChannelPtr& pChannel) {}
+void PacketProcessor::DoFrontEnd_ConnBreak(NetChannelPtr& pChannel) {}

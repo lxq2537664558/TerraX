@@ -18,14 +18,25 @@ void PacketProcessor_World::SendPacket(int dest_info, int owner_info, gpb::Messa
 void PacketProcessor_World::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt)
 {
     assert(pkt);
-    PeerInfo pi(pkt->GetDesination());
-    if (pi.peer_type == m_peer_type) {
-        std::string packet_name = pkt->GetPacketName();
-        if (m_pBackEnd) {
-            m_pBackEnd->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(), pkt->GetMsgSize());
+    int* pAllDest = nullptr;
+    int nDestCount = 0;
+    pkt->GetAllDesination(pAllDest, nDestCount);
+    if (nDestCount <= 0 || !pAllDest) {
+        return;
+    }
+    for (int i = 0; i < nDestCount; ++i) {
+        int nDestInfo = pAllDest[i];
+        PeerInfo pi(nDestInfo);
+        if (pi.peer_type == m_peer_type) {
+            std::string packet_name = pkt->GetPacketName();
+            if (m_pBackEnd) {
+                m_pBackEnd->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(),
+                                      pkt->GetMsgSize());
+            }
+        } else {
+            assert(0);
         }
     }
-	assert(0);
 }
 
 void PacketProcessor_World::DoBackEnd_Connected(NetChannelPtr& pChannel) { Login2Center(); }

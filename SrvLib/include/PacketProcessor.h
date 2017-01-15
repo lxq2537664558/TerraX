@@ -1,9 +1,6 @@
 #pragma once
 
-#include "ComDef.h"
 #include "EventLoop.h"
-#include "NetChannel.h"
-#include "NetDefine.h"
 #include "NetServer.h"
 #include "Packet.h"
 
@@ -40,15 +37,15 @@ namespace TerraX
 	private:
 		void SendPacketByChannel(NetChannelPtr& pChannel, int dest_info, int owner_info, gpb::Message& msg);
 
-		MessageError_t ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue);
-		void ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
-			std::function<void(NetChannelPtr&, Packet*)> fn);
+		MessageError_t ReadMessage(struct evbuffer* evbuf, bool bFromClient);
+		void ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, bool bFromClient,
+			std::function<void(NetChannelPtr&, PacketBase*)> fn);
 
 		void OnMessage_FrontEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
 		void OnMessage_BackEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
 
-		virtual void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt);
-		virtual void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt);
+		virtual void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt);
+		virtual void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, PacketBase* pkt);
 
 		void OnNetEvent_FrontEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);
 		void OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);
@@ -67,8 +64,6 @@ namespace TerraX
 		EventLoop m_loop;
 		NetChannelPtr m_pBackEnd;
 		std::unique_ptr<NetServer> m_pFrontEnd;
-
-		PacketQueue m_pktQueueFrontEnd;
-		PacketQueue m_pktQueueBackEnd;
+		PacketQueue m_queueRead;
 	};
 }

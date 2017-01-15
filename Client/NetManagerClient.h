@@ -33,11 +33,8 @@ namespace TerraX
 	private:
 		MessageError_t ReadMessage(struct evbuffer* evbuf, PacketQueue& pktQueue);
 		void ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, PacketQueue& pktQueue,
-			std::function<void(NetChannelPtr&, Packet*)> fn);
+			std::function<void(NetChannelPtr&, PacketC*)> fn);
 		void OnMessage_BackEnd(struct evbuffer* evbuf, NetChannelPtr& pChannel);
-
-		virtual void ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Packet* pkt);
-
 		void OnNetEvent_BackEnd(NetChannelPtr& pChannel, NetEvent_t eEvent);
 
 	protected:
