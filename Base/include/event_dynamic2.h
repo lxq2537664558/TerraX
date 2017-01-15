@@ -41,7 +41,7 @@ namespace TerraX
         // Call the function by casting the base
         //  pointer back to its derived type:
         template <typename... Args>
-        void operator()(Args&&... args) const
+        void operator()(Args... args) const
         {
             // boost::polymorphic_downcast
             // arguments are not same becauseof (typeid(pkt*) != typeid(message*));
@@ -49,7 +49,7 @@ namespace TerraX
 
             wrapped<Args...>* p_wrapped = static_cast<wrapped<Args...>*>(p_base.get());
             if (p_wrapped) {
-                p_wrapped->f(std::forward<Args>(args)...);
+                p_wrapped->f(args...);
             }
         };
 
