@@ -9,9 +9,7 @@ using namespace TerraX;
 
 LoginManager::LoginManager()
 {
-	REG_PACKET_HANDLER_ARG3(PktEnterPermissionReq,
-		std::bind(&LoginManager::OnMessage_PktEnterPermissionReq, this, std::placeholders::_1,
-			std::placeholders::_2, std::placeholders::_3));
+	REG_PACKET_HANDLER_ARG3(PktEnterPermissionReq, this, OnMessage_PktEnterPermissionReq);
 }
 
 void LoginManager::OnMessage_PktEnterPermissionReq(uint16_t channel_index, int32_t nGuestID, PktEnterPermissionReq* pkt)

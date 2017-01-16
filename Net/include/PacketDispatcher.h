@@ -36,21 +36,26 @@ namespace TerraX
         std::unordered_map<const gpb::Descriptor*, std::unique_ptr<events_dynamic2> > m_mapCallBacks;
     };
 
-#define REG_PACKET_HANDLER_ARG1(packet_type, bind_function) \
+#define REG_PACKET_HANDLER_ARG1(packet_type, classobj, foo) \
     \
 PacketDispatcher::GetInstance()                           \
         .RegPacketHandler<packet_type>(                   \
-            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(packet_type*)>(bind_function))));
+            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(packet_type*)>\
+	([classobj](packet_type* p) { classobj->foo(p);}))));
 
-#define REG_PACKET_HANDLER_ARG2(packet_type, bind_function) \
+#define REG_PACKET_HANDLER_ARG2(packet_type, classobj, foo) \
     \
 PacketDispatcher::GetInstance()                           \
         .RegPacketHandler<packet_type>(                   \
-            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(int32_t, packet_type*)>(bind_function))));
+            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(int32_t, packet_type*)>\
+	([classobj](int32_t n, packet_type* p) { classobj->foo(n,p);}))));
 
-#define REG_PACKET_HANDLER_ARG3(packet_type, bind_function) \
+
+#define REG_PACKET_HANDLER_ARG3(packet_type, classobj, foo) \
     \
 PacketDispatcher::GetInstance()                           \
         .RegPacketHandler<packet_type>(                   \
-            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(uint16_t, int32_t, packet_type*)>(bind_function))));
+            std::unique_ptr<events_dynamic2>(new events_dynamic2(std::function<void(uint16_t, int32_t, packet_type*)>\
+	([classobj](uint16_t s, int32_t n, packet_type* p) { classobj->foo(s,n,p);}))));
+
 }

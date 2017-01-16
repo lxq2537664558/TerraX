@@ -8,9 +8,7 @@ using namespace S2SPacket;
 
 ConnectionManager::ConnectionManager()
 {
-    REG_PACKET_HANDLER_ARG3(
-        PktRegisterReq, std::bind(&ConnectionManager::OnMessage_PktRegisterReq, this, std::placeholders::_1,
-                                  std::placeholders::_2, std::placeholders::_3));
+	REG_PACKET_HANDLER_ARG3(PktRegisterReq, this, OnMessage_PktRegisterReq);
 }
 
 void ConnectionManager::OnMessage_PktRegisterReq(uint16_t channel_index, int32_t nSrcPeerInfo,

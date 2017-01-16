@@ -6,8 +6,7 @@ using namespace S2SPacket;
 using namespace TerraX;
 PacketProcessor_World::PacketProcessor_World() : PacketProcessor(PeerType_t::worldserver)
 {
-    REG_PACKET_HANDLER_ARG1(PktRegisterAck, std::bind(&PacketProcessor_World::OnMessage_PktRegisterAck, this,
-                                                      std::placeholders::_1));
+    REG_PACKET_HANDLER_ARG1(PktRegisterAck, this, OnMessage_PktRegisterAck);
 }
 
 void PacketProcessor_World::SendPacket(int dest_info, int owner_info, gpb::Message& msg)
