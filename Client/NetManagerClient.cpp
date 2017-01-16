@@ -13,10 +13,8 @@ void NetManagerClient::Connect(const std::string& host, int port)
 {
 	m_pBackEnd = std::make_shared<NetChannel>(&m_loop, host, port);
 	m_pBackEnd->SetPeerType(PeerType_t(m_peer_type));
-	m_pBackEnd->RegOnMessage_Callback(
-		std::bind(&NetManagerClient::OnMessage_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
-	m_pBackEnd->RegNetEvent_Callback(
-		std::bind(&NetManagerClient::OnNetEvent_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
+	m_pBackEnd->RegOnMessage_Callback([this](evbuffer* evbuf, NetChannelPtr& pChannel) { this->OnMessage_BackEnd(evbuf, pChannel); });
+	m_pBackEnd->RegNetEvent_Callback([this](NetChannelPtr& pChannel, NetEvent_t eEvent) { this->OnNetEvent_BackEnd(pChannel, eEvent); });
 }
 
 void NetManagerClient::OnMessage_BackEnd(evbuffer* evbuf, NetChannelPtr& pChannel)

@@ -14,18 +14,18 @@ void PacketProcessor::Connect(const std::string& host, int port)
     m_pBackEnd = std::make_shared<NetChannel>(&m_loop, host, port);
     m_pBackEnd->SetPeerType(PeerType_t(m_peer_type));
     m_pBackEnd->RegOnMessage_Callback(
-        std::bind(&PacketProcessor::OnMessage_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
+        [this](evbuffer* evbuf, NetChannelPtr& pChannel) { this->OnMessage_BackEnd(evbuf, pChannel); });
     m_pBackEnd->RegNetEvent_Callback(
-        std::bind(&PacketProcessor::OnNetEvent_BackEnd, this, std::placeholders::_1, std::placeholders::_2));
+        [this](NetChannelPtr& pChannel, NetEvent_t eEvent) { this->OnNetEvent_BackEnd(pChannel, eEvent); });
 }
 
 void PacketProcessor::Accept(int port, uint16_t max_connections)
 {
     m_pFrontEnd.reset(new NetServer(&m_loop, port, max_connections));
     m_pFrontEnd->RegOnMessage_Callback(
-        std::bind(&PacketProcessor::OnMessage_FrontEnd, this, std::placeholders::_1, std::placeholders::_2));
+        [this](evbuffer* evbuf, NetChannelPtr& pChannel) { this->OnMessage_FrontEnd(evbuf, pChannel); });
     m_pFrontEnd->RegNetEvent_Callback(
-        std::bind(&PacketProcessor::OnNetEvent_FrontEnd, this, std::placeholders::_1, std::placeholders::_2));
+        [this](NetChannelPtr& pChannel, NetEvent_t eEvent) { this->OnNetEvent_BackEnd(pChannel, eEvent); });
 }
 
 void PacketProcessor::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt) {}
@@ -33,15 +33,16 @@ void PacketProcessor::ForwardPacketOnFrontEnd(NetChannelPtr& pFrontChannel, Pack
 
 void PacketProcessor::OnMessage_FrontEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
-    ProcessMessage(evbuf, pChannel, (m_peer_type == PeerType_t::gateserver),
-                   std::bind(&PacketProcessor::ForwardPacketOnFrontEnd, this, std::placeholders::_1,
-                             std::placeholders::_2));
+    ProcessMessage(
+        evbuf, pChannel, (m_peer_type == PeerType_t::gateserver),
+        [this](NetChannelPtr& pChannel, PacketBase* pkt) { this->ForwardPacketOnFrontEnd(pChannel, pkt); });
 }
 
 void PacketProcessor::OnMessage_BackEnd(evbuffer* evbuf, NetChannelPtr& pChannel)
 {
-    ProcessMessage(evbuf, pChannel, false, std::bind(&PacketProcessor::ForwardPacketOnBackEnd, this,
-                                                     std::placeholders::_1, std::placeholders::_2));
+    ProcessMessage(evbuf, pChannel, false, [this](NetChannelPtr& pChannel, PacketBase* pkt) {
+        this->ForwardPacketOnBackEnd(pChannel, pkt);
+    });
 }
 
 void PacketProcessor::ProcessMessage(evbuffer* evbuf, NetChannelPtr& pChannel, bool bFromClient,
@@ -72,19 +73,19 @@ MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, bool bFromCl
     while (readable >= static_cast<std::size_t>(min_msg_length)) {
         uint16_t be16 = 0;
         evbuffer_copyout(evbuf, &be16, sizeof(be16));
-		int32_t total_len = static_cast<int32_t>(ntohs(be16));
+        int32_t total_len = static_cast<int32_t>(ntohs(be16));
         if (total_len > MAX_PACKET_SIZE || total_len < min_msg_length) {
             err = MessageError_t::eInvalidLength;
             break;
         } else if (readable >= static_cast<std::size_t>(total_len)) {
-			PacketBase* pkt;
+            PacketBase* pkt;
             if (bFromClient) {
-				pkt = new PacketC(total_len, PacketC::EX_DATA_SIZE);
+                pkt = new PacketC(total_len, PacketC::EX_DATA_SIZE);
             } else {
-				pkt = new PacketS(total_len);
-			}
-			evbuffer_remove(evbuf, pkt->buffer(), total_len);
-			m_queueRead.Push(pkt);
+                pkt = new PacketS(total_len);
+            }
+            evbuffer_remove(evbuf, pkt->buffer(), total_len);
+            m_queueRead.Push(pkt);
             readable = evbuffer_get_length(evbuf);
             continue;
         } else {
