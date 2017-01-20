@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 #include <cstdint>
-#include "ComDef.h"
+#include "base_macro.h"
 
 using namespace std::chrono;
 namespace TerraX
@@ -24,13 +24,13 @@ namespace TerraX
 		}
 
 		int32_t FrameInterval() const { return m_FrameTime; }
-		int32_t FrameTimePoint() const
+		int32_t FrameElapse() const
 		{
 			return static_cast<int>(
 				duration_cast<milliseconds>(steady_clock::now() - m_FrameStartTime).count());
 		}
 
-		uint64_t TotalRunTime() const
+		uint64_t TotalElapse() const
 		{
 			return duration_cast<milliseconds>(steady_clock::now() - m_BeginTime).count();
 		}

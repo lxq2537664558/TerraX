@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
-#include "ComDef.h"
+#include "base_macro.h"
 namespace TerraX
 {
     class NetChannel;

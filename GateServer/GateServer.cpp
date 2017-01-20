@@ -41,7 +41,7 @@ void GateServer::Run()
         ProcessLogic();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-		auto costms = TimeManager::GetInstance().FrameTimePoint();
+		auto costms = TimeManager::GetInstance().FrameElapse();
         if (costms < 50) {
             std::this_thread::sleep_for(std::chrono::milliseconds(50 - costms));
         }

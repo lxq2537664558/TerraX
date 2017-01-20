@@ -5,7 +5,7 @@
 #include <iostream>
 #include <map>
 #include <mutex>
-#include "ComDef.h"
+#include "base_macro.h"
 #include "NetDefine.h"
 #include "PacketDispatcher.h"
 

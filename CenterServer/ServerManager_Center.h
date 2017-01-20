@@ -1,5 +1,5 @@
 #pragma once
-#include "ComDef.h"
+#include "base_macro.h"
 #include "NetDefine.h"
 #include "ServerManager.h"
 #include "proto/server_server.pb.h"

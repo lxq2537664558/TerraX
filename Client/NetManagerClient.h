@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ComDef.h"
+#include "base_macro.h"
 #include "EventLoop.h"
 #include "NetChannel.h"
 #include "NetDefine.h"

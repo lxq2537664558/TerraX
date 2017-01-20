@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include "ComDef.h"
+#include "base_macro.h"
 #include "GateAccount.h"
 #include "Guest.h"
 namespace TerraX

@@ -2,7 +2,7 @@
 #include <functional>
 #include <memory>
 #include <queue>
-#include "ComDef.h"
+#include "base_macro.h"
 namespace TerraX
 {
     class TimerTask

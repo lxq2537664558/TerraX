@@ -128,11 +128,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\ComDef.h" />
+    <ClInclude Include="include\base_macro.h" />
     <ClInclude Include="include\event_dynamic.h" />
     <ClInclude Include="include\event_dynamic2.h" />
     <ClInclude Include="include\event_static.h" />
-    <ClInclude Include="include\RingBuffer.h" />
+    <ClInclude Include="include\observer.h" />
+    <ClInclude Include="include\ring_buffer.h" />
     <ClInclude Include="include\TaskManager.h" />
     <ClInclude Include="include\TerraXConfig.h" />
     <ClInclude Include="include\TimeManager.h" />

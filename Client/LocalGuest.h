@@ -1,5 +1,5 @@
 #pragma once
-#include "ComDef.h"
+#include "base_macro.h"
 #include <string>
 
 namespace TerraX

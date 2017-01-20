@@ -8,15 +8,15 @@ namespace TerraX
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 	//brevity is the soul of wit.
-    class RingBuffer
+    class ring_buffer
     {
     public:
-        RingBuffer(int size) : size_(size)
+        ring_buffer(int size) : size_(size)
         {
             assert(size_ > 0 && ((size_ & (size_ - 1)) == 0));
             buffer_ = new char[size_];
         }
-        ~RingBuffer() { delete[] buffer_; }
+        ~ring_buffer() { delete[] buffer_; }
 
         void write(const char* data, int len)
         {
@@ -29,18 +29,6 @@ namespace TerraX
 
             in_ += len;
         }
-		void write(std::string& str)
-		{
-			int len = str.size();
-			assert(writable_size() >= len);
-			len = min(len, size_ - in_ + out_);
-
-			auto l = min(len, size_ - (in_ & (size_ - 1)));
-			memcpy(buffer_ + (in_ & (size_ - 1)), str.c_str(), l);
-			memcpy(buffer_, str.c_str() + l, len - l);
-
-			in_ += len;
-		}
         void read(char* data, int len)
 		{
 			assert(readable_size() >= len);
@@ -52,17 +40,6 @@ namespace TerraX
 
             out_ += len;
         }
-		void read(std::string& str, int len)
-		{
-			assert(readable_size() >= len);
-			len = min(len, in_ - out_);
-
-			auto l = min(len, size_ - (out_ & (size_ - 1)));
-			str.append(buffer_ + (out_ & (size_ - 1)), l);
-			str.append(buffer_, len - l);
-
-			out_ += len;
-		}
         void peek(char* data, int len)
 		{
 			assert(readable_size() >= len);
@@ -76,7 +53,6 @@ namespace TerraX
         int readable_size() { return in_ - out_; }
         int writable_size() { return size_ - in_ + out_; }
         int buffer_size() { return size_; }
-		//bool islinear_memory(int data_len) { return (out_ + data_len) > size_; }
     private:
         int in_{0};
         int out_{0};

@@ -4,7 +4,7 @@
 #include <mutex>
 #include <queue>
 #include <thread>
-#include "ComDef.h"
+#include "base_macro.h"
 #include "TerraXConfig.h"
 
 namespace gpb = google::protobuf;

@@ -1,7 +1,7 @@
 #pragma once
 #include <map>
 #include <set>
-#include "ComDef.h"
+#include "base_macro.h"
 #include "NetDefine.h"
 namespace S2SPacket
 {

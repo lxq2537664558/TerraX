@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 #include <unordered_map>
-#include "ComDef.h"
+#include "base_macro.h"
 #include "NetDefine.h"
 #include "event_dynamic2.h"
 
