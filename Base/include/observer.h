@@ -12,7 +12,7 @@ namespace TerraX
 	public:
 		virtual ~IObserver(){}
 	public:
-		virtual void Update(Args... args) {}
+		virtual void OnUpdate(Args... args) {}
 	};
 
 	template<typename... Args>
@@ -36,7 +36,7 @@ namespace TerraX
 		{
 			for (auto pObserver : m_setObservers)
 			{
-				pObserver->Update(args...);
+				pObserver->OnUpdate(args...);
 			}
 		}
 	private:
