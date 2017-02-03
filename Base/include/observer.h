@@ -3,7 +3,6 @@
 #include <set>
 namespace TerraX
 {
-	//elegant observer-pattern
 	template<typename... Args>
 	class IObserver
 	{

@@ -13,7 +13,7 @@ namespace TerraX
     //| total_size:2 -- sizewithoutdest:2 -- owner_info:4 --
     //| msg_name_len:1 -- msg_name:msgname.size()+1 --
     //| msg_data:msg_size -- check_sum:4 -- destination...:4*n
-    const int MAX_PACKET_SIZE = 65535;
+    const int MAX_PACKET_SIZE = 64000; //TCP MSS = 65535B-40B
     const int MAX_PACKET_TAG_SIZE =
         sizeof(uint16_t) + sizeof(uint16_t) + sizeof(int) + sizeof(uint8_t) + 0xFF + sizeof(int);
     const int MAX_APPENDDATA_SIZE = MAX_AOI_OBJ_COUNT * 4;

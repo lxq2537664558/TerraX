@@ -19,6 +19,7 @@ namespace TerraX
             typedef std::function<void(Args...)> func_type;
             func_type f;
             //std::tuple<typename std::decay<Args>::type...> t;
+			//std::tuple<typename std::decay_t<Args>...> t; //c++14
 			std::tuple<Args...> t;
             wrapped(func_type&& aFunc) : f(aFunc){};
             std::size_t args_hashcode() override final { return typeid(t).hash_code(); }
