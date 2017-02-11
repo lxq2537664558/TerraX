@@ -1,6 +1,6 @@
-#include <google/protobuf/message.h>
 #include <stdio.h>
 #include <iostream>
+#include <google/protobuf/message.h>
 #include "CenterServer.h"
 #ifdef _WIN32
 #include <WinSock2.h>

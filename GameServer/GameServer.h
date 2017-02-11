@@ -1,13 +1,10 @@
 #pragma once
 #include "base_macro.h"
-#include "NetChannel.h"
-#include "NetDefine.h"
-#include "EventLoop.h"
+#include "IServer.h"
 
-using namespace S2SPacket;
 namespace TerraX
 {
-	class GameServer
+	class GameServer final : public IServer
 	{
 		DISABLE_COPY(GameServer);
 		MAKE_INSTANCE(GameServer);
@@ -15,20 +12,16 @@ namespace TerraX
 		GameServer();
 		~GameServer() = default;
 
-		bool Init(/*Config Info*/);
-		void Run();
-		void Exit() { m_bExit = true; }
+		bool Init(/*Config Info*/) override;
+		void Run() override;
+		void Exit() override { m_bExit = true; }
 
-		void Register(int32_t peer_info);
-		void OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt);
-
-
-		void OnBackEnd_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent);
+	protected:
+		bool InitStaticModule() override;
+		bool InitNetModule() override;
+		void ProcessLogic() override;
 
 	private:
 		bool m_bExit{ false };
-		EventLoop m_loop;
-
-		std::unique_ptr<BackEnd> m_pBackEnd;
 	};
 }

@@ -28,6 +28,6 @@ namespace TerraX
 		void DoBackEnd_Disconnected(NetChannelPtr& pChannel) override final;
 		void DoBackEnd_ConnBreak(NetChannelPtr& pChannel) override final;
 
-		void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt) override final;
+		void ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt) override final;
 	};
 }

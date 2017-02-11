@@ -1,20 +1,35 @@
+#include <chrono>
+#include <thread>
 #include "GameServer.h"
-
+//#include "PacketProcessor_Game.h"
+#include "ServerManager.h"
 using namespace TerraX;
 
 GameServer::GameServer()
 {
-	//you can use marco to wrapper it if you want;
-	PacketDispatcher::GetInstance().RegPacketHandler<PktRegisterServer>(new PacketFunctor<PktRegisterServer>(
-		std::bind(&GameServer::OnMessage_RegisterResult, this, std::placeholders::_1, std::placeholders::_2)));
 }
 
 
 bool GameServer::Init()
 {
-	m_pBackEnd.reset(new BackEnd(PeerType_t::gameserver, &m_loop, "127.0.0.1", 9995));
-	m_pBackEnd->SetNetEventCB(std::bind(&GameServer::OnBackEnd_NetEvent, this, std::placeholders::_1, std::placeholders::_2));
+	if (!InitStaticModule()) {
+		return false;
+	}
+	if (!InitNetModule()) {
+		return false;
+	}
+	return true;
+}
 
+bool GameServer::InitStaticModule()
+{
+	//PacketProcessor_Game::GetInstance();
+	ServerManager::GetInstance();
+	return true;
+}
+bool GameServer::InitNetModule()
+{
+	//PacketProcessor_Game::GetInstance().Connect("127.0.0.1", 9995);
 	return true;
 }
 
@@ -22,42 +37,17 @@ void GameServer::Run()
 {
 	while (!m_bExit)
 	{
-		m_loop.loop();
+		auto start = std::chrono::steady_clock::now();
+		ProcessLogic();
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		auto end = std::chrono::steady_clock::now();
+		auto costms = std::chrono::duration_cast<std::chrono::milliseconds>
+			(end - start).count();
+		if (costms < 50) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(50 - costms));
+		}
+		//std::cout << std::this_thread::get_id() << ": " << costms << std::endl;
 	}
 }
 
-void GameServer::Register(int32_t peer_info)
-{
-	PktRegisterServer pkt;
-	pkt.set_server_info(peer_info);
-	m_pBackEnd->SendPacket(pkt);
-}
-
-void GameServer::OnMessage_RegisterResult(NetChannelPtr& channel, PktRegisterServer& pkt)
-{
-	int32_t server_info = pkt.server_info();
-	PeerInfo pi;
-	pi.parse(server_info);
-	assert(pi.peer_type == PeerType_t::gameserver);
-	assert(pi.peer_index > 0);
-	assert(pi.channel_index != 0 && channel->GetChannelIndex() == 0);
-	std::cout << "Server: " << pi.server_name() << "\t PeerIndex: " << int32_t(pi.peer_index) <<
-		"\t ChannelIndex: " << pi.channel_index << std::endl;
-	channel->SetPeerInfo(server_info);
-}
-
-void GameServer::OnBackEnd_NetEvent(NetChannelPtr& channel, NetEvent_t eEvent)
-{
-	if (eEvent == NetEvent_t::eConnected) {
-		Register(channel->GetPeerInfo());
-	}
-	else if (eEvent == NetEvent_t::eConnectFailed) {
-		// do exit...
-	}
-	else if (eEvent == NetEvent_t::eDisconnected) {
-		// do disconnect...
-	}
-	else {
-		// unknown event
-	}
-}
+void GameServer::ProcessLogic() { /*PacketProcessor_World::GetInstance().Tick();*/ }

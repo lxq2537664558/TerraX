@@ -1,8 +1,12 @@
 #include <iostream>
 #include <stdio.h>
+#include <google/protobuf/message.h>
 #include "GameServer.h"
 
-using namespace S2SPacket;
+#ifdef _WIN32
+#include <WinSock2.h>
+#endif
+
 using namespace google::protobuf;
 using namespace TerraX;
 
@@ -21,7 +25,9 @@ int main(int argc, char* argv[])
 	}
 
 	google::protobuf::ShutdownProtobufLibrary();
-
+#ifdef _WIN32
+	WSACleanup();
+#endif
 	getchar();
 	return 0;
 }

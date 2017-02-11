@@ -14,23 +14,23 @@ void PacketProcessor_World::SendPacket(int dest_info, int owner_info, gpb::Messa
     SendPacket2BackEnd(dest_info, owner_info, msg);
 }
 
-void PacketProcessor_World::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, Packet* pkt)
+void PacketProcessor_World::ForwardPacketOnBackEnd(NetChannelPtr& pBackChannel, PacketBase* pkt)
 {
     assert(pkt);
     int* pAllDest = nullptr;
     int nDestCount = 0;
-    pkt->GetAllDesination(pAllDest, nDestCount);
+	PacketS* pktS = static_cast<PacketS*>(pkt);
+	pktS->GetAllDesination(pAllDest, nDestCount);
     if (nDestCount <= 0 || !pAllDest) {
         return;
     }
     for (int i = 0; i < nDestCount; ++i) {
         int nDestInfo = pAllDest[i];
-        PeerInfo pi(nDestInfo);
-        if (pi.peer_type == m_peer_type) {
-            std::string packet_name = pkt->GetPacketName();
+        if (pBackChannel->GetPeerInfo() == nDestInfo) {
+            std::string packet_name = pktS->GetPacketName();
             if (m_pBackEnd) {
-                m_pBackEnd->OnMessage(pkt->GetOwnerInfo(), packet_name, pkt->GetPacketMsg(),
-                                      pkt->GetMsgSize());
+                m_pBackEnd->OnMessage(pktS->GetOwnerInfo(), packet_name, pktS->GetPacketMsg(),
+					pktS->GetMsgSize());
             }
         } else {
             assert(0);
