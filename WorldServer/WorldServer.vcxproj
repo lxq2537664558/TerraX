@@ -140,7 +140,7 @@
     <ClCompile Include="WorldServer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommonItemSet_T.h" />
+    <ClInclude Include="CommonItemContainer_T.h" />
     <ClInclude Include="CommonItem.h" />
     <ClInclude Include="CommonItemDefine.h" />
     <ClInclude Include="CommonOwner.h" />

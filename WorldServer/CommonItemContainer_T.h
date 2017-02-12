@@ -5,10 +5,10 @@ namespace TerraX
 	class CommonOwner;
 
 	template<class TItem, int MAX_COUNT>
-	class CommonItemSet_T
+	class CommonItemContainer_T
 	{
 	public:
-		CommonItemSet_T() {
+		CommonItemContainer_T() {
 
 		}
 		void SetCommonOwner(CommonOwner* pOwner) { m_pCommonOwner = pOwner; }
