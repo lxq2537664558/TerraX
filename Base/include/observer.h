@@ -11,7 +11,7 @@ namespace TerraX
 	public:
 		virtual ~IObserver(){}
 	public:
-		virtual void OnUpdate(Args... args) {}
+		virtual void OnUpdate(Args... args) = 0;
 	};
 
 	template<typename... Args>

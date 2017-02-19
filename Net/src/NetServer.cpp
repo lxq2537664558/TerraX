@@ -69,7 +69,7 @@ NetChannelPtr NetServer::GetChannel(uint16_t nChannelIndex)
 
 NetChannelPtr NetServer::GetChannel(PeerType_t peer_type, uint8_t peer_index)
 {
-    for (auto& var : m_mapChannels) {
+    for (auto&& var : m_mapChannels) {
         auto& channel = var.second;
         if (channel->GetPeerType() == peer_type && channel->GetPeerIndex() == peer_index) {
             return channel;
@@ -91,7 +91,7 @@ void NetServer::RemoveChannel(NetChannelPtr& pChannel)
 
 void NetServer::CloseAll()
 {
-    for (auto& var : m_mapChannels) {
+    for (auto&& var : m_mapChannels) {
         (var.second)->ForceClose();
     }
 }

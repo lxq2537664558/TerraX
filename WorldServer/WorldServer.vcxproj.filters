@@ -47,5 +47,8 @@
     <ClInclude Include="CommonItemContainer_T.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DataPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

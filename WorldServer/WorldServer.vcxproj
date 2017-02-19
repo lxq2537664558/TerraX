@@ -144,6 +144,7 @@
     <ClInclude Include="CommonItem.h" />
     <ClInclude Include="CommonItemDefine.h" />
     <ClInclude Include="CommonOwner.h" />
+    <ClInclude Include="DataPool.h" />
     <ClInclude Include="ICommonDataComponent.h" />
     <ClInclude Include="PacketProcessor_World.h" />
     <ClInclude Include="WorldServer.h" />

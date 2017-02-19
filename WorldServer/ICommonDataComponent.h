@@ -61,4 +61,14 @@ namespace TerraX
 		AccountItem m_AccountItem;
 		//CommonItemSet_T<AvatarItem, 6> m_AvatarDatas;
 	};
+
+	class Subject{};
+	class Observer{};
+	class CommonItemManager : public Subject
+	{
+		//instance
+	public:
+		void OnItemCreate(class CommonItem* pCommonItem, CommonOwner* pObj ) {
+		}
+	};
 }

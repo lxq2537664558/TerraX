@@ -62,7 +62,7 @@ void ServerManager_Center::AddServerInfo2Pkt(PeerType_t peer_type, PktServerSync
 {
 	auto it = m_ServerInfos.find(peer_type);
 	if (it != m_ServerInfos.end()) {
-		for (auto& var : it->second) {
+		for (auto&& var : it->second) {
 			pkt.add_server_info(var);
 		}
 	}
@@ -88,7 +88,7 @@ void ServerManager_Center::SendPacket2Server(S2SPacket::PktServerSync& pkt, Peer
 {
 	auto it = m_ServerInfos.find(ePeerType);
 	if (it != m_ServerInfos.end()) {
-		for (auto& var : it->second) {
+		for (auto&& var : it->second) {
 			m_pPktProcessor->SendPacket(PeerInfo::GetChannelIndex(var), var, 0, pkt);
 		}
 	}

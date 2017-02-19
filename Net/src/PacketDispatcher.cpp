@@ -7,7 +7,7 @@ bool PacketDispatcher::DeliverPacket(uint16_t channel_index, int32_t msg_owner_i
                                       const std::string& msg_type_name, const char* buffer,
                                       const int buffer_size)
 {
-    for (auto& it : m_mapCallBacks) {
+    for (auto&& it : m_mapCallBacks) {
         if (it.first->name() == msg_type_name || it.first->full_name() == msg_type_name) {
             const auto* pDesc =
                 gpb::DescriptorPool::generated_pool()->FindMessageTypeByName(it.first->full_name());

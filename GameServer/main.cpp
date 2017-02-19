@@ -10,7 +10,7 @@
 using namespace google::protobuf;
 using namespace TerraX;
 
-int main(int argc, char* argv[])
+int main_asdf(int argc, char* argv[])
 {
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -29,5 +29,18 @@ int main(int argc, char* argv[])
 	WSACleanup();
 #endif
 	getchar();
+	return 0;
+}
+
+#include "Avatar.h"
+#include "AvatarComponent.h"
+#include "base_type.h"
+int main()
+{
+	std::unique_ptr<Avatar> pAvatar(new Avatar());
+	pAvatar->InitComponents();
+	pAvatar->GetAvatarComponent()->GetAvatarDB()->SetExp(1200);
+
+	std::cin.get();
 	return 0;
 }

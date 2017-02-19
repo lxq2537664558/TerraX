@@ -134,11 +134,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AchievementComponent.cpp" />
+    <ClCompile Include="Avatar.cpp" />
+    <ClCompile Include="AvatarComponent.cpp" />
+    <ClCompile Include="CoinComponent.cpp" />
+    <ClCompile Include="DataSyncComponent.cpp" />
     <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="ItemComponent.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MissionComponent.cpp" />
+    <ClCompile Include="SkillComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AchievementComponent.h" />
+    <ClInclude Include="Avatar.h" />
+    <ClInclude Include="AvatarComponent.h" />
+    <ClInclude Include="CoinComponent.h" />
+    <ClInclude Include="DataSyncComponent.h" />
     <ClInclude Include="GameServer.h" />
+    <ClInclude Include="ItemComponent.h" />
+    <ClInclude Include="MissionComponent.h" />
+    <ClInclude Include="SkillComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

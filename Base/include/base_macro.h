@@ -13,7 +13,8 @@ public: \
 #define DISABLE_COPY(classname) \
 public: \
 	classname(const classname&) = delete; \
-	classname& operator=(const classname &) = delete;
+	classname& operator=(const classname &) = delete; \
+	classname(classname&&) = default;
 
 #define TO_STRING(classname) #classname
 

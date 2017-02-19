@@ -41,6 +41,12 @@
     <ClInclude Include="include\observer.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="include\base_type.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timekeeper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
