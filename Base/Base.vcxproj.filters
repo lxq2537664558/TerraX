@@ -29,9 +29,6 @@
     <ClInclude Include="include\TimeManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="include\TerraXConfig.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="include\ring_buffer.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -46,6 +43,9 @@
     </ClInclude>
     <ClInclude Include="include\timekeeper.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TerraXConfig.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
