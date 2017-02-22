@@ -30,7 +30,7 @@ namespace TerraX
 		{
 			m_setObservers.erase(pObserver);
 		}
-		template<typename... Args>
+
 		void Notify(Args... args)
 		{
 			for (auto pObserver : m_setObservers)

@@ -27,6 +27,7 @@ void Avatar::InitComponents()
 	m_pSkillComponent.reset(new SkillComponent(this));
 	m_pDataSyncComponent.reset(new DataSyncComponent(this));
 
+	
 	m_pAvatarComponent->GetAvatarDB()->AddObserver(m_pMissionComponent.get());
 	m_pAvatarComponent->GetAvatarDB()->AddObserver(m_pAchievementComponent.get());
 	m_pAvatarComponent->GetAvatarDB()->AddObserver(m_pDataSyncComponent.get());

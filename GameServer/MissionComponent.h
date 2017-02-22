@@ -5,6 +5,24 @@ namespace TerraX
 {
     class Avatar;
 
+	class MissionDB_Monitor : public ISubject<DataType_t, int, Avatar*>
+	{
+	public:
+		void OnDataChanged_Mission()
+		{
+			//Notify(DataType_t::eAvatar_Exp, 0, nullptr);
+		}
+		/*
+		void OnMissionCreated(MissionItem* pMissionItem, Avatar* pTarget)
+		{
+
+		}
+		void OnMissionRemoved(MissionItem* pMissionItem, Avatar* pTarget)
+		{
+
+		}
+		*/
+	};
 	class MissionItem
 	{
 	private:
@@ -29,22 +47,6 @@ namespace TerraX
 		int GetMissionState() const { return m_nMissionState; }
 	};
 
-    class MissionDB_Monitor : public ISubject<DataType_t, int, Avatar*>
-    {
-	public:
-		void OnDataChanged_Mission()
-		{
-			//Notify(DataType_t::eAvatar_Exp, 0, nullptr);
-		}
-		void OnMissionCreated(MissionItem* pMissionItem, Avatar* pTarget)
-		{
-
-		}
-		void OnMissionRemoved(MissionItem* pMissionItem, Avatar* pTarget)
-		{
-
-		}
-    };
 
     class MissionDB
     {
@@ -66,7 +68,7 @@ namespace TerraX
 					m_pMissionItems[i].reset(new MissionItem(m_pAvatar, m_pDBMonitor.get()));
                     m_pMissionItems[i]->SetMissionID(nMissionID);
 
-					m_pDBMonitor->OnMissionCreated(m_pMissionItems[i].get(), m_pAvatar);
+					//m_pDBMonitor->OnMissionCreated(m_pMissionItems[i].get(), m_pAvatar);
                     return m_pMissionItems[i].get();
                 }
             }
@@ -76,7 +78,7 @@ namespace TerraX
 			for (int i = 0; i < MAX_ITEM_COUNT; i++) {
 				if (m_pMissionItems[i] != nullptr && m_pMissionItems[i]->GetMissionID() == nMissionID) {
 					m_pMissionItems[i].reset();
-					m_pDBMonitor->OnMissionRemoved(m_pMissionItems[i].get(), m_pAvatar);
+					//m_pDBMonitor->OnMissionRemoved(m_pMissionItems[i].get(), m_pAvatar);
 					return;
 				}
 			}

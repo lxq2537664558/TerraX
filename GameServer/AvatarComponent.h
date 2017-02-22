@@ -3,6 +3,17 @@
 
 namespace TerraX
 {
+	class AvatarDB_Monitor : public ISubject<DataType_t, int, Avatar*>
+	{
+	public:
+		void OnDataChanged_Exp(int nExp, Avatar* pTarget);
+		void OnDataChanged_Level(int nLevel, Avatar* pTarget);
+
+	private:
+		static const int LEVEL_UP_EXP = 1000;
+		static const int LEVEL_MAX = 100;
+	};
+
     class AvatarItem
     {
     private:
@@ -32,17 +43,6 @@ namespace TerraX
         }
     };
 
-    class AvatarDB_Monitor : public ISubject<DataType_t, int, Avatar*>
-    {
-    public:
-        void OnDataChanged_Exp(int nExp, Avatar* pTarget);
-        void OnDataChanged_Level(int nLevel, Avatar* pTarget);
-
-    private:
-        static const int LEVEL_UP_EXP = 1000;
-        static const int LEVEL_MAX = 100;
-    };
-
     class AvatarDB
     {
     private:
@@ -51,12 +51,11 @@ namespace TerraX
         std::unique_ptr<AvatarItem> m_pAvatarItem;
 
     public:
-        AvatarDB()
+        AvatarDB(Avatar* pAvatar) : m_pAvatar(pAvatar)
         {
             m_pMonitor.reset(new AvatarDB_Monitor());
             m_pAvatarItem.reset(new AvatarItem(m_pAvatar, m_pMonitor.get()));
         }
-        void SetOwner(Avatar* pAvatar) { m_pAvatar = pAvatar; }
 
         void AddObserver(IObserver<DataType_t, int, Avatar*>* pObserver)
         {
@@ -73,8 +72,7 @@ namespace TerraX
         {
             m_pOwner = pAvatar;
 
-            m_pAvatarDB.reset(new AvatarDB());
-            m_pAvatarDB->SetOwner(m_pOwner);
+            m_pAvatarDB.reset(new AvatarDB(pAvatar));
         }
 
         AvatarDB* GetAvatarDB() { return m_pAvatarDB.get(); }
