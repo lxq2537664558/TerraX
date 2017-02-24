@@ -3,15 +3,16 @@
 
 namespace TerraX
 {
+
+	const int LEVEL_UP_EXP = 1000;
+	const int LEVEL_MAX = 100;
+
 	class AvatarDB_Monitor : public ISubject<DataType_t, int, Avatar*>
 	{
 	public:
 		void OnDataChanged_Exp(int nExp, Avatar* pTarget);
 		void OnDataChanged_Level(int nLevel, Avatar* pTarget);
 
-	private:
-		static const int LEVEL_UP_EXP = 1000;
-		static const int LEVEL_MAX = 100;
 	};
 
     class AvatarItem
@@ -77,6 +78,12 @@ namespace TerraX
 
         AvatarDB* GetAvatarDB() { return m_pAvatarDB.get(); }
 
+
+		int GetExp() const { return m_pAvatarDB->GetAvatarItem()->GetExp(); }
+		void SetExp(int nExp);
+
+		int GetLevel() const { return m_pAvatarDB->GetAvatarItem()->GetLevel(); }
+		void SetLevel(int nLevel);
     private:
         Avatar* m_pOwner{nullptr};  // weak_ptr
         std::unique_ptr<AvatarDB> m_pAvatarDB;

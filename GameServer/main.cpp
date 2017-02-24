@@ -39,7 +39,7 @@ int main()
 {
 	std::unique_ptr<Avatar> pAvatar(new Avatar());
 	pAvatar->InitComponents();
-	pAvatar->GetAvatarComponent()->GetAvatarDB()->GetAvatarItem()->SetExp(1200);
+	pAvatar->GetAvatarComponent()->SetExp(1200);
 
 	std::cin.get();
 	return 0;
