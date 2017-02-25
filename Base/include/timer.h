@@ -6,14 +6,14 @@
 using namespace std::chrono;
 namespace TerraX
 {
-	class TimeManager
+	class Timer
 	{
-		DISABLE_COPY(TimeManager);
-		MAKE_INSTANCE(TimeManager);
+		DISABLE_COPY(Timer);
+		MAKE_INSTANCE(Timer);
 
 	public:
-		TimeManager() = default;
-		~TimeManager() = default;
+		Timer() = default;
+		~Timer() = default;
 
 		void Tick()
 		{

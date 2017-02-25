@@ -4,7 +4,7 @@
 #include "PacketProcessor_Gate.h"
 #include "ServerManager.h"
 #include "GateLoginManager.h"
-#include "TimeManager.h"
+#include "Timer.h"
 using namespace TerraX;
 
 GateServer::GateServer() {}
@@ -36,12 +36,12 @@ bool GateServer::Init()
 void GateServer::Run()
 {
     while (!m_bExit) {
-		TimeManager::GetInstance().Tick();
+		Timer::GetInstance().Tick();
 
         ProcessLogic();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-		auto costms = TimeManager::GetInstance().FrameElapse();
+		auto costms = Timer::GetInstance().FrameElapse();
         if (costms < 50) {
             std::this_thread::sleep_for(std::chrono::milliseconds(50 - costms));
         }

@@ -9,7 +9,7 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Manager">
+    <Filter Include="Timer">
       <UniqueIdentifier>{ce2eb596-4dec-4e39-b64d-4551548baf35}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -22,12 +22,6 @@
     </ClInclude>
     <ClInclude Include="include\event_dynamic2.h">
       <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TaskManager.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TimeManager.h">
-      <Filter>Manager</Filter>
     </ClInclude>
     <ClInclude Include="include\ring_buffer.h">
       <Filter>Common</Filter>
@@ -45,7 +39,13 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="include\TerraXConfig.h">
-      <Filter>Manager</Filter>
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timer_task.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timer.h">
+      <Filter>Timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

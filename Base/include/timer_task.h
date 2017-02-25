@@ -18,19 +18,19 @@ namespace TerraX
         int m_nActiveTimePoint{0};
     };
 
-    class TaskManager
+    class TaskList
     {
-        DISABLE_COPY(TaskManager);
-        MAKE_INSTANCE(TaskManager);
+        DISABLE_COPY(TaskList);
+        MAKE_INSTANCE(TaskList);
         using TaskPtr = std::unique_ptr<TimerTask>;
     public:
-        TaskManager()
+        TaskList()
             : m_taskqueue([](TaskPtr& lhs, TaskPtr& rhs) {
                   return rhs->GetActiveTimePoint() < lhs->GetActiveTimePoint();
               })
         {
         }
-        ~TaskManager() = default;
+        ~TaskList() = default;
 
         void PushTask() {}
 
