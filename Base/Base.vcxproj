@@ -130,15 +130,16 @@
   <ItemGroup>
     <ClInclude Include="include\base_macro.h" />
     <ClInclude Include="include\base_type.h" />
-    <ClInclude Include="include\event_dynamic.h" />
-    <ClInclude Include="include\event_dynamic2.h" />
-    <ClInclude Include="include\event_static.h" />
-    <ClInclude Include="include\observer.h" />
-    <ClInclude Include="include\ring_buffer.h" />
-    <ClInclude Include="include\timer_task.h" />
+    <ClInclude Include="include\event_dynamic.hpp" />
+    <ClInclude Include="include\event_dynamic2.hpp" />
+    <ClInclude Include="include\event_static.hpp" />
+    <ClInclude Include="include\base_iterator.hpp" />
+    <ClInclude Include="include\observer.hpp" />
+    <ClInclude Include="include\ring_buffer.hpp" />
+    <ClInclude Include="include\timer_task.hpp" />
     <ClInclude Include="include\TerraXConfig.h" />
-    <ClInclude Include="include\timer.h" />
-    <ClInclude Include="include\timekeeper.h" />
+    <ClInclude Include="include\timer.hpp" />
+    <ClInclude Include="include\timekeeper.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

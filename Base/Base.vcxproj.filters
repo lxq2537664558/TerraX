@@ -14,37 +14,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\event_static.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\event_dynamic.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\event_dynamic2.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ring_buffer.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="include\base_macro.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="include\observer.h">
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="include\base_type.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="include\timekeeper.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="include\TerraXConfig.h">
       <Filter>Timer</Filter>
     </ClInclude>
-    <ClInclude Include="include\timer_task.h">
+    <ClInclude Include="include\event_dynamic.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event_dynamic2.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\event_static.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\observer.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ring_buffer.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timekeeper.hpp">
       <Filter>Timer</Filter>
     </ClInclude>
-    <ClInclude Include="include\timer.h">
+    <ClInclude Include="include\timer.hpp">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\timer_task.hpp">
       <Filter>Timer</Filter>
     </ClInclude>
   </ItemGroup>

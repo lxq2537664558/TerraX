@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "base_macro.h"
 #include "NetDefine.h"
-#include "event_dynamic2.h"
+#include "event_dynamic2.hpp"
 
 namespace google
 {

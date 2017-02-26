@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "observer.h"
+#include "observer.hpp"
 #include "base_type.h"
 
 namespace TerraX
