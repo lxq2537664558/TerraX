@@ -34,13 +34,24 @@ int main_asdf(int argc, char* argv[])
 
 #include "Avatar.h"
 #include "AvatarComponent.h"
-#include "base_type.h"
+#include "MissionComponent.h"
+#include "base_guid.hpp"
 int main()
 {
 	std::unique_ptr<Avatar> pAvatar(new Avatar());
 	pAvatar->InitComponents();
 	pAvatar->GetAvatarComponent()->SetExp(1200);
 
+	Container_T<64> mc;
+	mc.Push(new MissionItem(nullptr, nullptr));
+	mc.Push(new MissionItem(nullptr, nullptr));
+	auto iter = mc.Iterator();
+	while (!iter.IsEnd())
+	{
+		auto pItem = iter.Next();
+		static int nCount = 0;
+		std::cout << ++nCount << std::endl;
+	}
 	std::cin.get();
 	return 0;
 }

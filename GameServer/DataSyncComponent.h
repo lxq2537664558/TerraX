@@ -5,7 +5,24 @@
 namespace TerraX
 {
 	class Avatar;
+	
+	//datacomponet--item--field:value--updatetype--srcobj--tarobj
+	class AchievementDataSync {};
+	class AvatarDataSync{};
+	class CoinDataSync{};
+	class ItemDataSync{};
+	class MissionDataSync{};
+	class SkillDataSync{};
 
+	class IDataSync
+	{
+		void Sync2Aoi(bool bIncludeMe) {}
+		void Sync2Client() {}
+		void Sync2Gate() {}
+		void Sync2Game() {}
+		void Sync2DB() {}
+		void SyncWorld() {}
+	};
 	class DataSyncComponent : public IObserver<DataType_t, int, Avatar*>
 	{
 	public:
@@ -13,6 +30,7 @@ namespace TerraX
 			m_pOwner = pAvatar;
 		}
 
+		void SyncAllData() {}
 		void OnUpdate(DataType_t eDataType, int value, Avatar* pTarget) override
 		{
 		}

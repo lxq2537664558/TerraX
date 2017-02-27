@@ -16,29 +16,48 @@ void MissionDB_Monitor::OnMissionRemoved(MissionItem* pMissionItem, Avatar* pTar
 
 
 //////////////////////////////////////////////////////////////////////////
-MissionItem* MissionDB::CreateMission(int nMissionID)
-{
-    for (int i = 0; i < MAX_MISSION_COUNT; i++) {
-        if (m_pMissionItems[i] == nullptr) {
-            m_pMissionItems[i].reset(new MissionItem(m_pAvatar, m_pDBMonitor.get()));
-            m_pMissionItems[i]->SetMissionID(nMissionID);
-
-            // m_pDBMonitor->OnMissionCreated(m_pMissionItems[i].get(), m_pAvatar);
-            return m_pMissionItems[i].get();
-        }
-    }
-    return nullptr;
+MissionItem* MissionDB::CreateMission(int nMissionID) {
+	if (m_MissionContainer.Size() >= MAX_MISSION_COUNT) {
+		return nullptr;
+	}
+	auto pItem = new MissionItem(m_pAvatar, m_pDBMonitor.get());
+	pItem->SetMissionID(nMissionID);
+	m_MissionContainer.Push(pItem);
+	//m_pDBMonitor->OnMissionCreated(pItem, m_pAvatar);
+	return pItem;
 }
 
 void MissionDB::RemoveMission(int nMissionID)
 {
-    for (int i = 0; i < MAX_MISSION_COUNT; i++) {
-        if (m_pMissionItems[i] != nullptr && m_pMissionItems[i]->GetMissionID() == nMissionID) {
-            m_pMissionItems[i].reset();
-            // m_pDBMonitor->OnMissionRemoved(m_pMissionItems[i].get(), m_pAvatar);
-            return;
-        }
-    }
+	auto iter = m_MissionContainer.Iterator();
+	int nIndex = 0;
+	while (!iter.IsEnd())
+	{
+		auto pItem = iter.Next();
+		if (pItem->GetMissionID() == nMissionID)
+		{
+			m_MissionContainer.RemoveAt(nIndex);
+			//m_pDBMonitor->OnMissionRemoved(m_pMissionItems[i].get(), m_pAvatar);
+			return;
+		}
+		++nIndex;
+	}
+}
+
+MissionItem* MissionDB::GetMission(int nMissionID)
+{
+	auto iter = m_MissionContainer.Iterator();
+	int nIndex = 0;
+	while (!iter.IsEnd())
+	{
+		auto pItem = iter.Next();
+		if (pItem->GetMissionID() == nMissionID)
+		{
+			return pItem;
+		}
+		++nIndex;
+	}
+	return nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////

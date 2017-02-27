@@ -2,7 +2,7 @@
 
 #include <memory>
 #include "observer.hpp"
-#include "base_type.h"
+#include "base_guid.hpp"
 
 namespace TerraX
 {
