@@ -15,10 +15,32 @@ namespace TerraX
 
 	};
 
+	enum FieldSyncFlag_t
+	{
+		eDirty_Client,
+		eDirty_ClientAOI,
+		eDirty_World,
+		eDirty_DB,
+
+		eClient = 16,
+		eClientAOI,
+		eWorld,
+		eDB,
+
+		eFieldSyncFlag_Size = 32,
+	};
+	struct fieldproperty
+	{
+		int offset;/
+		int syncflag;
+		char fieldtype[32];
+	};
+	fieldproperty stfp[10] = { {0,0,"int32",},{ 1,1,"char64"} };
     class AvatarItem
     {
     private:
         int m_nExp{0};
+		int m_nExpFlag{ 0 };
         int m_nLevel{0};
         Avatar* m_pAvatar{nullptr};
         AvatarDB_Monitor* m_pMonitor{nullptr};
@@ -29,10 +51,14 @@ namespace TerraX
 
         void SetOwner(Avatar* pAvatar) { m_pAvatar = pAvatar; }
 
+		void ExtractData(FieldSyncFlag_t eFlag){}
+
+		static const int kField_AvatarItem_Exp = 1;
         int GetExp() const { return m_nExp; }
         void SetExp(int nExp)
         {
             m_nExp = nExp;
+			m_nExpFlag = m_nExpFlag | 0x0000FFFF;
             m_pMonitor->OnDataChanged_Exp(nExp, m_pAvatar);
         }
 

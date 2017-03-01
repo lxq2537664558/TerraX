@@ -7,6 +7,9 @@ namespace TerraX
 	class Avatar;
 	
 	//datacomponet--item--field:value--updatetype--srcobj--tarobj
+	//sync_flag: client, aoi, gate, game, world, db, roleattr, rolelist
+	//opt_flag: cover, update,
+	//dirty_flag: clear_dirty
 	class AchievementDataSync {};
 	class AvatarDataSync{};
 	class CoinDataSync{};
