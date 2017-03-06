@@ -30,7 +30,7 @@ public:
 		assert(sizeof(T) == data_size_);
 		return *((T*)(pDataBuffer + offset_));
 	}
-	char* GetValue(char* pDataBuffer) {
+	char* GetValueString(char* pDataBuffer) {
 		return pDataBuffer + offset_;
 	}
 
@@ -41,7 +41,7 @@ public:
 		assert(sizeof(T) == data_size_);
 		*((T*)(pDataBuffer + offset_)) = value;
 	}
-	void SetValue(char* pValue, char* pDataBuffer)
+	void SetValueString(const char* pValue, char* pDataBuffer)
 	{
 		int len = strlen(pValue);
 		if (len > data_size_) {
@@ -62,7 +62,7 @@ class Column
 public:
 	void PushProperty(const char* field_name, const char* type_name, int pub, int pri, int sv)
 	{
-		m_mapName2Index[field_name] = m_vecFields.size();
+		m_mapFieldName2Index[field_name] = m_vecFields.size();
 		int nDataSize = 0;
 		if (strcmp(type_name, "char16") == 0) {
 			nDataSize = 16;
@@ -87,15 +87,15 @@ public:
 	}
 
 	char* GetValueString(int index) {
-		return m_vecFields[index].GetValue(m_pDataBuffer);
+		return m_vecFields[index].GetValueString(m_pDataBuffer);
 	}
-	void SetValueString(int index, char* p) {
-		m_vecFields[index].SetValue(p, m_pDataBuffer);
+	void SetValueString(int index, const char* p) {
+		m_vecFields[index].SetValueString(p, m_pDataBuffer);
 	}
 
 private:
 	int m_datasize{ 0 };
 	char* m_pDataBuffer{ nullptr };
-	std::map<std::string, int> m_mapName2Index;
+	std::map<std::string, int> m_mapFieldName2Index;
 	std::vector<Field> m_vecFields;
 };
