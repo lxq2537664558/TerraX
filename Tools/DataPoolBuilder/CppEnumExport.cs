@@ -44,6 +44,7 @@ namespace DataPoolBuilder
             {
                 sw.WriteLine("\t\t" + file_name.ToLower() + "_" + jp.Name.ToLower() + "_index,");
             }
+            sw.WriteLine("\t\t" + file_name.ToLower() + "_" + "index_size,");
         }
     }
 }
