@@ -31,7 +31,7 @@ namespace TerraX
 	};
 	struct fieldproperty
 	{
-		int offset;/
+		int offset;
 		int syncflag;
 		char fieldtype[32];
 	};
