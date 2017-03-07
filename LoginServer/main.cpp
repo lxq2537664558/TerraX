@@ -5,48 +5,31 @@
 #include "rapidjson/istreamwrapper.h"
 #include "DataPool.h"
 #include <memory>
+#include "FileReader.h"
+#include "DataPoolConfig.h"
 
 using namespace rapidjson;
+using namespace TerraX;
 int main()
 {
-	FILE* fp = fopen("avatar.json", "rb"); // 非 Windows 平台使用 "r", window "rb"
-	fseek(fp, 0, SEEK_END); //定位到文件末 
-	long file_length = ftell(fp); //文件长度
-	fseek(fp, 0, SEEK_SET);
-	std::unique_ptr<char> readBuffer(new char[file_length]);
-	FileReadStream is(fp, readBuffer.get(), file_length);
+	/*
 	//std::ifstream ifs("avatar.json");
 	//IStreamWrapper isw(ifs);
 	//d.ParseStream(isw);
 	Document d;
 	d.ParseStream(is);
-	fclose(fp);
-	Column col;
-	static const char* kTypeNames[] =
-	{ "Null", "False", "True", "Object", "Array", "String", "Number" };
-	for (Value::ConstMemberIterator itr = d.MemberBegin();
-		itr != d.MemberEnd(); ++itr)
-	{
-		//printf("Type of member %s is %s\n",
-			//itr->name.GetString(), kTypeNames[itr->value.GetType()]);
-		auto val = d[itr->name].GetObject();
-		/*for (auto it = val.MemberBegin(); it != val.MemberEnd(); ++it) {
-			printf("Type of member %s is %s\n",
-				it->name.GetString(), kTypeNames[it->value.GetType()]);
-		}*/
-		col.PushProperty(val["Field_Name"].GetString(), val["Type"].GetString(), 
-			val["Public"].GetInt(), val["Private"].GetInt(), val["Save"].GetInt());
-	}
-	col.AllocBuffer();
+	*/
+	TableConfig::GetInstance().LoadTables(CONFIG_ROOT_PATH);
+	auto&& val = TableConfig::GetInstance().GetTable("item");
+	Row* pRow = val.CreateRows(8);
+	pRow[0].SetValueString("Guid", "IIII");
+	pRow[0].SetValue<int>("ItemID", 1001);
 
-	col.SetValueString(0, "Aaaa");
-	auto val0 = col.GetValueString(0);
-
-	col.SetValue(1, 99);
-	auto val1 = col.GetValue<int>(1);
-
+	 
+	const char* szGuid = pRow[0].GetValueString(0);
+	std::cout << szGuid << std::endl;
+	int nItemID = pRow[0].GetValue<int>(1);
 	std::cin.get();
-
 
 	return 0;
 }

@@ -5,8 +5,12 @@
 
 namespace TerraX
 {
+#ifndef max
 #define max(a, b) (((a) > (b)) ? (a) : (b))
+#endif
+#ifndef min
 #define min(a, b) (((a) < (b)) ? (a) : (b))
+#endif
 	//brevity is the soul of wit.
     class ring_buffer
     {
