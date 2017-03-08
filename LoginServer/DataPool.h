@@ -96,57 +96,60 @@ class Row
 {
 private:
 	Column* pColumn_{ nullptr };
-	std::unique_ptr<char> pDataBuffer_{ nullptr };
+	char* pDataBuffer_{ nullptr };
 public:
-	void Init(Column* pCol) {
+	Row(Column* pCol) {
 		assert(pCol != nullptr);
 		SetColumn(pCol);
 		AllocBuffer(pCol->GetDataSize());
 	}
+	~Row() { delete[] pDataBuffer_; }
+
+	//void RegValueChangeCB()
 
 	template<typename T>
 	T GetValue(int index) {
 		Field& field = pColumn_->GetField(index);
-		return field.GetValue<T>(pDataBuffer_.get());
+		return field.GetValue<T>(pDataBuffer_);
 	}
 	template<typename T>
 	T GetValue(const char* field_name) {
 		Field& field = pColumn_->GetField(field_name);
-		return field.GetValue<T>(pDataBuffer_.get());
+		return field.GetValue<T>(pDataBuffer_);
 	}
 
 	template<typename T>
 	void SetValue(int index, T val) {
 		Field& field = pColumn_->GetField(index);
-		field.SetValue<T>(val, pDataBuffer_.get());
+		field.SetValue<T>(val, pDataBuffer_);
 	}
 	template<typename T>
 	void SetValue(const char* field_name, T val) {
 		Field& field = pColumn_->GetField(field_name);
-		field.SetValue<T>(val, pDataBuffer_.get());
+		field.SetValue<T>(val, pDataBuffer_);
 	}
 
 	const char* GetValueString(int index) {
 		Field& field = pColumn_->GetField(index);
-		return field.GetValueString(pDataBuffer_.get());
+		return field.GetValueString(pDataBuffer_);
 	}
 	const char* GetValueString(const char* field_name) {
 		Field& field = pColumn_->GetField(field_name);
-		return field.GetValueString(pDataBuffer_.get());
+		return field.GetValueString(pDataBuffer_);
 	}
 
 	void SetValueString(int index, const char* p) {
 		Field& field = pColumn_->GetField(index);
-		field.SetValueString(p, pDataBuffer_.get());
+		field.SetValueString(p, pDataBuffer_);
 	}
 	void SetValueString(const char* field_name, const char* p) {
 		Field& field = pColumn_->GetField(field_name);
-		field.SetValueString(p, pDataBuffer_.get());
+		field.SetValueString(p, pDataBuffer_);
 	}
 private:
 	void SetColumn(Column* pCol) { pColumn_ = pCol; }
 	void AllocBuffer(int buffer_size) {
-		pDataBuffer_.reset(new char[buffer_size] {0});
+		pDataBuffer_ = new char[buffer_size] {0};
 	}
 };
 
@@ -157,13 +160,7 @@ private:
 public:
 	Column& GetColumn() { return col_; }
 
-	Row* CreateRows(int nRowCount) {
-		assert(nRowCount > 0);
-		Row* pRows = new Row[nRowCount];
-		for (int i = 0; i < nRowCount; ++i)
-		{
-			pRows->Init(&col_);
-		}
-		return pRows;
+	Row* NewRow() {
+		return new Row(&col_);
 	}
 };
