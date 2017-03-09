@@ -3,7 +3,8 @@
 #include <vector>
 #include <map>
 #include <memory>
-
+#include <functional>
+#include "dynamic_bitset.hpp"
 class Property
 {
 public:
@@ -76,14 +77,15 @@ public:
 		m_datasize += nDataSize;
 	}
 	int GetDataSize() const { return m_datasize; }
+	int GetFieldCount() const { return m_vecFields.size(); }
 	Field& GetField(int nIndex) { 
 		assert(nIndex >= 0 && nIndex < static_cast<int>(m_vecFields.size()));
 		return m_vecFields[nIndex];
 	}
-	Field& GetField(const char* field_name) {
+	int GetFieldIndex(const char* field_name) const {
 		auto& iter = m_mapFieldName2Index.find(field_name);
 		assert(iter != m_mapFieldName2Index.end());
-		return GetField(iter->second);
+		return iter->second;
 	}
 
 private:
@@ -94,11 +96,14 @@ private:
 
 class Row
 {
+public:
+	//using ValueChangeCB = std::function<void()>;
 private:
 	Column* pColumn_{ nullptr };
 	char* pDataBuffer_{ nullptr };
+	dynamic_bitset bitset_;
 public:
-	Row(Column* pCol) {
+	Row(Column* pCol) : bitset_(pCol->GetFieldCount()) {
 		assert(pCol != nullptr);
 		SetColumn(pCol);
 		AllocBuffer(pCol->GetDataSize());
@@ -108,13 +113,13 @@ public:
 	//void RegValueChangeCB()
 
 	template<typename T>
-	T GetValue(int index) {
-		Field& field = pColumn_->GetField(index);
-		return field.GetValue<T>(pDataBuffer_);
+	T GetValue(const char* field_name) {
+		int nFieldIndex = pColumn_->GetFieldIndex(field_name);
+		return GetValue<T>(nFieldIndex);
 	}
 	template<typename T>
-	T GetValue(const char* field_name) {
-		Field& field = pColumn_->GetField(field_name);
+	T GetValue(int index) {
+		Field& field = pColumn_->GetField(index);
 		return field.GetValue<T>(pDataBuffer_);
 	}
 
@@ -122,29 +127,31 @@ public:
 	void SetValue(int index, T val) {
 		Field& field = pColumn_->GetField(index);
 		field.SetValue<T>(val, pDataBuffer_);
+		bitset_.set(index);
 	}
 	template<typename T>
 	void SetValue(const char* field_name, T val) {
-		Field& field = pColumn_->GetField(field_name);
-		field.SetValue<T>(val, pDataBuffer_);
+		int nFieldIndex = pColumn_->GetFieldIndex(field_name);
+		SetValue<T>(nFieldIndex, val);
 	}
 
+	const char* GetValueString(const char* field_name) {
+		int nFieldIndex = pColumn_->GetFieldIndex(field_name);
+		return GetValueString(nFieldIndex);
+	}
 	const char* GetValueString(int index) {
 		Field& field = pColumn_->GetField(index);
 		return field.GetValueString(pDataBuffer_);
 	}
-	const char* GetValueString(const char* field_name) {
-		Field& field = pColumn_->GetField(field_name);
-		return field.GetValueString(pDataBuffer_);
-	}
 
-	void SetValueString(int index, const char* p) {
-		Field& field = pColumn_->GetField(index);
-		field.SetValueString(p, pDataBuffer_);
+	void SetValueString(const char* field_name, const char* pVal) {
+		int nFieldIndex = pColumn_->GetFieldIndex(field_name);
+		SetValueString(nFieldIndex, pVal);
 	}
-	void SetValueString(const char* field_name, const char* p) {
-		Field& field = pColumn_->GetField(field_name);
-		field.SetValueString(p, pDataBuffer_);
+	void SetValueString(int index, const char* pVal) {
+		Field& field = pColumn_->GetField(index);
+		field.SetValueString(pVal, pDataBuffer_);
+		bitset_.set(index);
 	}
 private:
 	void SetColumn(Column* pCol) { pColumn_ = pCol; }
@@ -157,10 +164,9 @@ class DataTable
 {
 private:
 	Column col_;
+	std::string strTableName_;
 public:
+	void SetTableName(const char* szTableName) { strTableName_ = szTableName; }
 	Column& GetColumn() { return col_; }
-
-	Row* NewRow() {
-		return new Row(&col_);
-	}
+	Row* NewRow() { return new Row(&col_); }
 };

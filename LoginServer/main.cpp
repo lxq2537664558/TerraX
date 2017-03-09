@@ -8,7 +8,7 @@
 #include "FileReader.h"
 #include "DataPoolConfig.h"
 #include <array>
-
+#include "dynamic_bitset.hpp"
 using namespace rapidjson;
 using namespace TerraX;
 
@@ -65,6 +65,10 @@ int main()
 	Document d;
 	d.ParseStream(is);
 	*/
+	dynamic_bitset bs(13);
+	bs.set(2);
+	bs.set(3);
+	std::string str = std::move(bs.to_string());
 	TableConfig::GetInstance().LoadTables(CONFIG_ROOT_PATH);
 	ItemDB<64> db("item");
 	int nIndex = db.CreateItem();

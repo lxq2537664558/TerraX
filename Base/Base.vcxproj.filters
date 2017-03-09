@@ -50,6 +50,9 @@
     <ClInclude Include="include\base_guid.hpp">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="include\dynamic_bitset.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

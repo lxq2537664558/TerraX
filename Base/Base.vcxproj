@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClInclude Include="include\base_macro.h" />
     <ClInclude Include="include\base_guid.hpp" />
+    <ClInclude Include="include\dynamic_bitset.hpp" />
     <ClInclude Include="include\event_dynamic.hpp" />
     <ClInclude Include="include\event_dynamic2.hpp" />
     <ClInclude Include="include\event_static.hpp" />

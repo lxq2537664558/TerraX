@@ -56,6 +56,8 @@ namespace TerraX
 			fclose(fp);
 
 			m_TableMap.emplace(fi.szFileName, DataTable());
+
+			m_TableMap[fi.szFileName].SetTableName(fi.szFileName);
 			ParseFromDoc(d, m_TableMap[fi.szFileName]);
 		}
 		void ParseFromDoc(Document& d, DataTable& dt)
