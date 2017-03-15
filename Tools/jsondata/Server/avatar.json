@@ -4,34 +4,39 @@
     "Type": "string",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": null
   },
   "Level": {
     "Field_Name": "Level",
     "Type": "int",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": 1
   },
   "Exp": {
     "Field_Name": "Exp",
     "Type": "int",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": 1
   },
   "Hp": {
     "Field_Name": "Hp",
     "Type": "int",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": null
   },
   "Sp": {
     "Field_Name": "Sp",
     "Type": "int",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": null
   }
 }

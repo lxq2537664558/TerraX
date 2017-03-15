@@ -19,7 +19,7 @@ namespace excel2json
         /// </summary>
         /// <param name="sheet">ExcelReader创建的一个表单</param>
         /// <param name="headerRows">表单中的那几行是表头</param>
-        public JsonExporter(DataTable sheet, int headerRows, bool lowcase)
+        public JsonExporter(DataTable sheet, int headerRows, bool lowcase, string filter)
         {
             if (sheet.Columns.Count <= 0)
                 return;
@@ -29,6 +29,8 @@ namespace excel2json
             m_data = new Dictionary<string, Dictionary<string, object>>();
 
             //--以第一列为ID，转换成ID->Object的字典
+            int filterRow = headerRows - 2;
+            DataRow rowFilter = sheet.Rows[filterRow];
             int firstDataRow = headerRows - 1;
             for (int i = firstDataRow; i < sheet.Rows.Count; i++)
             {
@@ -38,8 +40,16 @@ namespace excel2json
                     continue;
 
                 var rowData = new Dictionary<string, object>();
-                foreach (DataColumn column in sheet.Columns)
+                //foreach (DataColumn column in sheet.Columns)
+                for(int j = 0; j < sheet.Columns.Count; ++j)
                 {
+                    DataColumn column = sheet.Columns[j];
+                    string strFilter = rowFilter[column].ToString().ToLower();
+                    if(!strFilter.Contains(filter))
+                    {
+                        continue;
+                    }
+
                     object value = row[column];
                     // 去掉数值字段的“.0”
                     if (value.GetType() == typeof(double))

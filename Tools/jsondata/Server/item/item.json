@@ -4,27 +4,31 @@
     "Type": "string",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": null
   },
   "ItemID": {
     "Field_Name": "ItemID",
     "Type": "int",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": 1
   },
   "SlotID": {
     "Field_Name": "SlotID",
     "Type": "int",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": 1
   },
   "BagType": {
     "Field_Name": "BagType",
     "Type": "int",
     "Public": 1,
     "Private": 1,
-    "Save": 1
+    "Save": 1,
+    "TestServer": null
   }
 }

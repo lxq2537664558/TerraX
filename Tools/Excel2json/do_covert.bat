@@ -1,1 +1,1 @@
-excel2json --excel avatar.xlsx --json avatar.json --header 2
+/bin/Debug/excel2json.exe --excel ../testdata/ --json ../jsondata/ --header 2

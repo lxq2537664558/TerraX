@@ -1,0 +1,42 @@
+{
+  "Name": {
+    "Field_Name": "Name",
+    "Type": "string",
+    "Public": 1,
+    "Private": 1,
+    "Save": 1,
+    "TestClient": 1
+  },
+  "Level": {
+    "Field_Name": "Level",
+    "Type": "int",
+    "Public": 1,
+    "Private": 1,
+    "Save": 1,
+    "TestClient": null
+  },
+  "Exp": {
+    "Field_Name": "Exp",
+    "Type": "int",
+    "Public": 1,
+    "Private": 1,
+    "Save": 1,
+    "TestClient": null
+  },
+  "Hp": {
+    "Field_Name": "Hp",
+    "Type": "int",
+    "Public": 1,
+    "Private": 1,
+    "Save": 1,
+    "TestClient": null
+  },
+  "Sp": {
+    "Field_Name": "Sp",
+    "Type": "int",
+    "Public": 1,
+    "Private": 1,
+    "Save": 1,
+    "TestClient": null
+  }
+}
