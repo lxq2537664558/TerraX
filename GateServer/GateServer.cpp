@@ -4,7 +4,7 @@
 #include "PacketProcessor_Gate.h"
 #include "ServerManager.h"
 #include "GateLoginManager.h"
-#include "Timer.h"
+#include "timer.hpp"
 using namespace TerraX;
 
 GateServer::GateServer() {}
@@ -14,7 +14,7 @@ bool GateServer::InitStaticModule()
     PacketProcessor_Gate::GetInstance();
 	ServerManager::GetInstance();
 	GateLoginManager::GetInstance();
-	TimeManager::GetInstance();
+	Timer::GetInstance();
     return true;
 }
 

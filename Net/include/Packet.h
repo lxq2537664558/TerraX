@@ -33,7 +33,7 @@ namespace TerraX
         }
         virtual ~PacketBase() { delete[] buffer_; }
         std::size_t capacity() { return size_; }
-        virtual char* buffer() { return buffer_; }
+        char* buffer() { return buffer_; }
         virtual bool is_valid() { return true; }
 
     protected:
@@ -83,12 +83,12 @@ namespace TerraX
         int GetCltDestionation();
         void SetOwner(int owner_info);
         int GetOwnerInfo();
-        void AppendDestination(int dest_info);
+		void AppendDestination(int dest_info);
+		char* GetDataBuffer() { return buffer_ + off_set_; }
 
         std::string GetPacketName();
         const char* GetPacketMsg();
         int GetMsgSize();
-        char* buffer() override final { return buffer_ + off_set_; }
         bool is_valid() override final;
 
     public:

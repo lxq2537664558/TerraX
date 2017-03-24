@@ -81,10 +81,11 @@ MessageError_t PacketProcessor::ReadMessage(struct evbuffer* evbuf, bool bFromCl
             PacketBase* pkt;
             if (bFromClient) {
                 pkt = new PacketC(total_len, PacketC::EX_DATA_SIZE);
+				evbuffer_remove(evbuf, ((PacketC*)pkt)->GetDataBuffer(), total_len);
             } else {
-                pkt = new PacketS(total_len);
+				pkt = new PacketS(total_len);
+				evbuffer_remove(evbuf, pkt->buffer(), total_len);
             }
-            evbuffer_remove(evbuf, pkt->buffer(), total_len);
             m_queueRead.Push(pkt);
             readable = evbuffer_get_length(evbuf);
             continue;
