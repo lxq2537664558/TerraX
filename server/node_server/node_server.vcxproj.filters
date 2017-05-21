@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="net">
+      <UniqueIdentifier>{ba46b320-2f6a-4523-b5e5-74d980fce9cb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="node_server\node_net_module.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="node_server\node_server.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="node_server\node_net_module.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="node_server\node_server.h">
+      <Filter>net</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

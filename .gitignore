@@ -6,6 +6,7 @@
 *.a
 Debug/*
 Release/*
+bin/*
 obj/*
 ipch/*
 Temp/*

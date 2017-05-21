@@ -63,9 +63,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7c187535-a29e-47e1-b75d-991df14b557c}</ProjectGuid>
+    <ProjectGuid>{19d34ea8-d2c2-4cf7-b605-ae03a7a49c46}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>srv</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -96,6 +96,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='lib|x86'">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
@@ -123,9 +124,34 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
+    <IntDir>..\..\build\$(ProjectName)\</IntDir>
+    <OutDir>..\..\bin\</OutDir>
+  </PropertyGroup>
   <ItemGroup>
+    <ClInclude Include="net\server_accept_service.h" />
+    <ClInclude Include="net\server_login_ack_service.h" />
+    <ClInclude Include="net\server_login_req_service.h" />
+    <ClInclude Include="net\net_base_module.h" />
+    <ClInclude Include="net\packet_processor.h" />
+    <ClInclude Include="net\server_table.h" />
+    <ClInclude Include="net\server_conn_service.h" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="net\net_base_module.cpp" />
+    <ClCompile Include="net\packet_processor.cpp" />
+    <ClCompile Include="net\server_accept_service.cpp" />
+    <ClCompile Include="net\server_login_ack_service.cpp" />
+    <ClCompile Include="net\server_login_req_service.cpp" />
+    <ClCompile Include="net\server_table.cpp" />
+    <ClCompile Include="net\server_conn_service.cpp" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\;..\..\thirdparty\include;$(StlIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

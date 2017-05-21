@@ -63,9 +63,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7c187535-a29e-47e1-b75d-991df14b557c}</ProjectGuid>
+    <ProjectGuid>{34abc2d5-b15b-44d0-b905-e7aae80ccdfe}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>queue_server</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>

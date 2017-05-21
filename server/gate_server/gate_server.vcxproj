@@ -63,9 +63,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7c187535-a29e-47e1-b75d-991df14b557c}</ProjectGuid>
+    <ProjectGuid>{9edfde07-e85e-4407-947c-237984e5410f}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>gate_server</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -124,8 +124,19 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Include="gate_server\gate_net_module.cpp" />
+    <ClCompile Include="gate_server\gate_server.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemGroup>
+    <ClInclude Include="gate_server\gate_net_module.h" />
+    <ClInclude Include="gate_server\gate_server.h" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\lib;..\..\thirdparty\include;$(StlIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

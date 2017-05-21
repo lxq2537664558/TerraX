@@ -11,7 +11,7 @@ set(CXX_FLAGS
  # -DVALGRIND
  # -DMUDUO_STD_STRING
  #-D_FILE_OFFSET_BITS=64
- -Wall
+ # -Wall
  -Wextra
  -Werror
  -Wno-error=conversion
@@ -38,34 +38,13 @@ set(CMAKE_CXX_COMPILER "g++" )
 set(CMAKE_CXX_FLAGS_DEBUG "-O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -finline-limit=1000 -DNDEBUG")
 
-set (Base_Inc ${PROJECT_SOURCE_DIR}/Base/include)
-set (Net_Inc ${PROJECT_SOURCE_DIR}/Net/include ${PROJECT_SOURCE_DIR}/Net)
-set (SrvLib_Inc  ${PROJECT_SOURCE_DIR}/SrvLib/include)
-set (libevent_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/libevent/include)
-set (protobuf_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/protobuf/include)
-set (zlib_Inc ${PROJECT_SOURCE_DIR}/ThirdParty/zlib/include)
+set(LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
+set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/thirdparty/include)
 
-
-#find_library(MyLib_Lib 
-#    NAMES com srv
-#    PATHS ${PROJECT_SOURCE_DIR}/Lib
-#    )
-#if(MyLib_Lib)
-#    message("MyLib_Lib Found!")
-#endif()
-
-#find_library(ThirdParty_Lib
-#    NAMES z event event_core event_extra protobuf protobuf-lite protoc
-#    PATHS ${PROJECT_SOURCE_DIR}/ThirdParty/Lib
-#    )
-#if(ThirdParty_Lib)
-#    message("ThirdParty_Lib Found!")
-#endif()
-
-add_subdirectory(Base)
-add_subdirectory(Net)
-add_subdirectory(SrvLib)
-add_subdirectory(Client)
-add_subdirectory(GateServer)
-add_subdirectory(CenterServer)
-#add_subdirectory(TestServer)
+add_subdirectory(lib/base)
+#add_subdirectory(lib/clt)
+add_subdirectory(lib/comm)
+add_subdirectory(lib/srv)
+add_subdirectory(server/world_server)
+add_subdirectory(server/gate_server)
+#add_subdirectory(client)

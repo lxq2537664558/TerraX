@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="gate_server">
+      <UniqueIdentifier>{431d7f30-7c05-46d8-adb0-5a74a2aeb0c5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="gate_server\gate_server.cpp">
+      <Filter>gate_server</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="gate_server\gate_net_module.cpp">
+      <Filter>gate_server</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gate_server\gate_server.h">
+      <Filter>gate_server</Filter>
+    </ClInclude>
+    <ClInclude Include="gate_server\gate_net_module.h">
+      <Filter>gate_server</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

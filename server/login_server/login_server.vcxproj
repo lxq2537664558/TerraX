@@ -63,9 +63,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7c187535-a29e-47e1-b75d-991df14b557c}</ProjectGuid>
+    <ProjectGuid>{bed78aef-369e-44bc-8826-73425b478f96}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>login_server</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>

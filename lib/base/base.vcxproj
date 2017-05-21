@@ -63,14 +63,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7c187535-a29e-47e1-b75d-991df14b557c}</ProjectGuid>
+    <ProjectGuid>{55f6b41f-b662-4d80-9b7b-09e01bcb81d6}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>base</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
     <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
-    <LinuxProjectType>{2238F9CD-F817-4ECC-BD14-2524D2669B35}</LinuxProjectType>
+    <LinuxProjectType>{D51BCBC9-82E9-4017-911E-C93873C4EA2B}</LinuxProjectType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
@@ -96,6 +96,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='lib|x86'">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
@@ -123,7 +124,32 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
+    <OutDir>..\..\bin\</OutDir>
+    <IntDir>..\..\build\$(ProjectName)\</IntDir>
+    <IncludePath>$(IncludePath);$(ISenseIncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="dynamic_bitset.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ringbuffer.cpp" />
+    <ClCompile Include="timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dynamic_bitset.h" />
+    <ClInclude Include="event_dynamic.h" />
+    <ClInclude Include="event_dynamic2.h" />
+    <ClInclude Include="event_static.h" />
+    <ClInclude Include="guid.h" />
+    <ClInclude Include="macro.h" />
+    <ClInclude Include="module_interface.h" />
+    <ClInclude Include="observer.h" />
+    <ClInclude Include="ringbuffer.h" />
+    <ClInclude Include="schedule_task.h" />
+    <ClInclude Include="table.h" />
+    <ClInclude Include="timekeeper.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

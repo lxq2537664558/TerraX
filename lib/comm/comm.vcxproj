@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="client|ARM">
-      <Configuration>client</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="client|x64">
-      <Configuration>client</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="client|x86">
-      <Configuration>client</Configuration>
-      <Platform>x86</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|ARM">
       <Configuration>Debug</Configuration>
       <Platform>ARM</Platform>
@@ -49,23 +37,11 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="server|ARM">
-      <Configuration>server</Configuration>
-      <Platform>ARM</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="server|x64">
-      <Configuration>server</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="server|x86">
-      <Configuration>server</Configuration>
-      <Platform>x86</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7c187535-a29e-47e1-b75d-991df14b557c}</ProjectGuid>
+    <ProjectGuid>{e726ebca-f343-4f3b-8813-5db1f4aefcc9}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>comm</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -90,32 +66,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='lib|ARM'">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='lib|x86'">
-    <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='client|ARM'">
-    <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='client|x64'">
-    <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='client|x86'">
-    <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='server|x86'">
-    <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='server|x64'">
-    <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='server|ARM'">
     <PlatformToolset>Remote_GCC_1_0</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -123,9 +83,49 @@
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\..\bin\</OutDir>
+    <IntDir>..\..\build\$(ProjectName)\</IntDir>
+    <IncludePath>..\base\;$(IncludePath);$(ISenseIncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
+    <OutDir>..\..\bin\</OutDir>
+    <IntDir>..\..\build\$(ProjectName)\</IntDir>
+    <IncludePath>$(IncludePath);$(ISenseIncludePath)</IncludePath>
+    <LibraryPath>
+    </LibraryPath>
+  </PropertyGroup>
   <ItemGroup>
+    <ClInclude Include="config\server_config.h" />
+    <ClInclude Include="config\jsonstream.h" />
+    <ClInclude Include="net\eventloop.h" />
+    <ClInclude Include="net\net_define.h" />
+    <ClInclude Include="net\packet.h" />
+    <ClInclude Include="net\packet_dispatcher.h" />
+    <ClInclude Include="net\socketopt-inl.h" />
+    <ClInclude Include="net\tcp_connection.h" />
+    <ClInclude Include="net\tcp_server.h" />
+    <ClInclude Include="proto\base_type.pb.h" />
+    <ClInclude Include="proto\client_server.pb.h" />
+    <ClInclude Include="proto\server_server.pb.h" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemGroup>
+    <ClCompile Include="config\server_config.cpp" />
+    <ClCompile Include="config\jsonstream.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="net\packet.cpp" />
+    <ClCompile Include="net\packet_dispatcher.cpp" />
+    <ClCompile Include="net\tcp_connection.cpp" />
+    <ClCompile Include="net\tcp_server.cpp" />
+    <ClCompile Include="proto\base_type.pb.cc" />
+    <ClCompile Include="proto\client_server.pb.cc" />
+    <ClCompile Include="proto\server_server.pb.cc" />
+  </ItemGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='lib|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\;..\..\thirdparty\include;$(StlIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

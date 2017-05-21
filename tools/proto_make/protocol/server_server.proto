@@ -1,0 +1,40 @@
+syntax = "proto3";
+package packet_ss;
+
+message MsgRegisterSW
+{
+    int32 peer_type = 1;
+    string listen_ip = 2;
+    int32 listen_port = 3;
+}
+message MsgRegisterWS
+{
+    int32 server_id = 1;
+}
+message MsgServerInfoWS
+{
+    message ServerInfo
+    {
+        int32 peer_type = 1;
+        int32 server_id = 2;
+        string listen_ip = 3;
+        int32 listen_port = 4;
+    }
+    int32 event = 1;
+    repeated ServerInfo server_info = 2;
+}
+message MsgEnterPermissionReq
+{
+    string account_name = 1;
+    string session_key = 2;
+}
+
+message MsgEnterPermissionAck
+{
+    enum Result
+    {
+        ok = 0;
+        key_invalid = 1;
+    }
+    Result check_result = 1;
+}

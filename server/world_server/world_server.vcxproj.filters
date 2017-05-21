@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="world_server">
+      <UniqueIdentifier>{194729b5-9a24-4c99-a516-efccc21dd1a8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="world_server\world_server.cpp">
+      <Filter>world_server</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="world_server\world_net_module.cpp">
+      <Filter>world_server</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="world_server\world_server.h">
+      <Filter>world_server</Filter>
+    </ClInclude>
+    <ClInclude Include="world_server\world_net_module.h">
+      <Filter>world_server</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
