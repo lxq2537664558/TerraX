@@ -25,16 +25,14 @@ void GateNetModule::InitGateNetInfo()
 
 void GateNetModule::StartConnectWorldServer()
 {
-
+	conn_service_.reset(new ServerConnService(*this));
+	conn_service_->InitLoginReqService(PeerType_t::GATESERVER);
 }
 
 bool GateNetModule::Init()
 {
 	InitGateNetInfo();
-	std::unique_ptr<ServerConnService> conn_service(new ServerConnService(*this));
-	std::unique_ptr<ServerLoginReqService> login_req_service(new ServerLoginReqService(*conn_service, PeerType_t::GATESERVER));
-	conn_service->InitLoginReqService(login_req_service);
-	conn_service_ = std::move(conn_service);
+	StartConnectWorldServer();
     return true;
 }
 bool GateNetModule::AfterInit()

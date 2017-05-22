@@ -12,9 +12,9 @@ ServerConnService::ServerConnService(NetBaseModule& net)
 }
 ServerConnService::~ServerConnService() {}
 
-void ServerConnService::InitLoginReqService(std::unique_ptr<ServerLoginReqService>& login_req)
+void ServerConnService::InitLoginReqService(PeerType_t peer)
 {
-	login_req_ = std::move(login_req);
+	login_req_.reset(new ServerLoginReqService(*this, peer));
 }
 
 void ServerConnService::Connect2World()

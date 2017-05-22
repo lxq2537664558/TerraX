@@ -21,7 +21,7 @@ namespace terra
 		const char* get_listen_ip() { return net_.get_listen_ip(); }
 		int get_listen_port() { return net_.get_listen_port(); }
 
-		void InitLoginReqService(std::unique_ptr<ServerLoginReqService>& login_req);
+		void InitLoginReqService(PeerType_t peer);
 
 		void Connect2World();
 		TcpConnection* Connect(const char* ip, int port, SocketEventCB sock_cb, MessageEventCB msg_cb);
