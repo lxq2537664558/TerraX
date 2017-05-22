@@ -23,5 +23,6 @@ namespace terra
 		bool Shut();
 	private:
 		void InitWorldNetInfo();
+		void StartAccept();
 	};
 }

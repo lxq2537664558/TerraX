@@ -43,7 +43,7 @@ void ServerLoginAckService::OnServerTableEvent(const std::vector<Net_Object>& ob
                 srv_info->set_listen_port(obj.listen_port_);
             }
         }
-        //PacketProcessor::GetInstance().SendPacket(net_obj.conn_, msg);
+        PacketProcessor::GetInstance().SendPacket(net_obj.conn_, msg);
     } else if (net_obj.peer_type_ == PeerType_t::NODESERVER) {
         for (const auto& obj : objs) {
             if (obj.peer_type_ == PeerType_t::GATESERVER) {
@@ -54,7 +54,7 @@ void ServerLoginAckService::OnServerTableEvent(const std::vector<Net_Object>& ob
                 srv_info->set_server_id(net_obj.server_id_);
                 srv_info->set_listen_ip(net_obj.listen_ip_);
                 srv_info->set_listen_port(net_obj.listen_port_);
-                //PacketProcessor::GetInstance().SendPacket(obj.conn_, msg);
+                PacketProcessor::GetInstance().SendPacket(obj.conn_, msg);
             }
         }
     } else {

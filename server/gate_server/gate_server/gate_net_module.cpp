@@ -23,6 +23,11 @@ void GateNetModule::InitGateNetInfo()
 	InitListenInfo(listen_ip, listen_port);
 }
 
+void GateNetModule::StartConnectWorldServer()
+{
+
+}
+
 bool GateNetModule::Init()
 {
 	InitGateNetInfo();

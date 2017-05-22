@@ -7,9 +7,9 @@ ServerAcceptService::ServerAcceptService(NetBaseModule& net)
 {}
 ServerAcceptService::~ServerAcceptService() {}
 
-void ServerAcceptService::InitLoginAckService(std::unique_ptr<ServerLoginAckService>& login_ack)
+void ServerAcceptService::InitLoginAckService(PeerType_t peer, int max_conns)
 {
-	login_ack_ = std::move(login_ack);
+	login_ack_.reset(new ServerLoginAckService(*this, peer, max_conns));
 }
 
 void ServerAcceptService::AcceptConnection(int port, uint32_t max_conns)

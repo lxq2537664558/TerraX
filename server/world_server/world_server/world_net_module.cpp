@@ -14,13 +14,16 @@ void WorldNetModule::InitWorldNetInfo()
 	InitListenInfo(ip, port);
 }
 
+void WorldNetModule::StartAccept()
+{
+	accept_service_.reset(new ServerAcceptService(*this));
+	accept_service_->InitLoginAckService(PeerType_t::WORLDSERVER, 64);
+}
+
 bool WorldNetModule::Init()
 {
 	InitWorldNetInfo();
-	std::unique_ptr<ServerAcceptService> accept_service(new ServerAcceptService(*this));
-	std::unique_ptr<ServerLoginAckService> login_ack_service(new ServerLoginAckService(*accept_service, PeerType_t::WORLDSERVER, 64));
-	accept_service->InitLoginAckService(login_ack_service);
-	accept_service_ = std::move(accept_service);
+	StartAccept();
 	return true;
 }
 bool WorldNetModule::AfterInit()

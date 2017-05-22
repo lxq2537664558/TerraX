@@ -23,6 +23,7 @@ namespace terra
 		bool Shut();
 	private:
 		void InitGateNetInfo();
+		void StartConnectWorldServer();
 		//void AcceptClient() {};
 		//void OnClientSocketEvent(TcpConnection* conn, ConnState_t conn_state) {};
 		//void OnClientMessage(TcpConnection* conn, evbuffer* evbuf) {};

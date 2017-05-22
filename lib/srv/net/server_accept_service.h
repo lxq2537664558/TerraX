@@ -17,7 +17,7 @@ namespace terra
 		ServerAcceptService(NetBaseModule& net);
 		~ServerAcceptService();
 		
-		void InitLoginAckService(std::unique_ptr<ServerLoginAckService>& login_ack);
+		void InitLoginAckService(PeerType_t peer, int max_conns);
 
 		void AcceptConnection(int port, uint32_t max_conns);
 
